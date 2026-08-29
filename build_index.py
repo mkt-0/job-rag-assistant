@@ -1,14 +1,36 @@
 """构建/重建岗位向量库：读 jobs.json -> 硅基流动 bge-m3 嵌入 -> Chroma 持久化。"""
+import os
 import json
 import chromadb
 from openai import OpenAI
 
-API_KEY = "sk-kxicoembqloskhdqerfuzpkcrstrfiozbfmlokutxikrqdqz"
+
+def _load_dotenv():
+    """从项目根目录 .env 读取环境变量（不依赖第三方包）。"""
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if os.path.exists(p):
+        with open(p, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip())
+
+
+_load_dotenv()
+
+API_KEY = os.getenv("SILICONFLOW_API_KEY", "")
 EMBED_MODEL = "BAAI/bge-m3"
 CHROMA_DIR = "./chroma_db"
 
 
 def make_client():
+    if not API_KEY:
+        raise RuntimeError(
+            "未找到 SILICONFLOW_API_KEY。请复制 .env.example 为 .env 并填入你的硅基流动 key，"
+            "或将环境变量 SILICONFLOW_API_KEY 导出后再运行。"
+        )
     return OpenAI(api_key=API_KEY, base_url="https://api.siliconflow.cn/v1")
 
 
