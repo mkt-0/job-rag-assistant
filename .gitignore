@@ -1,0 +1,9 @@
+# 密钥（含真实 API key，切勿提交）
+.env
+
+# 向量库（由 build_index.py 生成，体积大且为衍生数据）
+chroma_db/
+
+# Python 缓存
+__pycache__/
+*.pyc

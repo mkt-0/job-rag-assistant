@@ -1,0 +1,1372 @@
+[
+  {
+    "id": 1,
+    "company": "数澜科技",
+    "title": "大数据开发实习生",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "150元/天",
+    "edu": "本科",
+    "exp": "3个月",
+    "requirements": "计算机/大数据相关；熟悉HiveSQL/MapReduce/Spark；Java/Python；Linux/Shell；出差补贴。",
+    "tags": [
+      "大数据",
+      "Spark",
+      "Hive",
+      "实习"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 2,
+    "company": "名创优品",
+    "title": "数据开发实习生",
+    "city": "无锡江阴",
+    "type": "实习",
+    "salary": "130-150元/天",
+    "edu": "本科",
+    "exp": "6个月优先",
+    "requirements": "计算机/统计；熟练Hive/Spark SQL；熟悉FineBI/PowerBI等BI工具；每周4天+。",
+    "tags": [
+      "数据开发",
+      "BI",
+      "实习"
+    ],
+    "source": "江阴人才网",
+    "updated": "2026-07"
+  },
+  {
+    "id": 3,
+    "company": "某美资世界500强",
+    "title": "实验室数字化开发实习生",
+    "city": "无锡新吴",
+    "type": "实习",
+    "salary": "200-250元/天",
+    "edu": "本科",
+    "exp": "3个月",
+    "requirements": "Python SQL Power Apps C++ Power Automate Power BI；内部业务应用开发与数据可视化。",
+    "tags": [
+      "Python",
+      "PowerBI",
+      "实习"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08"
+  },
+  {
+    "id": 4,
+    "company": "江苏雅克科技",
+    "title": "大数据开发工程师",
+    "city": "无锡宜兴",
+    "type": "社招",
+    "salary": "15-20k",
+    "edu": "本科",
+    "exp": "1-3年",
+    "requirements": "数据仓库/数据集市架构；HiveSQL/Spark；Java/Python。",
+    "tags": [
+      "大数据",
+      "ETL"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 5,
+    "company": "格创东智",
+    "title": "大数据开发工程师(资深)",
+    "city": "无锡宜兴",
+    "type": "社招",
+    "salary": "20-25k",
+    "edu": "本科",
+    "exp": "8年以上",
+    "requirements": "大数据平台研发；分布式与高并发经验。",
+    "tags": [
+      "大数据",
+      "资深"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 6,
+    "company": "格创东智",
+    "title": "大数据开发工程师",
+    "city": "无锡宜兴",
+    "type": "社招",
+    "salary": "12-20k",
+    "edu": "本科",
+    "exp": "3年以上",
+    "requirements": "大数据开发；SQL/Spark；数据建模。",
+    "tags": [
+      "大数据"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 7,
+    "company": "某国内大型新能源公司",
+    "title": "大数据算法开发岗",
+    "city": "无锡",
+    "type": "社招",
+    "salary": "30-50k·17薪",
+    "edu": "本科",
+    "exp": "5-10年",
+    "requirements": "大数据算法；风电/新能源数据分析与建模。",
+    "tags": [
+      "算法",
+      "新能源"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 8,
+    "company": "金风科技",
+    "title": "海上风电大数据及智能运维工程师",
+    "city": "无锡新吴",
+    "type": "社招",
+    "salary": "20-30k",
+    "edu": "硕士",
+    "exp": "2年以上",
+    "requirements": "大数据分析、预警模型开发方向。",
+    "tags": [
+      "算法",
+      "新能源",
+      "硕士"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 9,
+    "company": "某国内大型新能源公司",
+    "title": "大数据算法开发工程师",
+    "city": "无锡",
+    "type": "社招",
+    "salary": "25-35k·15薪",
+    "edu": "本科",
+    "exp": "3-5年",
+    "requirements": "大数据算法；建模与优化。",
+    "tags": [
+      "算法",
+      "新能源"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 10,
+    "company": "众安信科",
+    "title": "前端开发高级工程师(保险-React)",
+    "city": "无锡旺庄",
+    "type": "社招",
+    "salary": "14-20k·14薪",
+    "edu": "本科",
+    "exp": "6年以上",
+    "requirements": "React前端；保险业务系统。",
+    "tags": [
+      "前端",
+      "React"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 11,
+    "company": "布勒(中国)投资",
+    "title": "IT Intern 数字化项目实习生",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "192元/天",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "Power Apps/Power Automate/Power BI；Excel VBA；业务流程自动化；英语良好。",
+    "tags": [
+      "PowerPlatform",
+      "实习"
+    ],
+    "source": "企查查",
+    "updated": "2026-03"
+  },
+  {
+    "id": 12,
+    "company": "苏州新建元和融科技",
+    "title": "数据要素研究实习生",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "数据行业研究、政策梳理、案例分析；信息搜集与文案能力。",
+    "tags": [
+      "数据要素",
+      "研究",
+      "实习"
+    ],
+    "source": "搜狐",
+    "updated": "2026-08"
+  },
+  {
+    "id": 13,
+    "company": "苏州新建元和融科技",
+    "title": "软件工程师(AI智能体开发)",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "Python；金融Agent平台迭代；LLM提示工程；Rust基础；Vue基础。",
+    "tags": [
+      "AI",
+      "Agent",
+      "Python",
+      "实习"
+    ],
+    "source": "搜狐",
+    "updated": "2026-08"
+  },
+  {
+    "id": 14,
+    "company": "实习苏州计划",
+    "title": "政府批量实习岗位(5000+)",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "≥3000元/月",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "面向全球大学生；参与企业含产业链主、上市、专精特新、高新、独角兽、国企；聚焦重点产业。",
+    "tags": [
+      "政府项目",
+      "批量实习"
+    ],
+    "source": "百度百科",
+    "updated": "2026-07"
+  },
+  {
+    "id": 15,
+    "company": "江苏零一汽车",
+    "title": "大模型方向(校招)",
+    "city": "苏州",
+    "type": "校招",
+    "salary": "年薪约50万",
+    "edu": "硕士",
+    "exp": "应届",
+    "requirements": "多模态大模型、自动驾驶算法；顶会/大厂实习优先。",
+    "tags": [
+      "大模型",
+      "自动驾驶",
+      "高薪"
+    ],
+    "source": "名城苏州",
+    "updated": "2026-04"
+  },
+  {
+    "id": 16,
+    "company": "汇川技术",
+    "title": "应用开发与方案研发工程师(校招)",
+    "city": "苏州",
+    "type": "校招",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "应届",
+    "requirements": "100+岗位；重点招聘应用开发与方案研发工程师。",
+    "tags": [
+      "校招",
+      "工业自动化"
+    ],
+    "source": "名城苏州",
+    "updated": "2026-04"
+  },
+  {
+    "id": 17,
+    "company": "盛虹集团",
+    "title": "算法专家",
+    "city": "苏州",
+    "type": "社招",
+    "salary": "180-200万/年",
+    "edu": "硕士",
+    "exp": "资深",
+    "requirements": "AI事业部；算法专家岗。",
+    "tags": [
+      "算法",
+      "高薪"
+    ],
+    "source": "苏州新闻网",
+    "updated": "2026-03"
+  },
+  {
+    "id": 18,
+    "company": "盛虹集团",
+    "title": "AI产品/全栈/算法工程师(应届)",
+    "city": "苏州",
+    "type": "校招",
+    "salary": "综合月薪约2万",
+    "edu": "本科",
+    "exp": "应届",
+    "requirements": "AI产品经理、全栈工程师、算法工程师面向应届。",
+    "tags": [
+      "AI",
+      "校招"
+    ],
+    "source": "苏州新闻网",
+    "updated": "2026-03"
+  },
+  {
+    "id": 19,
+    "company": "腾讯",
+    "title": "2026实习生(技术/AI/产品)",
+    "city": "上海等全国",
+    "type": "实习",
+    "salary": "日薪200-600",
+    "edu": "本科",
+    "exp": "2027届",
+    "requirements": "超1万实习岗；技术类扩招36%、AI相关大幅扩招；AI应用技能模块。",
+    "tags": [
+      "大厂",
+      "AI",
+      "实习"
+    ],
+    "source": "腾讯新闻",
+    "updated": "2026-03"
+  },
+  {
+    "id": 20,
+    "company": "字节跳动",
+    "title": "ByteIntern 转正实习(研发/AI工程)",
+    "city": "上海等全国",
+    "type": "实习",
+    "salary": "日薪250-500",
+    "edu": "本科",
+    "exp": "2027届",
+    "requirements": "超7000转正实习岗；研发4800+；转正率>50%；AI工程/AI产品需求旺。",
+    "tags": [
+      "大厂",
+      "AI",
+      "实习"
+    ],
+    "source": "每日经济新闻",
+    "updated": "2026-03"
+  },
+  {
+    "id": 21,
+    "company": "南京博涯信息",
+    "title": "风控专员",
+    "city": "南京",
+    "type": "校招",
+    "salary": "8-10k",
+    "edu": "本科",
+    "exp": "应届",
+    "requirements": "量化交易模型研究公司；风控相关。",
+    "tags": [
+      "金融",
+      "风控"
+    ],
+    "source": "安徽省大学生就业平台",
+    "updated": "2026-08"
+  },
+  {
+    "id": 22,
+    "company": "南京博涯信息",
+    "title": "投资助理",
+    "city": "南京",
+    "type": "校招",
+    "salary": "8-10k",
+    "edu": "本科",
+    "exp": "应届",
+    "requirements": "投资助理；金融相关。",
+    "tags": [
+      "金融"
+    ],
+    "source": "安徽省大学生就业平台",
+    "updated": "2026-08"
+  },
+  {
+    "id": 23,
+    "company": "南京博涯信息",
+    "title": "量化研究员",
+    "city": "南京",
+    "type": "校招",
+    "salary": "15-20k",
+    "edu": "本科",
+    "exp": "应届",
+    "requirements": "量化研究；数学/统计/计算机。",
+    "tags": [
+      "量化",
+      "金融"
+    ],
+    "source": "安徽省大学生就业平台",
+    "updated": "2026-08"
+  },
+  {
+    "id": 24,
+    "company": "南京博涯信息",
+    "title": "数据分析师",
+    "city": "南京",
+    "type": "校招",
+    "salary": "8-10k",
+    "edu": "本科",
+    "exp": "应届",
+    "requirements": "数据分析；SQL/Python。",
+    "tags": [
+      "数据分析"
+    ],
+    "source": "安徽省大学生就业平台",
+    "updated": "2026-08"
+  },
+  {
+    "id": 25,
+    "company": "南京博涯信息",
+    "title": "C++开发工程师(高频交易)",
+    "city": "南京",
+    "type": "校招",
+    "salary": "15-20k",
+    "edu": "本科",
+    "exp": "应届",
+    "requirements": "C++；高频交易系统。",
+    "tags": [
+      "C++",
+      "金融"
+    ],
+    "source": "安徽省大学生就业平台",
+    "updated": "2026-08"
+  },
+  {
+    "id": 26,
+    "company": "南京博涯信息",
+    "title": "Java开发工程师(金融科技)",
+    "city": "南京",
+    "type": "校招",
+    "salary": "15-20k",
+    "edu": "本科",
+    "exp": "应届",
+    "requirements": "Java；金融科技方向。",
+    "tags": [
+      "Java",
+      "金融"
+    ],
+    "source": "安徽省大学生就业平台",
+    "updated": "2026-08"
+  },
+  {
+    "id": 27,
+    "company": "南京网眼信息(WebEye)",
+    "title": "数据分析师",
+    "city": "南京",
+    "type": "校招",
+    "salary": "10-20k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "SQL/Python；指标看板；AB实验；业务归因分析。",
+    "tags": [
+      "数据分析",
+      "SQL"
+    ],
+    "source": "鼠鼠求职",
+    "updated": "2026-08"
+  },
+  {
+    "id": 28,
+    "company": "南京网眼信息(WebEye)",
+    "title": "后端开发工程师",
+    "city": "南京",
+    "type": "校招",
+    "salary": "10-20k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "Golang/Rust/Python至少一门；Shell/MySQL/Redis/Docker/K8s；扎实CS基础。",
+    "tags": [
+      "后端",
+      "Go",
+      "Docker"
+    ],
+    "source": "鼠鼠求职",
+    "updated": "2026-08"
+  },
+  {
+    "id": 29,
+    "company": "南京网眼信息(WebEye)",
+    "title": "算法工程师",
+    "city": "南京",
+    "type": "校招",
+    "salary": "20-28k",
+    "edu": "硕士",
+    "exp": "2026届",
+    "requirements": "CTR/CVR模型；分类回归；扎实算法与数据结构。",
+    "tags": [
+      "算法",
+      "硕士"
+    ],
+    "source": "鼠鼠求职",
+    "updated": "2026-08"
+  },
+  {
+    "id": 30,
+    "company": "南京网眼信息(WebEye)",
+    "title": "产品经理",
+    "city": "南京",
+    "type": "校招",
+    "salary": "8-18k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "C端/B端产品策划；需求分析与落地。",
+    "tags": [
+      "产品"
+    ],
+    "source": "鼠鼠求职",
+    "updated": "2026-08"
+  },
+  {
+    "id": 31,
+    "company": "先维信息",
+    "title": "软件开发工程师(Java/Python)",
+    "city": "南京",
+    "type": "校招",
+    "salary": "9-30k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "Web后端、AI应用系统开发、云平台；招10人。",
+    "tags": [
+      "Java",
+      "Python",
+      "校招"
+    ],
+    "source": "超级简历",
+    "updated": "2026-03"
+  },
+  {
+    "id": 32,
+    "company": "先维信息",
+    "title": "软件测试工程师",
+    "city": "南京",
+    "type": "校招",
+    "salary": "7-15k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "测试流程、自动化测试工具、质量保障。",
+    "tags": [
+      "测试",
+      "校招"
+    ],
+    "source": "超级简历",
+    "updated": "2026-03"
+  },
+  {
+    "id": 33,
+    "company": "先维信息",
+    "title": "数据分析师",
+    "city": "南京",
+    "type": "校招",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "数据分析；跨学科复合人才。",
+    "tags": [
+      "数据分析",
+      "校招"
+    ],
+    "source": "超级简历",
+    "updated": "2026-03"
+  },
+  {
+    "id": 34,
+    "company": "南京云帐房",
+    "title": "AI后端开发工程师",
+    "city": "南京",
+    "type": "校招",
+    "salary": "本科12-18k/硕士15-22k",
+    "edu": "本科/硕士",
+    "exp": "2026届",
+    "requirements": "AI大模型原理；机器学习/深度学习/NLP应用；大模型应用开发；Python/Java；招9人。",
+    "tags": [
+      "AI",
+      "大模型",
+      "Python"
+    ],
+    "source": "应届生求职网",
+    "updated": "2026-08"
+  },
+  {
+    "id": 35,
+    "company": "南京云帐房",
+    "title": "Java开发工程师",
+    "city": "南京",
+    "type": "校招",
+    "salary": "本科12-18k/硕士15-22k",
+    "edu": "本科/硕士",
+    "exp": "2026届",
+    "requirements": "Java/MySQL/Spring；软件开发全流程；招6人。",
+    "tags": [
+      "Java",
+      "校招"
+    ],
+    "source": "应届生求职网",
+    "updated": "2026-08"
+  },
+  {
+    "id": 36,
+    "company": "金思维集团",
+    "title": "软件开发工程师(2026校招)",
+    "city": "南京玄武",
+    "type": "校招",
+    "salary": "24-38万/年(本科16k起/硕士18k起)",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "ERP/MES基础研发；计算机/软工/大数据/AI等专业优先；招10人。",
+    "tags": [
+      "Java",
+      "校招",
+      "工业软件"
+    ],
+    "source": "前程无忧",
+    "updated": "2026-08"
+  },
+  {
+    "id": 37,
+    "company": "雄启新程",
+    "title": "AI+应用研发(Agent智能体)实习",
+    "city": "上海徐汇",
+    "type": "实习",
+    "salary": "190-220元/天",
+    "edu": "本科",
+    "exp": "3个月以上",
+    "requirements": "企业级AI应用；前端/后端框架；Claude Code/CodeX/Cursor/TRAE等Vibe Coding之一；GitHub；每周4天+。",
+    "tags": [
+      "AI",
+      "Agent",
+      "VibeCoding",
+      "实习"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-08"
+  },
+  {
+    "id": 38,
+    "company": "智箐科技",
+    "title": "AI代码实习生",
+    "city": "上海(远程)",
+    "type": "实习",
+    "salary": "300-400元/天",
+    "edu": "本科",
+    "exp": "1-2个月",
+    "requirements": "Python；TensorFlow/PyTorch；vibe engineering/spec coding；Git；模型推理适配。",
+    "tags": [
+      "AI",
+      "Python",
+      "VibeCoding",
+      "实习"
+    ],
+    "source": "实习僧",
+    "updated": "2026-04"
+  },
+  {
+    "id": 39,
+    "company": "某医药AI公司",
+    "title": "AI产品开发实习生",
+    "city": "上海浦东",
+    "type": "实习",
+    "salary": "300-400元/天",
+    "edu": "本科",
+    "exp": "4个月+",
+    "requirements": "前后端框架(Vue/Springboot)；熟练Codex/Claude Code等Vibe Coding工具；AI产品开发。",
+    "tags": [
+      "AI",
+      "产品",
+      "VibeCoding",
+      "实习"
+    ],
+    "source": "实习僧",
+    "updated": "2026-08"
+  },
+  {
+    "id": 40,
+    "company": "鼎捷数智",
+    "title": "软件开发(27届实习)",
+    "city": "南京/无锡/常州/苏州/南通",
+    "type": "实习",
+    "salary": "120-170元/天",
+    "edu": "本科",
+    "exp": "27届",
+    "requirements": "工业软件；雅典娜数智底座；前端/后端/测试等多方向。",
+    "tags": [
+      "软件开发",
+      "实习",
+      "工业软件"
+    ],
+    "source": "牛客网",
+    "updated": "2026-04"
+  },
+  {
+    "id": 41,
+    "company": "江苏交控",
+    "title": "暑期实习生(后端/测试/数据/AI)",
+    "city": "南通等",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "后端开发、测试、数据、运维、AI/算法等多方向。",
+    "tags": [
+      "国企",
+      "实习"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-06"
+  },
+  {
+    "id": 42,
+    "company": "江苏金租",
+    "title": "储备实习生",
+    "city": "苏州/无锡/常州/南通",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "金融科技类、业务精英类、职能管理类等多方向。",
+    "tags": [
+      "金融",
+      "实习"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-05"
+  },
+  {
+    "id": 43,
+    "company": "林森物流集团",
+    "title": "JAVA软件开发实习生",
+    "city": "南通崇川",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "应届可投",
+    "requirements": "Spring Boot/MVC/Cloud、MyBatis、MySQL、Linux、Vue；招3人。",
+    "tags": [
+      "Java",
+      "实习"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08"
+  },
+  {
+    "id": 44,
+    "company": "云尚找家纺",
+    "title": "26届后端开发实习生(可转正)",
+    "city": "南通/杭州",
+    "type": "实习",
+    "salary": "9.5-10.5k+转正8-12k",
+    "edu": "本科",
+    "exp": "26届",
+    "requirements": "Python/Java/C++其一；自动驾驶云端平台；AGV/智驾项目优先；招10人。",
+    "tags": [
+      "后端",
+      "实习",
+      "可转正"
+    ],
+    "source": "国家大学生就业服务平台",
+    "updated": "2026-08"
+  },
+  {
+    "id": 45,
+    "company": "凌志软件",
+    "title": "对日开发实习",
+    "city": "南通/如皋",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "最少3个月",
+    "requirements": "Java/Spring Boot/Cloud；MySQL/Redis；微服务基础；日语/英语基础。",
+    "tags": [
+      "Java",
+      "实习",
+      "对日"
+    ],
+    "source": "牛客网",
+    "updated": "2026-08"
+  },
+  {
+    "id": 46,
+    "company": "帆软软件",
+    "title": "后台开发工程师",
+    "city": "南京/无锡/成都",
+    "type": "校招",
+    "salary": "19-24k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "后端研发；SP面议。",
+    "tags": [
+      "后端",
+      "校招",
+      "BI"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 47,
+    "company": "帆软软件",
+    "title": "前端工程师",
+    "city": "南京/无锡/成都",
+    "type": "校招",
+    "salary": "17-22k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "前端研发；SP面议。",
+    "tags": [
+      "前端",
+      "校招",
+      "BI"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 48,
+    "company": "帆软软件",
+    "title": "测试开发工程师",
+    "city": "南京/无锡",
+    "type": "校招",
+    "salary": "12.5-19.5k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "测试开发；质量保障。",
+    "tags": [
+      "测试",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 49,
+    "company": "帆软软件",
+    "title": "产品经理",
+    "city": "南京/无锡/杭州",
+    "type": "校招",
+    "salary": "16-20.5k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "产品策划与落地。",
+    "tags": [
+      "产品",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 50,
+    "company": "帆软软件",
+    "title": "产品运营",
+    "city": "南京/无锡",
+    "type": "校招",
+    "salary": "14-18k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "产品运营。",
+    "tags": [
+      "运营",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 51,
+    "company": "帆软软件",
+    "title": "算法工程师",
+    "city": "无锡",
+    "type": "校招",
+    "salary": "19-24k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "算法研发。",
+    "tags": [
+      "算法",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 52,
+    "company": "帆软软件",
+    "title": "用户体验设计师",
+    "city": "南京/无锡",
+    "type": "校招",
+    "salary": "13-17k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "UX设计。",
+    "tags": [
+      "设计",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 53,
+    "company": "帆软软件",
+    "title": "客户成功顾问",
+    "city": "无锡/杭州/北京",
+    "type": "校招",
+    "salary": "11-15.5k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "客户成功。",
+    "tags": [
+      "客户成功",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 54,
+    "company": "帆软软件",
+    "title": "项目运维经理",
+    "city": "无锡",
+    "type": "校招",
+    "salary": "11-13k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "项目运维。",
+    "tags": [
+      "运维",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 55,
+    "company": "帆软软件",
+    "title": "售前工程师",
+    "city": "无锡",
+    "type": "校招",
+    "salary": "10-15k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "售前支持。",
+    "tags": [
+      "售前",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 56,
+    "company": "帆软软件",
+    "title": "技术支持工程师(储备专家)",
+    "city": "无锡",
+    "type": "校招",
+    "salary": "13-16.5k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "技术支持。",
+    "tags": [
+      "技术支持",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 57,
+    "company": "帆软软件",
+    "title": "海外市场运营",
+    "city": "无锡",
+    "type": "校招",
+    "salary": "11.5-15.5k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "海外运营(日/英文)。",
+    "tags": [
+      "运营",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 58,
+    "company": "帆软软件",
+    "title": "财务专员",
+    "city": "南京/无锡",
+    "type": "校招",
+    "salary": "11-12.5k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "财务。",
+    "tags": [
+      "财务",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 59,
+    "company": "帆软软件",
+    "title": "招聘专员",
+    "city": "南京/无锡",
+    "type": "校招",
+    "salary": "10-12k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "招聘。",
+    "tags": [
+      "HR",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 60,
+    "company": "帆软软件",
+    "title": "信息化工程师",
+    "city": "无锡",
+    "type": "校招",
+    "salary": "11-14k",
+    "edu": "本科",
+    "exp": "2026届",
+    "requirements": "信息化。",
+    "tags": [
+      "信息化",
+      "校招"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 61,
+    "company": "国联民生证券",
+    "title": "全栈工程师(Vibe Coding)",
+    "city": "无锡滨湖",
+    "type": "社招",
+    "salary": "20-40k·16薪",
+    "edu": "本科",
+    "exp": "3-5年",
+    "requirements": "证券创新应用全栈；Java/Python/JS其一；熟练Cursor/Claude/Trae等AI编程工具；AI coding加速开发；招1人。",
+    "tags": [
+      "VibeCoding",
+      "全栈",
+      "AI",
+      "金融"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 62,
+    "company": "国联民生证券",
+    "title": "全栈工程师(Vibe Coding)",
+    "city": "上海",
+    "type": "社招",
+    "salary": "20-40k·16薪",
+    "edu": "本科",
+    "exp": "3-5年",
+    "requirements": "同无锡岗；证券创新应用全栈开发。",
+    "tags": [
+      "VibeCoding",
+      "全栈",
+      "金融"
+    ],
+    "source": "职友集",
+    "updated": "2026-08"
+  },
+  {
+    "id": 63,
+    "company": "国联民生证券",
+    "title": "校招金融科技类(大数据/技术研发/测试/产品/运维)",
+    "city": "上海/无锡",
+    "type": "校招",
+    "salary": "面议",
+    "edu": "硕士",
+    "exp": "2026届",
+    "requirements": "IT类、数理类专业；金融科技方向；招100人。",
+    "tags": [
+      "金融",
+      "校招",
+      "科技"
+    ],
+    "source": "暨南大学就业网",
+    "updated": "2026-04"
+  },
+  {
+    "id": 64,
+    "company": "国联民生证券",
+    "title": "校招投资银行类",
+    "city": "上海/北京/深圳/南京/广州",
+    "type": "校招",
+    "salary": "面议",
+    "edu": "硕士",
+    "exp": "2026届",
+    "requirements": "金融/理工复合；IPO/并购/再融资。",
+    "tags": [
+      "金融",
+      "校招",
+      "投行"
+    ],
+    "source": "暨南大学就业网",
+    "updated": "2026-04"
+  },
+  {
+    "id": 65,
+    "company": "国联民生证券",
+    "title": "校招投资研究类",
+    "city": "上海/北京/深圳",
+    "type": "校招",
+    "salary": "面议",
+    "edu": "硕士",
+    "exp": "2026届",
+    "requirements": "金融/数理/工科/医药复合；行业研究/量化/投交。",
+    "tags": [
+      "金融",
+      "校招",
+      "研究"
+    ],
+    "source": "暨南大学就业网",
+    "updated": "2026-04"
+  },
+  {
+    "id": 66,
+    "company": "汇川技术",
+    "title": "AI全栈工程师",
+    "city": "苏州",
+    "type": "社招",
+    "salary": "1.5-2万",
+    "edu": "本科",
+    "exp": "5-10年",
+    "requirements": "前后端设计与开发；熟练Cursor/Claude Code/Trae；Vibe Coding研发模式；TS/Vue/React；Docker/CI-CD。",
+    "tags": [
+      "VibeCoding",
+      "全栈",
+      "AI"
+    ],
+    "source": "智联招聘",
+    "updated": "2026-07"
+  },
+  {
+    "id": 67,
+    "company": "汇川技术",
+    "title": "【27校招-数字化】全栈工程师",
+    "city": "苏州吴中",
+    "type": "校招",
+    "salary": "10-20k·13薪",
+    "edu": "本科",
+    "exp": "27届",
+    "requirements": "数字化平台前后端；Java/Spring Boot/MyBatis；MySQL/Redis；C/C++/Shell；Vue/React优先；招1人。",
+    "tags": [
+      "全栈",
+      "校招",
+      "工业"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08"
+  },
+  {
+    "id": 68,
+    "company": "汇川技术",
+    "title": "AI开发工程师",
+    "city": "苏州吴中",
+    "type": "社招",
+    "salary": "15-25k·15薪",
+    "edu": "本科",
+    "exp": "2年以上",
+    "requirements": "大模型训练/调度平台；LLM Agent(ReAct)开发；Java+Python；RAG/多模态；招1人。",
+    "tags": [
+      "AI",
+      "Agent",
+      "RAG",
+      "大模型"
+    ],
+    "source": "猎聘",
+    "updated": "2026-05"
+  },
+  {
+    "id": 69,
+    "company": "汇川技术",
+    "title": "研发类硕士(应用软件/软件测试)",
+    "city": "苏州",
+    "type": "校招",
+    "salary": "1.2-2.5万/月",
+    "edu": "硕士",
+    "exp": "2026届",
+    "requirements": "应用软件工程师、软件测试工程师等；约116个校招职位。",
+    "tags": [
+      "校招",
+      "硕士",
+      "研发"
+    ],
+    "source": "爱企查",
+    "updated": "2026-08"
+  },
+  {
+    "id": 70,
+    "company": "南京莱斯康电子",
+    "title": "AI开发工程师",
+    "city": "南京栖霞",
+    "type": "社招",
+    "salary": "8千-1.6万",
+    "edu": "本科",
+    "exp": "2年以上",
+    "requirements": "LangChain(Chains/Agents/Tools/Memory/Retrievers)、LangGraph；RAG全链路；提示工程；Python+Fas/Flask；可用VibeCoding做前端。",
+    "tags": [
+      "AI",
+      "RAG",
+      "LangChain",
+      "VibeCoding"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08"
+  },
+  {
+    "id": 71,
+    "company": "金思维集团",
+    "title": "AI大模型应用开发工程师",
+    "city": "南京",
+    "type": "社招",
+    "salary": "月薪≥25k,年薪30-65W",
+    "edu": "本科",
+    "exp": "1年以上",
+    "requirements": "RAG系统/Agent/垂直微调；Python+前端框架；Docker；自然语言转SQL；ERP/MES场景；招4人。",
+    "tags": [
+      "AI",
+      "大模型",
+      "RAG",
+      "Agent"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-04"
+  },
+  {
+    "id": 72,
+    "company": "金思维集团",
+    "title": "AI大模型应用开发工程师(社招)",
+    "city": "南京",
+    "type": "社招",
+    "salary": "18-25K,年薪24-65W",
+    "edu": "本科",
+    "exp": "1年以上",
+    "requirements": "同春招要求；年龄≤30；RAG/Agent经验。",
+    "tags": [
+      "AI",
+      "大模型",
+      "RAG"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-07"
+  },
+  {
+    "id": 73,
+    "company": "金思维集团",
+    "title": "软件开发工程师",
+    "city": "南京",
+    "type": "社招",
+    "salary": "24-38万/年",
+    "edu": "本科",
+    "exp": "经验不限",
+    "requirements": "ERP/MES软件研发。",
+    "tags": [
+      "Java",
+      "工业软件"
+    ],
+    "source": "牛企直聘",
+    "updated": "2026-07"
+  },
+  {
+    "id": 74,
+    "company": "南京易联阳光",
+    "title": "AI开发",
+    "city": "南京",
+    "type": "社招",
+    "salary": "6K-12K/月",
+    "edu": "硕士",
+    "exp": "经验不限",
+    "requirements": "Agent设计开发部署；LangChain/LangGraph；MCP/A2A；Milvus；Claude Code+Vibe Coding；医药信息化。",
+    "tags": [
+      "AI",
+      "Agent",
+      "VibeCoding",
+      "硕士"
+    ],
+    "source": "应届生求职网",
+    "updated": "2026-06"
+  },
+  {
+    "id": 75,
+    "company": "华为",
+    "title": "研发实习生",
+    "city": "全国(含上海)",
+    "type": "实习",
+    "salary": "9000元/月+2000房补",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "研发岗；2026年统一上调至9000/月。",
+    "tags": [
+      "大厂",
+      "研发",
+      "实习"
+    ],
+    "source": "腾讯网",
+    "updated": "2026-07"
+  },
+  {
+    "id": 76,
+    "company": "上海立信锐思",
+    "title": "咨询实习生(金融方向)",
+    "city": "北京/上海",
+    "type": "实习",
+    "salary": "150-200元/天",
+    "edu": "本科",
+    "exp": "大二及以上",
+    "requirements": "金融/统计/经济优先；Office；Python/SQL加分；每周≥4天。",
+    "tags": [
+      "咨询",
+      "金融",
+      "实习"
+    ],
+    "source": "实习资讯",
+    "updated": "2026-03"
+  },
+  {
+    "id": 77,
+    "company": "上海恒生聚源",
+    "title": "金融数据实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "180-220元/天",
+    "edu": "本科",
+    "exp": "在读",
+    "requirements": "金融数据采集/清洗/质检；金融/经济/数学/统计优先；Excel。",
+    "tags": [
+      "金融",
+      "数据",
+      "实习"
+    ],
+    "source": "实习资讯",
+    "updated": "2026-03"
+  },
+  {
+    "id": 78,
+    "company": "阿里巴巴",
+    "title": "2026实习生(技术/AI)",
+    "city": "杭州/北京/上海",
+    "type": "实习",
+    "salary": "日薪200-500",
+    "edu": "本科",
+    "exp": "2027届",
+    "requirements": "约5000+实习岗；AI岗位增加；技术岗日薪200-500，顶尖算法500；房补2000。",
+    "tags": [
+      "大厂",
+      "AI",
+      "实习"
+    ],
+    "source": "腾讯新闻",
+    "updated": "2026-06"
+  }
+]

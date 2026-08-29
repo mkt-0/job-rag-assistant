@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岗位 RAG · 实习/校招情报助手</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+         background: #f4f6fb; color: #1f2330; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 18px; }
+  h1 { font-size: 20px; margin: 4px 0 2px; }
+  .sub { color: #6b7280; font-size: 13px; margin-bottom: 12px; }
+  .box { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; }
+  #log { height: 56vh; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+  .msg { padding: 10px 12px; border-radius: 10px; line-height: 1.6; font-size: 14px; white-space: pre-wrap; }
+  .user { background: #e8f0ff; align-self: flex-end; max-width: 85%; }
+  .bot  { background: #f1f3f7; align-self: flex-start; max-width: 92%; }
+  .src { margin-top: 8px; font-size: 12px; color: #475569; border-top: 1px dashed #cbd5e1; padding-top: 6px; }
+  .src b { color: #2563eb; }
+  .row { display: flex; gap: 8px; margin-top: 12px; }
+  input, textarea, select { font-size: 14px; padding: 9px 11px; border: 1px solid #d1d5db;
+         border-radius: 9px; outline: none; width: 100%; }
+  textarea { resize: vertical; }
+  button { background: #2563eb; color: #fff; border: 0; border-radius: 9px; padding: 9px 16px;
+           font-size: 14px; cursor: pointer; white-space: nowrap; }
+  button.ghost { background: #e5e7eb; color: #1f2330; }
+  .toggle { color: #2563eb; cursor: pointer; font-size: 13px; user-select: none; }
+  #addPanel { display: none; margin-top: 12px; }
+  #addPanel .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .hint { font-size: 12px; color: #6b7280; margin-top: 6px; }
+  .pill { display:inline-block; background:#eef2ff; color:#4338ca; border-radius:6px; padding:1px 7px; margin-right:4px; font-size:11px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>岗位 RAG · 实习/校招情报助手</h1>
+  <div class="sub">基于真实招聘信息（无锡/苏州/南京/上海/常州/南通）的检索增强问答 · 直接用自然语言提问</div>
+
+  <div class="box">
+    <div id="log"></div>
+    <div class="row">
+      <input id="q" placeholder="例：无锡有哪些接受本科、薪资 15k 以上的 AI 岗？" />
+      <button onclick="ask()">问一问</button>
+    </div>
+    <div style="margin-top:10px"><span class="toggle" onclick="toggleAdd()">+ 粘贴补充一条岗位（JD）</span></div>
+    <div id="addPanel">
+      <div class="grid">
+        <input id="a_company" placeholder="公司" />
+        <input id="a_title" placeholder="岗位" />
+        <input id="a_city" placeholder="城市" />
+        <select id="a_type"><option>实习</option><option>校招</option><option>社招</option></select>
+        <input id="a_salary" placeholder="薪资" />
+        <input id="a_edu" placeholder="学历" />
+        <input id="a_exp" placeholder="经验" />
+        <input id="a_tags" placeholder="标签(逗号分隔)" />
+      </div>
+      <textarea id="a_req" rows="3" placeholder="任职要求 / JD 描述"></textarea>
+      <div class="row">
+        <button class="ghost" onclick="addJob()">加入岗位库</button>
+        <span class="hint" id="addHint">加入后它立即可被检索问答</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BASE = location.origin;  // 指向当前站点，确保接口请求地址正确
+function showFatal(msg){
+  const log=document.getElementById("log");
+  const d=document.createElement("div");
+  d.className="msg bot"; d.style.whiteSpace="pre-wrap";
+  d.textContent=msg; log.appendChild(d); log.scrollTop=log.scrollHeight;
+}
+if (location.protocol === "file:") {
+  showFatal("⚠️ 检测到你是用 file:// 直接打开本页面，浏览器会拦截接口请求，导致“Failed to fetch”。\n\n正确用法：在浏览器地址栏访问  http://localhost:5000  （需先运行 app.py 启动服务）");
+}
+function addMsg(text, cls) {
+  const log = document.getElementById("log");
+  const d = document.createElement("div");
+  d.className = "msg " + cls;
+  d.textContent = text;
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+async function ask() {
+  if (location.protocol === "file:") return;
+  const q = document.getElementById("q").value.trim();
+  if (!q) return;
+  document.getElementById("q").value = "";
+  addMsg(q, "user");
+  const bot = addMsg("检索中…", "bot");
+  try {
+    const r = await fetch(BASE + "/ask", {method:"POST", headers:{"Content-Type":"application/json"},
+                    body: JSON.stringify({question: q})});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const data = await r.json();
+    let html = data.answer || "(无回答)";
+    if (data.sources && data.sources.length) {
+      html += '\n\n— 参考岗位 —';
+      data.sources.forEach(s => {
+        html += `\n▸ <b>${s.company} · ${s.title}</b> ｜ ${s.city} ｜ ${s.salary} ｜ ${s.type}`;
+        if (s.tags) html += `  <span class="pill">${s.tags.split(",").join("</span> <span class='pill'>")}</span>`;
+      });
+    }
+    bot.innerHTML = html.replace(/\n/g, "<br>");
+  } catch (e) {
+    bot.textContent = "请求失败：" + e.message +
+      "\n（若已通过 http://localhost:5000 打开仍失败，说明后端服务未运行。请在 Desktop/RAG 目录执行 python app.py 启动）";
+  }
+}
+function toggleAdd(){ const p=document.getElementById("addPanel"); p.style.display = p.style.display==="none"?"block":"none"; }
+async function addJob(){
+  if (location.protocol === "file:") return;
+  const j = {
+    company: a_company.value, title: a_title.value, city: a_city.value, type: a_type.value,
+    salary: a_salary.value, edu: a_edu.value, exp: a_exp.value,
+    requirements: a_req.value, tags: a_tags.value.split(/[,，]/).map(x=>x.trim()).filter(Boolean)
+  };
+  if(!j.company || !j.title){ addHint.textContent="公司和岗位必填"; return; }
+  try {
+    const r = await fetch(BASE + "/add", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(j)});
+    const d = await r.json();
+    addHint.textContent = d.ok ? `已加入！当前库共 ${d.count} 条` : "加入失败："+(d.error||"");
+    if(d.ok){ [a_company,a_title,a_city,a_salary,a_edu,a_exp,a_tags,a_req].forEach(e=>e.value=""); }
+  } catch(e){ addHint.textContent = "加入失败：" + e.message; }
+}
+document.getElementById("q").addEventListener("keydown", e=>{ if(e.key==="Enter") ask(); });
+</script>
+</body>
+</html>
