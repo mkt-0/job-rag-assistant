@@ -2485,5 +2485,1550 @@
     "source": "南通365招聘",
     "updated": "2026-08",
     "id": 137
+  },
+  {
+    "company": "数澜科技",
+    "title": "大数据开发实习生",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "150元/天",
+    "edu": "本科",
+    "exp": "5天/周 3个月",
+    "requirements": "计算机/大数据相关；熟悉数据仓库与数据集市架构；掌握 HiveSQL/MapReduce/Spark；具备 Java/Python 能力与 linux/Shell 经验。",
+    "tags": [
+      "大数据",
+      "数仓",
+      "Spark",
+      "Hive"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08",
+    "id": 138
+  },
+  {
+    "company": "名创优品",
+    "title": "数据开发实习生",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "130-150元/天",
+    "edu": "本科",
+    "exp": "6个月以上",
+    "requirements": "计算机/统计学相关；熟练 Hive/Spark SQL；至少熟悉一种 BI 工具（FineBI/PowerBI/永洪）；每周4天以上。",
+    "tags": [
+      "数据开发",
+      "ETL",
+      "BI"
+    ],
+    "source": "江阴人才网",
+    "updated": "2026-07",
+    "id": 139
+  },
+  {
+    "company": "某美资实验室",
+    "title": "实验室数字化开发实习生",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "200-250元/天",
+    "edu": "本科",
+    "exp": "3天/周 3个月",
+    "requirements": "使用 Power Apps/Power Automate/Power BI 开发内部业务应用与自动化流程；Python/SQL/C++；文档与需求分析。",
+    "tags": [
+      "Python",
+      "SQL",
+      "PowerBI",
+      "数字化"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 140
+  },
+  {
+    "company": "布勒(中国)",
+    "title": "IT Intern 数字化项目实习生",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "192元/天",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "计算机相关；使用 MS Power Platform/Excel VBA 做业务流程自动化与数据分析；英语良好；熟悉 AI 前沿技术优先。",
+    "tags": [
+      "数字化",
+      "PowerPlatform",
+      "数据分析"
+    ],
+    "source": "企查查",
+    "updated": "2026-03",
+    "id": 141
+  },
+  {
+    "company": "无锡健芯半导体",
+    "title": "嵌入式软件工程师(实习生)",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "150-200元/天",
+    "edu": "本科",
+    "exp": "5天/周 6个月",
+    "requirements": "电子/通信/计算机；熟悉 ARM、STM32/NXP、SPI/I2C/UART；扎实 C 语言；熟悉算法与数据结构。",
+    "tags": [
+      "嵌入式",
+      "C",
+      "STM32",
+      "MCU"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 142
+  },
+  {
+    "company": "无锡盛景微电子",
+    "title": "嵌入式软件工程师(可实习)",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "8-12K",
+    "edu": "本科",
+    "exp": "经验不限",
+    "requirements": "电子/通信/计算机；了解数模电路，熟练 C 与 RTOS，熟悉 ARM Cortex；BootLoader、通信协议、Keil、Git、示波器/JTAG。",
+    "tags": [
+      "嵌入式",
+      "C",
+      "RTOS",
+      "ARM"
+    ],
+    "source": "无锡高新人才",
+    "updated": "2026-07",
+    "id": 143
+  },
+  {
+    "company": "博世创新软件(无锡)",
+    "title": "嵌入式软件学员 BCSC",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "180-250元/天",
+    "edu": "本科",
+    "exp": "5天/周 6个月",
+    "requirements": "熟悉 C/C++/Java/Shell/Python；操作系统原理；常见接口技术；英语 CET6；本科及以上。",
+    "tags": [
+      "嵌入式",
+      "C++",
+      "博世"
+    ],
+    "source": "实习僧",
+    "updated": "2026-08",
+    "id": 144
+  },
+  {
+    "company": "博世中国",
+    "title": "嵌入式软件开发工程师实习生 BCSC",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "5天/周",
+    "requirements": "MCU 与 I2C/SPI/UART；扎实 C/C++；实时多任务 OS；看懂硬件原理图；Git；Python 脚本经验。",
+    "tags": [
+      "嵌入式",
+      "实时系统",
+      "C++"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-07",
+    "id": 145
+  },
+  {
+    "company": "江苏墨迅科技",
+    "title": "嵌入式软硬件实习生",
+    "city": "无锡",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "控制/电气/电子/通信本科；熟练 C、单片机、KEIL；CAN/LIN 通讯；责任心与自驱力。",
+    "tags": [
+      "嵌入式",
+      "C",
+      "汽车电子"
+    ],
+    "source": "应届生求职网",
+    "updated": "2026-08",
+    "id": 146
+  },
+  {
+    "company": "江苏雅克科技",
+    "title": "大数据开发工程师",
+    "city": "无锡",
+    "type": "社招",
+    "salary": "15-20K",
+    "edu": "本科",
+    "exp": "1-3年",
+    "requirements": "大数据开发、数仓建模；Hadoop/Spark 生态；本科以上。",
+    "tags": [
+      "大数据",
+      "数仓",
+      "社招"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08",
+    "id": 147
+  },
+  {
+    "company": "格创东智",
+    "title": "大数据开发工程师",
+    "city": "无锡",
+    "type": "社招",
+    "salary": "12-20K",
+    "edu": "本科",
+    "exp": "3年以上",
+    "requirements": "大数据平台开发与调优；本科以上；B 轮互联网/软件公司。",
+    "tags": [
+      "大数据",
+      "社招"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08",
+    "id": 148
+  },
+  {
+    "company": "金风科技",
+    "title": "海上风电大数据及智能运维工程师",
+    "city": "无锡",
+    "type": "社招",
+    "salary": "20-30K",
+    "edu": "硕士",
+    "exp": "2年以上",
+    "requirements": "大数据分析与预警模型开发；风电/新能源背景优先；硕士。",
+    "tags": [
+      "大数据",
+      "智能运维",
+      "硕士",
+      "社招"
+    ],
+    "source": "猎聘",
+    "updated": "2026-08",
+    "id": 149
+  },
+  {
+    "company": "博世中国",
+    "title": "开发测试实习生-BCI",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "5天/周",
+    "requirements": "软件开发/测试基础；英语流利；探索 AI 工具在研发测试中的落地；每周4天以上、实习6个月。",
+    "tags": [
+      "测试开发",
+      "AI测试",
+      "博世"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-08",
+    "id": 150
+  },
+  {
+    "company": "苏州特思恩科技",
+    "title": "测试开发工程师",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "本科及以上",
+    "requirements": "python/tcl 自动化；交换机/芯片功能、性能、业务场景开发验证；独立设计测试用例。",
+    "tags": [
+      "测试开发",
+      "芯片",
+      "Python"
+    ],
+    "source": "浙江大学就业网",
+    "updated": "2026-08",
+    "id": 151
+  },
+  {
+    "company": "苏州特思恩科技",
+    "title": "数字芯片 D&V 工程师",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "本科及以上",
+    "requirements": "Verilog/SystemVerilog；芯片验证全流程；FPGA 调试；脚本开发。",
+    "tags": [
+      "芯片",
+      "验证",
+      "FPGA"
+    ],
+    "source": "浙江大学就业网",
+    "updated": "2026-08",
+    "id": 152
+  },
+  {
+    "company": "博世汽车部件(苏州)",
+    "title": "AI 测试开发实习生-企业级AI平台",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "180-200元/天",
+    "edu": "本科",
+    "exp": "5天/周 6个月",
+    "requirements": "Python/Java/TS；功能/接口/回归/端到端测试；AI 辅助测试（用例生成、数据生成、结果校验）；大模型输出评估。",
+    "tags": [
+      "AI测试",
+      "测试开发",
+      "大模型"
+    ],
+    "source": "实习僧",
+    "updated": "2026-08",
+    "id": 153
+  },
+  {
+    "company": "观智汇(上海)智能",
+    "title": "算法工程师(实习)",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2天/周 3个月",
+    "requirements": "Python/C/Perl；机器学习/深度学习；特征提取、强化/迁移/主动学习；能源管网数字孪生。",
+    "tags": [
+      "算法",
+      "机器学习",
+      "能源"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 154
+  },
+  {
+    "company": "科达制造",
+    "title": "AI算法工程师(27届实习)",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "4000-6000元/月",
+    "edu": "本科",
+    "exp": "大三及以上",
+    "requirements": "Python；数据结构与算法；机器学习/深度学习基础；有 AI 工具探索意识。",
+    "tags": [
+      "AI算法",
+      "机器学习",
+      "科达"
+    ],
+    "source": "科达招聘系统",
+    "updated": "2026-06",
+    "id": 155
+  },
+  {
+    "company": "科大讯飞(苏州数智赋农)",
+    "title": "算法实习生",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科/硕士",
+    "exp": "6个月以上",
+    "requirements": "Python/C++；CV/机器学习；目标检测/缺陷识别/分类；熟悉 AI 辅助开发工具优先。",
+    "tags": [
+      "算法",
+      "计算机视觉",
+      "CV",
+      "讯飞"
+    ],
+    "source": "安徽省大学生就业",
+    "updated": "2026-08",
+    "id": 156
+  },
+  {
+    "company": "某能源科技企业",
+    "title": "算法工程师(AI方向)管培生",
+    "city": "苏州",
+    "type": "校招",
+    "salary": "180-280元/天",
+    "edu": "本科",
+    "exp": "2026/2027届",
+    "requirements": "Python/C++/Java；PyTorch/TensorFlow；大模型(qwen3/deepseek)、Agent、运筹优化在能源场景落地。",
+    "tags": [
+      "算法",
+      "大模型",
+      "Agent",
+      "校招"
+    ],
+    "source": "国家大学生就业平台",
+    "updated": "2026-07",
+    "id": 157
+  },
+  {
+    "company": "博世汽车部件(苏州)",
+    "title": "AI座舱大模型应用实习生",
+    "city": "苏州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科/硕士",
+    "exp": "实习",
+    "requirements": "Transformer 与 LLM；模型训练/微调/量化/评测；AI Agent 原理与开发；上海/苏州均可。",
+    "tags": [
+      "大模型",
+      "智能座舱",
+      "Agent",
+      "博世"
+    ],
+    "source": "安徽省大学生就业",
+    "updated": "2026-04",
+    "id": 158
+  },
+  {
+    "company": "普惠恒丰",
+    "title": "Web前端及微信小程序开发实习生",
+    "city": "南京",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "5天/周",
+    "requirements": "HTML5/CSS3/JS；Vue2/Vue3；微信小程序；熟练 AI 工具(Figma/Copilot)提效。",
+    "tags": [
+      "前端",
+      "Vue",
+      "小程序",
+      "AI"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-08",
+    "id": 159
+  },
+  {
+    "company": "江苏暖心智能",
+    "title": "前端开发实习生(Vue方向)",
+    "city": "南京",
+    "type": "实习",
+    "salary": "120-150元/天",
+    "edu": "本科",
+    "exp": "4天/周 3个月",
+    "requirements": "HTML5/CSS3/JS、ES6+；Vue 生态(Vue2/3、Router、Pinia)；uni-app；Git。",
+    "tags": [
+      "前端",
+      "Vue",
+      "uni-app"
+    ],
+    "source": "实习僧",
+    "updated": "2026-08",
+    "id": 160
+  },
+  {
+    "company": "亚信科技",
+    "title": "Web前端开发实习生",
+    "city": "南京",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "5天/周 3个月",
+    "requirements": "HTML/JS/Ajax/CSS；前端框架研发与维护；新技术敏感度。",
+    "tags": [
+      "前端",
+      "亚信"
+    ],
+    "source": "智联校园",
+    "updated": "2026-08",
+    "id": 161
+  },
+  {
+    "company": "地平线",
+    "title": "web前端开发实习生",
+    "city": "南京",
+    "type": "实习",
+    "salary": "150-300元/天",
+    "edu": "本科",
+    "exp": "3天/周 3个月",
+    "requirements": "JS/CSS/HTML、ES6+；React/Vue 至少一种；Canvas/Svg/WebGL 优先。",
+    "tags": [
+      "前端",
+      "React",
+      "Vue",
+      "地平线"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-05",
+    "id": 162
+  },
+  {
+    "company": "普阑尼",
+    "title": "网站前端开发实习生",
+    "city": "南京",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "5天/周",
+    "requirements": "React/Vue/Node.js；AI 大模型应用兴趣；API/数据库/前后端协作基础；Git。",
+    "tags": [
+      "前端",
+      "全栈",
+      "AI",
+      "Node"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-07",
+    "id": 163
+  },
+  {
+    "company": "博西家电",
+    "title": "数据管理/分析实习生 CODM",
+    "city": "南京",
+    "type": "实习",
+    "salary": "200-250元/天",
+    "edu": "本科",
+    "exp": "5天/周 6个月",
+    "requirements": "SQL/R/VBA/Tableau/Python/PowerBI；主数据架构与治理；数据质量可视化。",
+    "tags": [
+      "数据分析",
+      "SQL",
+      "Tableau",
+      "PowerBI"
+    ],
+    "source": "实习僧",
+    "updated": "2026-06",
+    "id": 164
+  },
+  {
+    "company": "德昌电机(南京)",
+    "title": "大数据实习生(制造数字化方向)",
+    "city": "南京",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "SQL 多表查询/聚合；Excel 透视表；Python/Java 数据处理脚本；工业协议(Modbus/OPC UA)优先。",
+    "tags": [
+      "大数据",
+      "制造",
+      "SQL",
+      "Python"
+    ],
+    "source": "应届生求职网",
+    "updated": "2026-07",
+    "id": 165
+  },
+  {
+    "company": "滴滴",
+    "title": "两轮车事业部-数据运营实习生",
+    "city": "南京",
+    "type": "实习",
+    "salary": "150-200元/天",
+    "edu": "本科",
+    "exp": "5天/周 5个月",
+    "requirements": "SQL/R/Python、Tableau；业务数据分析体系与看板搭建；跨部门协作。",
+    "tags": [
+      "数据运营",
+      "SQL",
+      "Tableau",
+      "滴滴"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 166
+  },
+  {
+    "company": "得物App",
+    "title": "数据分析实习生",
+    "city": "南京",
+    "type": "实习",
+    "salary": "120-150元/天",
+    "edu": "本科",
+    "exp": "5天/周 6个月",
+    "requirements": "Excel 函数/透视表/图表；SQL 基础；Python/VBA 优先；逻辑清晰、数据敏感。",
+    "tags": [
+      "数据分析",
+      "SQL",
+      "得物"
+    ],
+    "source": "实习僧",
+    "updated": "2026-08",
+    "id": 167
+  },
+  {
+    "company": "T3出行(领行科技)",
+    "title": "数据分析实习",
+    "city": "南京",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "SQL/Python；Hadoop/Flink 原理优先；分类/回归/聚类建模实践。",
+    "tags": [
+      "数据分析",
+      "大数据",
+      "SQL"
+    ],
+    "source": "鱼泡直聘",
+    "updated": "2026-08",
+    "id": 168
+  },
+  {
+    "company": "复旦未来技术研究院(通用AI实验室)",
+    "title": "AI算法实习生(大模型/智能体方向)",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科及以上",
+    "exp": "实习",
+    "requirements": "参与大模型/智能体算法研发与工程化；数据采集清洗标注；阅读前沿论文。",
+    "tags": [
+      "大模型",
+      "智能体",
+      "科研",
+      "复旦"
+    ],
+    "source": "高校人才网",
+    "updated": "2026-08",
+    "id": 169
+  },
+  {
+    "company": "复旦未来技术研究院(通用AI实验室)",
+    "title": "软件工程实习生(前端/后端/工程化)",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科及以上",
+    "exp": "实习",
+    "requirements": "系统开发/测试/部署/运维；前后端设计与 demo 搭建；配合算法团队工程实现。",
+    "tags": [
+      "软件工程",
+      "全栈",
+      "复旦"
+    ],
+    "source": "高校人才网",
+    "updated": "2026-08",
+    "id": 170
+  },
+  {
+    "company": "拼多多(上海寻梦)",
+    "title": "大模型算法实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2027届",
+    "requirements": "Transformer 基础；大模型训练(Pre-training/SFT/RL)；多语言/多模态/AIGC；电商场景赋能。",
+    "tags": [
+      "大模型",
+      "算法",
+      "深度学习",
+      "拼多多"
+    ],
+    "source": "中南大学就业网",
+    "updated": "2026-03",
+    "id": 171
+  },
+  {
+    "company": "上海信投智能",
+    "title": "大模型算法实习生(数智)",
+    "city": "上海",
+    "type": "全职",
+    "salary": "面议",
+    "edu": "本科及以上",
+    "exp": "3个月以上",
+    "requirements": "Transformer/BERT/GPT；PyTorch；RAG 搭建；LoRA/QLoRA 微调；LangChain；vLLM/LMDeploy。",
+    "tags": [
+      "大模型",
+      "RAG",
+      "PyTorch",
+      "LangChain"
+    ],
+    "source": "应届生求职网",
+    "updated": "2026-05",
+    "id": 172
+  },
+  {
+    "company": "上海瀚晖信息",
+    "title": "大模型算法实习生",
+    "city": "上海",
+    "type": "全职",
+    "salary": "500元/天",
+    "edu": "硕士及以上",
+    "exp": "全职",
+    "requirements": "Transformer；大模型训练流程(Pre/SFT/RL)； generative 模型；顶会论文优先。",
+    "tags": [
+      "大模型",
+      "算法",
+      "硕士"
+    ],
+    "source": "中国科大就业网",
+    "updated": "2026-04",
+    "id": 173
+  },
+  {
+    "company": "博世汽车部件(苏州)",
+    "title": "AI座舱大模型应用实习生(上海)",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科/硕士",
+    "exp": "实习",
+    "requirements": "Transformer 与 LLM 关键技术；端侧部署与性能优化；垂类数据处理/训练/微调；协同开发智能座舱 Agent。",
+    "tags": [
+      "大模型",
+      "智能座舱",
+      "Agent",
+      "博世"
+    ],
+    "source": "安徽省大学生就业",
+    "updated": "2026-04",
+    "id": 174
+  },
+  {
+    "company": "IAV",
+    "title": "前端开发实习生(React/Vue双框架)",
+    "city": "上海",
+    "type": "实习",
+    "salary": "150-200元/天",
+    "edu": "本科",
+    "exp": "5天/周",
+    "requirements": "HTML5/CSS3/JS/TS；React 或 Vue 核心机制；Redux/Zustand、Pinia；Webpack/Vite；可居家。",
+    "tags": [
+      "前端",
+      "React",
+      "Vue",
+      "TS"
+    ],
+    "source": "中国中小企业服务网",
+    "updated": "2026-06",
+    "id": 175
+  },
+  {
+    "company": "蔚来 NIO",
+    "title": "前端平台开发实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "5天/周",
+    "requirements": "Vue3/React+Vite；Element Plus/Ant Design Vue；AI 工具全流程开发；RAG 前端适配经验优先。",
+    "tags": [
+      "前端",
+      "AI",
+      "RAG",
+      "蔚来"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-07",
+    "id": 176
+  },
+  {
+    "company": "猫眼",
+    "title": "前端开发工程师(27届校招实习)",
+    "city": "上海",
+    "type": "校招",
+    "salary": "200-240元/天",
+    "edu": "本科",
+    "exp": "3个月以上",
+    "requirements": "HTML/CSS/JS；React/Vue/Angular 之一；Node.js、性能调优、Hybrid 优先。",
+    "tags": [
+      "前端",
+      "React",
+      "校招",
+      "猫眼"
+    ],
+    "source": "牛客",
+    "updated": "2026-06",
+    "id": 177
+  },
+  {
+    "company": "Refly.AI(高瓴联合校招)",
+    "title": "前端开发实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "300-350元/天",
+    "edu": "本科",
+    "exp": "4个月以上",
+    "requirements": "JS/TS；React/Vue；Webpack/Rollup/Vite；AI 前端产品经验；Prompt Engineering/Agent Builder 优先。",
+    "tags": [
+      "前端",
+      "AI",
+      "Agent",
+      "开源"
+    ],
+    "source": "实习僧",
+    "updated": "2026-08",
+    "id": 178
+  },
+  {
+    "company": "字节跳动(飞书)",
+    "title": "前端开发实习生-安全",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "4天/周 4个月",
+    "requirements": "JS/CSS/HTML/DOM；主流前端框架原理；Hybrid/Scheme；Express/Koa(Node.js)优先。",
+    "tags": [
+      "前端",
+      "字节",
+      "安全"
+    ],
+    "source": "实习僧",
+    "updated": "2026-09",
+    "id": 179
+  },
+  {
+    "company": "兑观科技",
+    "title": "产品经理实习生(AI Native方向)",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "5天/周",
+    "requirements": "AI Native/Agent/B 端产品调研、需求、原型、上线跟进；熟练用 AI 工具；会技术/接口/数据库优先。",
+    "tags": [
+      "产品",
+      "AI",
+      "Agent"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-08",
+    "id": 180
+  },
+  {
+    "company": "榆叶飞云",
+    "title": "产品经理实习生(产业互联网方向)",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "4天/周",
+    "requirements": "Axure/墨刀；SQL/Python 优先；行业研究、竞品调研、PRD；房地产/产业互联网兴趣。",
+    "tags": [
+      "产品",
+      "产业互联网"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-04",
+    "id": 181
+  },
+  {
+    "company": "小红书",
+    "title": "产品经理实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "260-310元/天",
+    "edu": "本科",
+    "exp": "5天/周 3个月",
+    "requirements": "逻辑与分析能力；独立产品落地；SQL 数据分析与 session 洞察。",
+    "tags": [
+      "产品",
+      "数据",
+      "小红书"
+    ],
+    "source": "实习僧",
+    "updated": "2026-08",
+    "id": 182
+  },
+  {
+    "company": "得物App",
+    "title": "产品经理实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "200元/天",
+    "edu": "本科",
+    "exp": "5天/周 3个月",
+    "requirements": "Excel、SQL 优先；AI 工具提效；电商/潮流行业敏感度。",
+    "tags": [
+      "产品",
+      "数据",
+      "得物"
+    ],
+    "source": "实习僧",
+    "updated": "2026-08",
+    "id": 183
+  },
+  {
+    "company": "得物App",
+    "title": "产品实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "5天/周 6个月",
+    "requirements": "figma 原型；Excel；SQL 优先；AI 工具；深度互联网产品体感。",
+    "tags": [
+      "产品",
+      "得物"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-09",
+    "id": 184
+  },
+  {
+    "company": "拼多多(上海寻梦)",
+    "title": "服务端研发实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2027届",
+    "requirements": "扎实计算机基础与编程；国内外顶赛获奖/科研/实习经历优先。",
+    "tags": [
+      "后端",
+      "研发",
+      "拼多多"
+    ],
+    "source": "中南大学就业网",
+    "updated": "2026-03",
+    "id": 185
+  },
+  {
+    "company": "拼多多(上海寻梦)",
+    "title": "算法实习生(非大模型)",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2027届",
+    "requirements": "算法与数据结构基础；机器学习/优化相关课程或项目。",
+    "tags": [
+      "算法",
+      "拼多多"
+    ],
+    "source": "中南大学就业网",
+    "updated": "2026-03",
+    "id": 186
+  },
+  {
+    "company": "拼多多(上海寻梦)",
+    "title": "Web前端研发实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2027届",
+    "requirements": "HTML/CSS/JS；React/Vue 之一；前端工程化与性能优化意识。",
+    "tags": [
+      "前端",
+      "拼多多"
+    ],
+    "source": "中南大学就业网",
+    "updated": "2026-03",
+    "id": 187
+  },
+  {
+    "company": "拼多多(上海寻梦)",
+    "title": "客户端研发实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2027届",
+    "requirements": "计算机基础扎实；移动端开发兴趣；编程能力强。",
+    "tags": [
+      "客户端",
+      "拼多多"
+    ],
+    "source": "中南大学就业网",
+    "updated": "2026-03",
+    "id": 188
+  },
+  {
+    "company": "拼多多(上海寻梦)",
+    "title": "安全实习生",
+    "city": "上海",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2027届",
+    "requirements": "安全基础；对攻防/风控/安全工程有兴趣；编程能力。",
+    "tags": [
+      "安全",
+      "拼多多"
+    ],
+    "source": "中南大学就业网",
+    "updated": "2026-03",
+    "id": 189
+  },
+  {
+    "company": "天正信息",
+    "title": "数据分析实习生",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "3-4K",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "数学/统计相关；Excel/SQL 基础。",
+    "tags": [
+      "数据分析",
+      "SQL"
+    ],
+    "source": "BOSS直聘(聚合)",
+    "updated": "2026-08",
+    "id": 190
+  },
+  {
+    "company": "滴滴(杭州)",
+    "title": "数据分析实习生",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "3-5K",
+    "edu": "本科",
+    "exp": "经验不限",
+    "requirements": "SQL、Excel；数据敏感；移动互联网背景。",
+    "tags": [
+      "数据分析",
+      "SQL",
+      "滴滴"
+    ],
+    "source": "BOSS直聘(聚合)",
+    "updated": "2026-08",
+    "id": 191
+  },
+  {
+    "company": "创邻科技",
+    "title": "数据分析师(应届/实习)",
+    "city": "杭州",
+    "type": "校招",
+    "salary": "10-15K",
+    "edu": "本科",
+    "exp": "经验不限",
+    "requirements": "SQL；图数据库/数据科学背景优先。",
+    "tags": [
+      "数据分析",
+      "SQL",
+      "校招"
+    ],
+    "source": "BOSS直聘(聚合)",
+    "updated": "2026-08",
+    "id": 192
+  },
+  {
+    "company": "传易支付",
+    "title": "数据分析实习生",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "4-5K",
+    "edu": "本科",
+    "exp": "1年以内",
+    "requirements": "SQL；支付/移动互联网背景。",
+    "tags": [
+      "数据分析",
+      "SQL"
+    ],
+    "source": "BOSS直聘(聚合)",
+    "updated": "2026-08",
+    "id": 193
+  },
+  {
+    "company": "中控技术",
+    "title": "数据分析实习生(需Excel)",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "3500元/月",
+    "edu": "本科",
+    "exp": "可立即到岗",
+    "requirements": "熟练 Excel 数据分析；理解数据表业务含义与安全分析逻辑；文档编写。",
+    "tags": [
+      "数据分析",
+      "Excel"
+    ],
+    "source": "鼠鼠求职",
+    "updated": "2026-08",
+    "id": 194
+  },
+  {
+    "company": "电商企业",
+    "title": "数据分析实习生(电商)",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "100-150元/天",
+    "edu": "本科",
+    "exp": "4天/周 4个月",
+    "requirements": "SQL+Excel；数据监控、异常分析、策略建议；逻辑与沟通。",
+    "tags": [
+      "数据分析",
+      "电商",
+      "SQL"
+    ],
+    "source": "科创通",
+    "updated": "2026-08",
+    "id": 195
+  },
+  {
+    "company": "网易(杭州)",
+    "title": "数据分析实习生(平台产品)",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "3.6-4.5K",
+    "edu": "本科",
+    "exp": "5天/周 4个月",
+    "requirements": "SQL/Excel/Python/R；AB 实验经验优先；支持云音乐平台产品分析。",
+    "tags": [
+      "数据分析",
+      "网易",
+      "SQL"
+    ],
+    "source": "天府招聘云",
+    "updated": "2026-04",
+    "id": 196
+  },
+  {
+    "company": "阿里巴巴淘天 T-Star Lab",
+    "title": "算法工程师-机器学习(日常实习)",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "5000-10000元/月",
+    "edu": "本科",
+    "exp": "实习",
+    "requirements": "机器学习/深度学习(CNN/RL/迁移/主动学习等)；C/C++/Java/Python；数理与数据敏感。",
+    "tags": [
+      "算法",
+      "机器学习",
+      "阿里"
+    ],
+    "source": "浙江省公共就业",
+    "updated": "2026-04",
+    "id": 197
+  },
+  {
+    "company": "杭州群核(酷家乐)",
+    "title": "科研算法实习生(前沿院)",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "3-5K",
+    "edu": "本科及以上",
+    "exp": "6个月以上优先",
+    "requirements": "Python/C++/Java；深度学习框架；LLM/多模态(预训练/微调/对齐)或文生图/视频或3D生成。",
+    "tags": [
+      "算法",
+      "大模型",
+      "多模态"
+    ],
+    "source": "中国科大就业网",
+    "updated": "2026-03",
+    "id": 198
+  },
+  {
+    "company": "杭州遥望网络",
+    "title": "AI算法工程师/AI全栈工程师",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科/硕士",
+    "exp": "2026/2027届",
+    "requirements": "PyTorch/Transformers/Diffusion；大模型微调/RAG/Agent；Vue/React + FastAPI 工程落地；vLLM 部署。",
+    "tags": [
+      "AI算法",
+      "全栈",
+      "RAG",
+      "Agent"
+    ],
+    "source": "清华大学就业网",
+    "updated": "2026-08",
+    "id": 199
+  },
+  {
+    "company": "杭州昊盛人工智能",
+    "title": "AI for Science材料算法工程师",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科及以上",
+    "exp": "实习",
+    "requirements": "机器学习/深度学习；材料数据库(Materials Project/PubChem)与计算工具(VASP/LAMMPS)。",
+    "tags": [
+      "算法",
+      "AI4S",
+      "材料"
+    ],
+    "source": "浙江大学就业网",
+    "updated": "2026-08",
+    "id": 200
+  },
+  {
+    "company": "杭州昊盛人工智能",
+    "title": "大模型算法工程师",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科及以上",
+    "exp": "实习",
+    "requirements": "Python/C++；PyTorch；NLP/多模态/推理加速/微调；顶会或开源贡献优先。",
+    "tags": [
+      "大模型",
+      "算法",
+      "NLP"
+    ],
+    "source": "浙江大学就业网",
+    "updated": "2026-08",
+    "id": 201
+  },
+  {
+    "company": "北大信研院",
+    "title": "前端开发工程师实习生",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "150-200元/天",
+    "edu": "本科",
+    "exp": "5天/周 3个月",
+    "requirements": "HTML/CSS/JS、ES6+；Vue 或 React 之一；兼容性与性能优化；代码审查。",
+    "tags": [
+      "前端",
+      "Vue",
+      "北大信研院"
+    ],
+    "source": "实习僧",
+    "updated": "2026-05",
+    "id": 202
+  },
+  {
+    "company": "淘天集团",
+    "title": "网站技术前端实习生",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "4天/周 3个月",
+    "requirements": "前端基本功与数据结构；React/Vue 至少一种；前端工程化、性能与稳定性；AI 应用经验优先。",
+    "tags": [
+      "前端",
+      "阿里",
+      "React",
+      "校招"
+    ],
+    "source": "牛客",
+    "updated": "2026-08",
+    "id": 203
+  },
+  {
+    "company": "北航杭州创新研究院",
+    "title": "前端开发工程师(实习)",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "100-150元/天",
+    "edu": "本科",
+    "exp": "5天/周 3个月",
+    "requirements": "HTML5/CSS3/JS、ES6+；Vue.js 或 React；Fetch/Axios 调 REST；视频/Canvas 交互。",
+    "tags": [
+      "前端",
+      "Vue",
+      "北航"
+    ],
+    "source": "实习僧",
+    "updated": "2026-06",
+    "id": 204
+  },
+  {
+    "company": "浙江省财开(浙财数智)",
+    "title": "前端实习生",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2026.6-2026.9",
+    "requirements": "HTML5/CSS3/JS、ES6+；Vue2/3 优先、React 亦可；Vite/Git；TS/SCSS 加分；会用 AI 编程工具。",
+    "tags": [
+      "前端",
+      "Vue",
+      "国企",
+      "AI"
+    ],
+    "source": "前程无忧",
+    "updated": "2026-06",
+    "id": 205
+  },
+  {
+    "company": "万兴科技",
+    "title": "Web前端开发实习生",
+    "city": "杭州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "2027届及之后",
+    "requirements": "JS/HTML/CSS；Vue/React；elementui/Ant Design、Axios；GitHub 开源经历优先。",
+    "tags": [
+      "前端",
+      "Vue",
+      "万兴"
+    ],
+    "source": "北京理工就业网",
+    "updated": "2026-03",
+    "id": 206
+  },
+  {
+    "company": "宁波春建(春建电子)",
+    "title": "大模型算法实习生(VLM/量化/智能体)",
+    "city": "宁波",
+    "type": "实习",
+    "salary": "150-180元/天",
+    "edu": "本科",
+    "exp": "5天/周 6个月",
+    "requirements": "PyTorch；Transformer；VLM 轻量化(量化/蒸馏/LoRA)；Agent 开发(LangChain/vLLM)；顶会复现。",
+    "tags": [
+      "大模型",
+      "多模态",
+      "量化",
+      "Agent"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 207
+  },
+  {
+    "company": "宁波工业互联网研究院",
+    "title": "算法实习生",
+    "city": "宁波",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "5天/周 5个月",
+    "requirements": "深度学习与机器视觉；CNN/RCNN/YOLO/SSD；Python/C++；QT 优先。",
+    "tags": [
+      "算法",
+      "机器视觉",
+      "CNN"
+    ],
+    "source": "鱼泡直聘",
+    "updated": "2026-06",
+    "id": 208
+  },
+  {
+    "company": "均胜电子(超平面机器人)",
+    "title": "具身算法实习生",
+    "city": "宁波",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科/硕士/博士",
+    "exp": "实习",
+    "requirements": "具身智能/VLA/模仿学习/强化学习；多模态基础模型；Python/PyTorch/Linux。",
+    "tags": [
+      "具身智能",
+      "算法",
+      "VLA"
+    ],
+    "source": "Moka招聘",
+    "updated": "2026-08",
+    "id": 209
+  },
+  {
+    "company": "宁波数字孪生(东方理工)研究院",
+    "title": "网络信息安全实验室实习生",
+    "city": "宁波",
+    "type": "实习",
+    "salary": "100-150元/天",
+    "edu": "本科",
+    "exp": "3天/周 3个月",
+    "requirements": "Python/C++；CV/深度学习或系统开发或数据安全方向；GPU/并行计算优先。",
+    "tags": [
+      "安全",
+      "算法",
+      "深度学习"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 210
+  },
+  {
+    "company": "江苏赞奇科技",
+    "title": "前端实习生",
+    "city": "常州",
+    "type": "实习",
+    "salary": "120-150元/天",
+    "edu": "本科",
+    "exp": "3天/周",
+    "requirements": "HTML/CSS/JS/VUE；前端框架；了解 AI 辅助开发优先。",
+    "tags": [
+      "前端",
+      "Vue"
+    ],
+    "source": "BeBee",
+    "updated": "2026-08",
+    "id": 211
+  },
+  {
+    "company": "星空医疗",
+    "title": "IT前端工程师",
+    "city": "常州",
+    "type": "实习",
+    "salary": "150-200元/天",
+    "edu": "本科",
+    "exp": "5天/周 3个月",
+    "requirements": "IT 专业本科；构建优化界面、响应式与交互；有转正机会。",
+    "tags": [
+      "前端",
+      "医疗"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 212
+  },
+  {
+    "company": "知米科技",
+    "title": "全栈工程师(AI驱动型,偏前端)",
+    "city": "常州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "不限",
+    "exp": "5天/周",
+    "requirements": "HTML/CSS/JS/TS；React/Vue；Node.js/Python 后端；重度使用 Cursor/Copilot/ChatGPT。",
+    "tags": [
+      "全栈",
+      "AI",
+      "前端",
+      "常州"
+    ],
+    "source": "得早学就创",
+    "updated": "2026-05",
+    "id": 213
+  },
+  {
+    "company": "创志科技(江苏)",
+    "title": "Web前端开发工程师(本科)",
+    "city": "常州",
+    "type": "校招",
+    "salary": "6000元以上",
+    "edu": "本科",
+    "exp": "应届可实习",
+    "requirements": "JS/HTML/CSS；Vue/React/Angular 之一；前端交互与优化。",
+    "tags": [
+      "前端",
+      "校招",
+      "常州"
+    ],
+    "source": "大众人才网",
+    "updated": "2026-06",
+    "id": 214
+  },
+  {
+    "company": "博世汽车部件(苏州)常州分公司",
+    "title": "智能制造分析学员 ME",
+    "city": "常州",
+    "type": "实习",
+    "salary": "200-250元/天",
+    "edu": "本科",
+    "exp": "5天/周 6个月",
+    "requirements": "SQL 多维提取/聚合；Python(Pandas/Numpy)与可视化；制造业数据思维；用 LLM 增强分析。",
+    "tags": [
+      "数据分析",
+      "制造",
+      "SQL",
+      "Python"
+    ],
+    "source": "实习僧",
+    "updated": "2026-07",
+    "id": 215
+  },
+  {
+    "company": "滴滴",
+    "title": "城市经营实习生",
+    "city": "常州",
+    "type": "实习",
+    "salary": "150-200元/天",
+    "edu": "硕士",
+    "exp": "4天/周 6个月",
+    "requirements": "Excel 日常运营数据分析；PS/AI/视频剪辑加分；base 常州高校优先。",
+    "tags": [
+      "运营",
+      "数据",
+      "滴滴"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 216
+  },
+  {
+    "company": "格力博",
+    "title": "供应链实习生(数学/统计/数据)",
+    "city": "常州",
+    "type": "实习",
+    "salary": "100-110元/天",
+    "edu": "本科",
+    "exp": "3天/周 3个月",
+    "requirements": "Excel/SQL/Python；统计学与数学建模基础；供应链数据分析与可视化。",
+    "tags": [
+      "供应链",
+      "数据分析",
+      "数学"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 217
+  },
+  {
+    "company": "雨零霖电商",
+    "title": "数据分析实习生",
+    "city": "常州",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "中专及以上",
+    "exp": "5天/周 6个月",
+    "requirements": "Excel(VLOOKUP/透视表/函数)；细心严谨；电商/运营经验加分。",
+    "tags": [
+      "数据分析",
+      "Excel",
+      "电商"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 218
+  },
+  {
+    "company": "智析方略",
+    "title": "数据分析师(线上)",
+    "city": "常州",
+    "type": "实习",
+    "salary": "200-300元/天",
+    "edu": "本科",
+    "exp": "6个月",
+    "requirements": "Python/R；机器学习/深度学习/神经网络/SPSS/爬虫；一单一结、可远程。",
+    "tags": [
+      "数据分析",
+      "Python",
+      "远程"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 219
+  },
+  {
+    "company": "安客诚(Acxiom)",
+    "title": "数据分析实习生",
+    "city": "南通",
+    "type": "实习",
+    "salary": "120-150元/天",
+    "edu": "本科",
+    "exp": "4天/周 4个月",
+    "requirements": "统计/数学/数据分析相关；PPT/Excel；逻辑与沟通；电商项目数据洞察。",
+    "tags": [
+      "数据分析",
+      "Excel",
+      "南通"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 220
+  },
+  {
+    "company": "蔚来(南通瑞力)",
+    "title": "乐道ucs数据实习生",
+    "city": "南通",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "4天/周 4个月",
+    "requirements": "Excel 数据处理；Python 优先；销售数据追踪与策略支持。",
+    "tags": [
+      "数据分析",
+      "业务",
+      "蔚来"
+    ],
+    "source": "鼠鼠求职",
+    "updated": "2026-02",
+    "id": 221
+  },
+  {
+    "company": "拜耳(启东)",
+    "title": "生产数据分析实习生",
+    "city": "南通",
+    "type": "实习",
+    "salary": "面议",
+    "edu": "本科",
+    "exp": "3天/周 6个月",
+    "requirements": "药学/制药/化学/统计/计算机；Excel 与 PowerBI；英语听说读写。",
+    "tags": [
+      "数据分析",
+      "PowerBI",
+      "制药"
+    ],
+    "source": "全职招聘网",
+    "updated": "2026-08",
+    "id": 222
   }
 ]

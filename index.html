@@ -3,169 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>岗位 RAG · 实习/校招情报助手</title>
+<title>岗位 RAG 智能助手 · 长三角实习/校招</title>
 <style>
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-         background: #f4f6fb; color: #1f2330; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 18px; }
-  h1 { font-size: 20px; margin: 4px 0 2px; }
-  .sub { color: #6b7280; font-size: 13px; margin-bottom: 10px; }
-  .box { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; }
-  #log { height: 52vh; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-  .msg { padding: 10px 12px; border-radius: 10px; line-height: 1.6; font-size: 14px; white-space: pre-wrap; word-break: break-word; }
-  .user { background: #e8f0ff; align-self: flex-end; max-width: 85%; }
-  .bot  { background: #f1f3f7; align-self: flex-start; max-width: 92%; }
-  .src { margin-top: 8px; font-size: 12px; color: #475569; border-top: 1px dashed #cbd5e1; padding-top: 6px; }
-  .src b { color: #2563eb; }
-  .row { display: flex; gap: 8px; margin-top: 12px; }
-  input, textarea, select { font-size: 14px; padding: 9px 11px; border: 1px solid #d1d5db;
-         border-radius: 9px; outline: none; width: 100%; }
-  textarea { resize: vertical; }
-  button { background: #2563eb; color: #fff; border: 0; border-radius: 9px; padding: 9px 16px;
-           font-size: 14px; cursor: pointer; white-space: nowrap; }
-  button.ghost { background: #e5e7eb; color: #1f2330; }
-  .toggle { color: #2563eb; cursor: pointer; font-size: 13px; user-select: none; }
-  #addPanel { display: none; margin-top: 12px; }
-  #addPanel .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .hint { font-size: 12px; color: #6b7280; margin-top: 6px; }
-  .pill { display:inline-block; background:#eef2ff; color:#4338ca; border-radius:6px; padding:1px 7px; margin-right:4px; font-size:11px; }
-  .stats { display:flex; flex-wrap:wrap; gap:8px; margin: 4px 0 10px; }
-  .chip { font-size:12px; background:#eef2ff; color:#3730a3; border-radius:999px; padding:4px 10px; }
-  .chip b { color:#1d4ed8; }
-  .toolbar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-  .mini { font-size:12px; padding:6px 10px; }
+  :root{
+    --bg:#f5f7fb; --card:#ffffff; --line:#e6e9f0; --text:#1f2733;
+    --muted:#7a8699; --brand:#3b6cff; --brand2:#7a5cff; --chip:#eef2ff;
+    --user:#3b6cff; --bot:#f3f5fa;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:18px 16px 40px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  h1{font-size:20px;margin:0}
+  h1 small{color:var(--muted);font-weight:400;font-size:13px}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  select,button,input{font:inherit;font-size:14px}
+  select,input[type=text]{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text)}
+  button{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 12px;color:var(--text)}
+  button.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+  button.ghost{background:#fff}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .stat b{font-size:22px;display:block}
+  .stat span{color:var(--muted);font-size:12px}
+  .stat .sub{margin-top:6px;font-size:11px;color:var(--muted);max-height:54px;overflow:auto}
+  #chat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:320px;
+        max-height:58vh;overflow:auto;display:flex;flex-direction:column;gap:12px}
+  .msg{display:flex;gap:10px;max-width:92%}
+  .msg.user{align-self:flex-end;flex-direction:row-reverse}
+  .bubble{padding:10px 13px;border-radius:12px;white-space:pre-wrap;word-break:break-word}
+  .msg.user .bubble{background:var(--user);color:#fff;border-bottom-right-radius:4px}
+  .msg.bot .bubble{background:var(--bot);border:1px solid var(--line);border-bottom-left-radius:4px}
+  .avatar{width:30px;height:30px;border-radius:50%;flex:0 0 30px;display:flex;align-items:center;justify-content:center;
+          font-size:13px;color:#fff}
+  .msg.user .avatar{background:#5b8cff}
+  .msg.bot .avatar{background:linear-gradient(135deg,var(--brand),var(--brand2))}
+  .src{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .chip{background:var(--chip);border:1px solid #dbe2ff;color:#3147b0;font-size:12px;padding:3px 8px;border-radius:20px}
+  .srcbox{margin-top:8px;font-size:12px;color:var(--muted)}
+  .srcbox b{color:var(--text)}
+  .composer{display:flex;gap:8px;margin-top:12px;align-items:flex-end}
+  #q{flex:1;resize:none;height:46px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text)}
+  .opts{display:flex;gap:14px;align-items:center;margin-top:10px;color:var(--muted);font-size:13px;flex-wrap:wrap}
+  .opts label{display:flex;gap:6px;align-items:center;cursor:pointer}
+  .hint{color:#c0392b;background:#fff3f2;border:1px solid #f3c2bd;padding:10px 12px;border-radius:10px;margin:12px 0;display:none}
+  .typing::after{content:"▍";animation:blink 1s steps(2) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .tag{display:inline-block;background:#eef7ee;color:#2f7d32;border:1px solid #cdeccd;font-size:11px;padding:1px 7px;border-radius:10px;margin-right:4px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>岗位 RAG · 实习/校招情报助手</h1>
-  <div class="sub">基于真实招聘信息（无锡/苏州/南京/上海/常州/南通）的检索增强问答 · 直接用自然语言提问</div>
+  <header>
+    <h1>岗位 RAG 智能助手 <small>长三角实习 / 校招 / 社招</small></h1>
+    <div class="controls">
+      <button class="ghost" id="newBtn">新对话</button>
+      <button class="ghost" id="rebuildBtn">重建索引</button>
+    </div>
+  </header>
 
-  <div class="stats" id="stats"><span class="chip">加载数据统计中…</span></div>
+  <div id="filehint" class="hint">
+    ⚠️ 检测到你是用 <b>file://</b> 直接打开本文件，浏览器会拦截接口请求。<br>
+    请改为启动后端后用 <b>http://localhost:5000</b> 访问（终端运行 <code>python app.py</code>）。
+  </div>
 
-  <div class="box">
-    <div id="log"></div>
-    <div class="row">
-      <input id="q" placeholder="例：无锡有哪些接受本科、薪资 15k 以上的 AI 岗？" />
-      <button onclick="ask()">问一问</button>
-    </div>
-    <div class="toolbar" style="margin-top:10px">
-      <span class="toggle" onclick="toggleAdd()">+ 粘贴补充一条岗位（JD）</span>
-      <span style="flex:1"></span>
-      <button class="ghost mini" onclick="rebuild()">重建索引</button>
-    </div>
-    <div id="addPanel">
-      <div class="grid">
-        <input id="a_company" placeholder="公司" />
-        <input id="a_title" placeholder="岗位" />
-        <input id="a_city" placeholder="城市" />
-        <select id="a_type"><option>实习</option><option>校招</option><option>社招</option></select>
-        <input id="a_salary" placeholder="薪资" />
-        <input id="a_edu" placeholder="学历" />
-        <input id="a_exp" placeholder="经验" />
-        <input id="a_tags" placeholder="标签(逗号分隔)" />
-      </div>
-      <textarea id="a_req" rows="3" placeholder="任职要求 / JD 描述"></textarea>
-      <div class="row">
-        <button class="ghost" onclick="addJob()">加入岗位库</button>
-        <span class="hint" id="addHint">加入后它立即可被检索问答</span>
-      </div>
-    </div>
+  <div class="stats" id="stats">
+    <div class="stat"><b id="s-total">…</b><span>岗位总数</span></div>
+    <div class="stat"><b id="s-city">…</b><span>覆盖城市</span><div class="sub" id="s-city-sub"></div></div>
+    <div class="stat"><b id="s-type">…</b><span>类型分布</span><div class="sub" id="s-type-sub"></div></div>
+    <div class="stat"><b id="s-tag">…</b><span>热门方向</span><div class="sub" id="s-tag-sub"></div></div>
+  </div>
+
+  <div id="chat"></div>
+
+  <div class="composer">
+    <textarea id="q" placeholder="例如：无锡有哪些适合本科生的数据开发实习？"></textarea>
+    <button class="primary" id="sendBtn">发送</button>
+  </div>
+
+  <div class="opts">
+    <label>模型：
+      <select id="model">
+        <option value="v3">标准 V3（快）</option>
+        <option value="r1">深度思考 R1（慢/强）</option>
+      </select>
+    </label>
+    <label><input type="checkbox" id="smart"> 智能检索（先让 LLM 改写问题再检索）</label>
   </div>
 </div>
 
 <script>
-const BASE = location.origin;  // 指向当前站点，确保接口请求地址正确
-function showFatal(msg){
-  const log=document.getElementById("log");
-  const d=document.createElement("div");
-  d.className="msg bot"; d.style.whiteSpace="pre-wrap";
-  d.textContent=msg; log.appendChild(d); log.scrollTop=log.scrollHeight;
+const BASE = location.origin;
+if (location.protocol === "file:") document.getElementById("filehint").style.display = "block";
+
+let sessionId = null;
+
+const $ = (id) => document.getElementById(id);
+const chat = $("chat");
+
+function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+
+function addMsg(role, text){
+  const wrap = document.createElement("div");
+  wrap.className = "msg " + role;
+  wrap.innerHTML = `<div class="avatar">${role==="user"?"你":"AI"}</div>
+    <div class="bubble${role==='bot'?' typing':''}">${esc(text)||"…"}</div>`;
+  chat.appendChild(wrap);
+  chat.scrollTop = chat.scrollHeight;
+  return wrap.querySelector(".bubble");
 }
-if (location.protocol === "file:") {
-  showFatal("⚠️ 检测到你是用 file:// 直接打开本页面，浏览器会拦截接口请求，导致“Failed to fetch”。\n\n正确用法：在浏览器地址栏访问  http://localhost:5000  （需先运行 app.py 启动服务）");
+
+function renderSources(box, sources){
+  if(!sources || !sources.length) return;
+  const el = document.createElement("div");
+  el.className = "srcbox";
+  el.innerHTML = "<b>参考岗位：</b>";
+  const src = document.createElement("div");
+  src.className = "src";
+  sources.forEach(s=>{
+    const c = document.createElement("span");
+    c.className = "chip";
+    c.textContent = `${s.company}·${s.title}·${s.city}·${s.salary}`;
+    src.appendChild(c);
+  });
+  el.appendChild(src);
+  box.appendChild(el);
 }
-function addMsg(text, cls) {
-  const log = document.getElementById("log");
-  const d = document.createElement("div");
-  d.className = "msg " + cls;
-  d.textContent = text;
-  log.appendChild(d);
-  log.scrollTop = log.scrollHeight;
-  return d;
-}
+
 async function loadStats(){
-  if (location.protocol === "file:") return;
-  try {
+  try{
     const r = await fetch(BASE + "/stats");
-    if (!r.ok) throw new Error("HTTP "+r.status);
-    const s = await r.json();
-    const el = document.getElementById("stats");
-    const cities = Object.entries(s.by_city||{}).slice(0,8).map(([k,v])=>`${k} ${v}`).join(" · ");
-    const types = Object.entries(s.by_type||{}).map(([k,v])=>`${k} ${v}`).join(" · ");
-    el.innerHTML =
-      `<span class="chip">岗位总数 <b>${s.total}</b></span>` +
-      (types?`<span class="chip">${types}</span>`:"") +
-      (cities?`<span class="chip">${cities}</span>`:"");
-  } catch(e){
-    document.getElementById("stats").innerHTML = `<span class="chip">统计暂不可用</span>`;
-  }
+    const d = await r.json();
+    $("s-total").textContent = d.total;
+    const cities = Object.entries(d.by_city||{});
+    $("s-city").textContent = cities.length;
+    $("s-city-sub").innerHTML = cities.slice(0,6).map(([k,v])=>`${k} ${v}`).join(" · ");
+    const types = Object.entries(d.by_type||{});
+    $("s-type").textContent = types.length;
+    $("s-type-sub").innerHTML = types.map(([k,v])=>`${k} ${v}`).join(" · ");
+    const tags = Object.entries(d.top_tags||{});
+    $("s-tag").textContent = tags.length;
+    $("s-tag-sub").innerHTML = tags.slice(0,6).map(([k,v])=>`<span class="tag">${k}</span>`).join("");
+  }catch(e){ /* 后端未启动时不报错 */ }
 }
-async function ask() {
-  if (location.protocol === "file:") return;
-  const q = document.getElementById("q").value.trim();
-  if (!q) return;
-  document.getElementById("q").value = "";
-  addMsg(q, "user");
-  const bot = addMsg("检索中…", "bot");
-  try {
-    const r = await fetch(BASE + "/ask", {method:"POST", headers:{"Content-Type":"application/json"},
-                    body: JSON.stringify({question: q})});
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    const data = await r.json();
-    if (data.error) { bot.textContent = "⚠️ " + data.error; return; }
-    let html = data.answer || "(无回答)";
-    if (data.sources && data.sources.length) {
-      html += '\n\n— 参考岗位 —';
-      data.sources.forEach(s => {
-        html += `\n▸ <b>${s.company} · ${s.title}</b> ｜ ${s.city} ｜ ${s.salary} ｜ ${s.type}`;
-        if (s.tags) html += `  <span class="pill">${s.tags.split(",").join("</span> <span class='pill'>")}</span>`;
-      });
-    }
-    bot.innerHTML = html.replace(/\n/g, "<br>");
-  } catch (e) {
-    bot.textContent = "请求失败：" + e.message +
-      "\n（若已通过 http://localhost:5000 打开仍失败，说明后端服务未运行。请在 Desktop/RAG 目录执行 python app.py 启动）";
-  }
-}
-function toggleAdd(){ const p=document.getElementById("addPanel"); p.style.display = p.style.display==="none"?"block":"none"; }
-async function addJob(){
-  if (location.protocol === "file:") return;
-  const j = {
-    company: a_company.value, title: a_title.value, city: a_city.value, type: a_type.value,
-    salary: a_salary.value, edu: a_edu.value, exp: a_exp.value,
-    requirements: a_req.value, tags: a_tags.value.split(/[,，]/).map(x=>x.trim()).filter(Boolean)
+
+async function send(){
+  const q = $("q").value.trim();
+  if(!q) return;
+  $("q").value = "";
+  addMsg("user", q);
+  const botWrap = document.createElement("div");
+  botWrap.className = "msg bot";
+  botWrap.innerHTML = `<div class="avatar">AI</div><div class="bubble typing">思考中…</div>`;
+  chat.appendChild(botWrap);
+  chat.scrollTop = chat.scrollHeight;
+  const bubble = botWrap.querySelector(".bubble");
+
+  const payload = {
+    question: q,
+    model: $("model").value,
+    smart: $("smart").checked,
+    session_id: sessionId || "",
   };
-  if(!j.company || !j.title){ addHint.textContent="公司和岗位必填"; return; }
-  try {
-    const r = await fetch(BASE + "/add", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(j)});
-    const d = await r.json();
-    addHint.textContent = d.ok ? `已加入！当前库共 ${d.count} 条` : "加入失败："+(d.error||"");
-    if(d.ok){ [a_company,a_title,a_city,a_salary,a_edu,a_exp,a_tags,a_req].forEach(e=>e.value=""); loadStats(); }
-  } catch(e){ addHint.textContent = "加入失败：" + e.message; }
+
+  try{
+    const resp = await fetch(BASE + "/chat_stream", {
+      method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(payload),
+    });
+    if(!resp.ok){ bubble.classList.remove("typing"); bubble.textContent = "服务出错：" + resp.status; return; }
+    const reader = resp.body.getReader();
+    const dec = new TextDecoder();
+    let buf = "", full = "";
+    while(true){
+      const {done,value} = await reader.read();
+      if(done) break;
+      buf += dec.decode(value, {stream:true});
+      const parts = buf.split("\n\n");
+      buf = parts.pop();
+      for(const p of parts){
+        if(!p.startsWith("data:")) continue;
+        let obj; try{ obj = JSON.parse(p.slice(5).trim()); }catch(e){ continue; }
+        if(obj.type==="sources"){ sessionId = obj.session_id; renderSources(botWrap, obj.sources); }
+        else if(obj.type==="token"){ if(bubble.classList.contains("typing")){bubble.classList.remove("typing");bubble.textContent="";} bubble.textContent += obj.token; full += obj.token; chat.scrollTop = chat.scrollHeight; }
+        else if(obj.type==="done"){ sessionId = obj.session_id; }
+        else if(obj.type==="error"){ bubble.classList.remove("typing"); bubble.textContent = "出错：" + obj.error; }
+      }
+    }
+    if(bubble.classList.contains("typing")){ bubble.classList.remove("typing"); bubble.textContent = full || "（无返回）"; }
+  }catch(e){
+    bubble.classList.remove("typing");
+    bubble.textContent = "请求失败：" + e.message + "（请用 http://localhost:5000 访问，确认后端已启动）";
+  }
 }
-async function rebuild(){
-  if (location.protocol === "file:") return;
-  try {
-    const r = await fetch(BASE + "/rebuild", {method:"POST"});
-    const d = await r.json();
-    alert(d.ok ? `索引已重建，共 ${d.count} 条` : "重建失败：" + (d.error||""));
+
+$("sendBtn").onclick = send;
+$("q").addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); send(); }});
+$("newBtn").onclick = ()=>{ sessionId=null; chat.innerHTML=""; addMsg("bot","已开启新对话。我可以基于库内真实岗位回答投递、匹配、技能准备等问题。"); };
+$("rebuildBtn").onclick = async ()=>{
+  $("rebuildBtn").textContent = "重建中…";
+  try{ const r = await fetch(BASE+"/rebuild",{method:"POST"}); const d = await r.json();
+    alert(d.ok ? `重建完成，共 ${d.count} 条` : "重建失败：" + (d.error||""));
     loadStats();
-  } catch(e){ alert("重建失败：" + e.message); }
-}
-document.getElementById("q").addEventListener("keydown", e=>{ if(e.key==="Enter") ask(); });
+  }catch(e){ alert("重建失败："+e.message); }
+  $("rebuildBtn").textContent = "重建索引";
+};
+
 loadStats();
+addMsg("bot","你好，我是岗位 RAG 助手。库内已收录长三角多地真实在招岗位，问我“某城市某方向的实习/校招要求”即可，我会检索资料并给出分析与建议。");
 </script>
 </body>
 </html>
