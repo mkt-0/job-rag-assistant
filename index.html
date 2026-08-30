@@ -6,66 +6,90 @@
 <title>岗位 RAG 智能助手 · 长三角实习/校招</title>
 <style>
   :root{
-    --bg:#f5f7fb; --card:#ffffff; --line:#e6e9f0; --text:#1f2733;
-    --muted:#7a8699; --brand:#3b6cff; --brand2:#7a5cff; --chip:#eef2ff;
-    --user:#3b6cff; --bot:#f3f5fa;
+    --bg:#f4f6fb; --card:#ffffff; --line:#e7ebf3; --text:#1b2330; --muted:#7c8699;
+    --brand:#3b6cff; --brand2:#7a5cff; --brand-soft:#eef2ff; --chip:#eef2ff; --chip-line:#d7e0ff;
+    --user:#3b6cff; --ok:#1f9d57; --warn:#e0533d;
+    --shadow:0 6px 24px rgba(31,39,51,.08);
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-       background:var(--bg);color:var(--text);line-height:1.6}
-  .wrap{max-width:920px;margin:0 auto;padding:18px 16px 40px}
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  h1{font-size:20px;margin:0}
-  h1 small{color:var(--muted);font-weight:400;font-size:13px}
+  html,body{height:100%}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+       background:var(--bg);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:20px 16px 48px;display:flex;flex-direction:column;min-height:100vh}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));
+        display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;box-shadow:var(--shadow)}
+  h1{font-size:19px;margin:0;font-weight:700;letter-spacing:.2px}
+  h1 small{display:block;color:var(--muted);font-weight:400;font-size:12.5px;margin-top:2px}
   .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  select,button,input{font:inherit;font-size:14px}
-  select,input[type=text]{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text)}
-  button{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 12px;color:var(--text)}
-  button.primary{background:var(--brand);border-color:var(--brand);color:#fff}
-  button.ghost{background:#fff}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-  .stat b{font-size:22px;display:block}
+  .btn{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 13px;font-size:13.5px;
+       color:var(--text);transition:.15s;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{border-color:var(--brand);color:var(--brand)}
+  .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));border:none;color:#fff;box-shadow:var(--shadow)}
+  .btn.primary:hover{filter:brightness(1.05);color:#fff}
+
+  .hint{color:var(--warn);background:#fff4f1;border:1px solid #f6cdc4;padding:11px 14px;border-radius:11px;margin:12px 0;display:none;font-size:13.5px}
+  .hint code{background:#fde7e1;padding:1px 6px;border-radius:5px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px;margin-bottom:14px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 15px;box-shadow:var(--shadow)}
+  .stat b{font-size:23px;display:block;background:linear-gradient(135deg,var(--brand),var(--brand2));
+          -webkit-background-clip:text;background-clip:text;color:transparent}
   .stat span{color:var(--muted);font-size:12px}
-  .stat .sub{margin-top:6px;font-size:11px;color:var(--muted);max-height:54px;overflow:auto}
-  #chat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:320px;
-        max-height:58vh;overflow:auto;display:flex;flex-direction:column;gap:12px}
-  .msg{display:flex;gap:10px;max-width:92%}
+  .stat .sub{margin-top:7px;font-size:11px;color:var(--muted);max-height:56px;overflow:auto;line-height:1.5}
+  .tag{display:inline-block;background:#eafaf0;color:#1f7a45;border:1px solid #c9eccf;font-size:10.5px;
+       padding:1px 7px;border-radius:10px;margin:1px 2px 1px 0}
+
+  #chat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;min-height:340px;
+        max-height:60vh;overflow:auto;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+  .msg{display:flex;gap:11px;max-width:94%;animation:rise .25s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .msg.user{align-self:flex-end;flex-direction:row-reverse}
-  .bubble{padding:10px 13px;border-radius:12px;white-space:pre-wrap;word-break:break-word}
-  .msg.user .bubble{background:var(--user);color:#fff;border-bottom-right-radius:4px}
-  .msg.bot .bubble{background:var(--bot);border:1px solid var(--line);border-bottom-left-radius:4px}
-  .avatar{width:30px;height:30px;border-radius:50%;flex:0 0 30px;display:flex;align-items:center;justify-content:center;
-          font-size:13px;color:#fff}
-  .msg.user .avatar{background:#5b8cff}
+  .avatar{width:32px;height:32px;border-radius:50%;flex:0 0 32px;display:flex;align-items:center;justify-content:center;
+          font-size:13px;color:#fff;font-weight:600}
+  .msg.user .avatar{background:#6a8dff}
   .msg.bot .avatar{background:linear-gradient(135deg,var(--brand),var(--brand2))}
-  .src{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-  .chip{background:var(--chip);border:1px solid #dbe2ff;color:#3147b0;font-size:12px;padding:3px 8px;border-radius:20px}
-  .srcbox{margin-top:8px;font-size:12px;color:var(--muted)}
-  .srcbox b{color:var(--text)}
-  .composer{display:flex;gap:8px;margin-top:12px;align-items:flex-end}
-  #q{flex:1;resize:none;height:46px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text)}
-  .opts{display:flex;gap:14px;align-items:center;margin-top:10px;color:var(--muted);font-size:13px;flex-wrap:wrap}
-  .opts label{display:flex;gap:6px;align-items:center;cursor:pointer}
-  .hint{color:#c0392b;background:#fff3f2;border:1px solid #f3c2bd;padding:10px 12px;border-radius:10px;margin:12px 0;display:none}
-  .typing::after{content:"▍";animation:blink 1s steps(2) infinite}
+  .bubble{padding:11px 14px;border-radius:13px;white-space:pre-wrap;word-break:break-word;font-size:14.5px}
+  .msg.user .bubble{background:linear-gradient(135deg,var(--brand),#5a7dff);color:#fff;border-bottom-right-radius:4px}
+  .msg.bot .bubble{background:#f6f8fc;border:1px solid var(--line);border-bottom-left-radius:4px}
+  .bubble b{color:var(--brand);font-weight:700}
+  .bubble .src-title{color:var(--muted);font-size:12.5px;margin:10px 0 6px;font-weight:600}
+  .src{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+  .src .chip{background:var(--chip);border:1px solid var(--chip-line);color:#3147b0;font-size:12px;padding:4px 10px;
+             border-radius:20px;cursor:default;transition:.15s}
+  .src .chip:hover{background:#e0e8ff;transform:translateY(-1px)}
+  .typing::after{content:"▍";color:var(--brand);animation:blink 1s steps(2) infinite}
   @keyframes blink{50%{opacity:0}}
-  .tag{display:inline-block;background:#eef7ee;color:#2f7d32;border:1px solid #cdeccd;font-size:11px;padding:1px 7px;border-radius:10px;margin-right:4px}
+
+  .composer{display:flex;gap:9px;margin-top:13px;align-items:flex-end}
+  #q{flex:1;resize:none;height:50px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;
+     color:var(--text);font:inherit;font-size:14.5px;line-height:1.5;box-shadow:var(--shadow)}
+  #q:focus{outline:none;border-color:var(--brand)}
+  .opts{display:flex;gap:16px;align-items:center;margin-top:11px;color:var(--muted);font-size:13px;flex-wrap:wrap}
+  .opts label{display:flex;gap:7px;align-items:center;cursor:pointer;user-select:none}
+  select{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text);font:inherit;font-size:13.5px}
+  input[type=checkbox]{width:16px;height:16px;accent-color:var(--brand)}
+  .pill{font-size:11px;color:var(--muted);background:#eef1f6;border:1px solid var(--line);padding:2px 9px;border-radius:20px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>岗位 RAG 智能助手 <small>长三角实习 / 校招 / 社招</small></h1>
+    <div class="brand">
+      <div class="logo">R</div>
+      <h1>岗位 RAG 智能助手 <small>长三角实习 · 校招 · 社招 · 多轮对话</small></h1>
+    </div>
     <div class="controls">
-      <button class="ghost" id="newBtn">新对话</button>
-      <button class="ghost" id="rebuildBtn">重建索引</button>
+      <button class="btn" id="newBtn">＋ 新对话</button>
+      <button class="btn" id="rebuildBtn">↻ 重建索引</button>
     </div>
   </header>
 
   <div id="filehint" class="hint">
     ⚠️ 检测到你是用 <b>file://</b> 直接打开本文件，浏览器会拦截接口请求。<br>
-    请改为启动后端后用 <b>http://localhost:5000</b> 访问（终端运行 <code>python app.py</code>）。
+    请改为启动后端后用 <b>http://localhost:5000</b> 访问（终端运行 <code>python app.py</code>，或双击 <code>run.bat</code>）。
   </div>
 
   <div class="stats" id="stats">
@@ -78,8 +102,8 @@
   <div id="chat"></div>
 
   <div class="composer">
-    <textarea id="q" placeholder="例如：无锡有哪些适合本科生的数据开发实习？"></textarea>
-    <button class="primary" id="sendBtn">发送</button>
+    <textarea id="q" placeholder="例如：无锡有哪些适合本科生的数据开发实习？ / 南京算法岗对学历要求高吗？"></textarea>
+    <button class="btn primary" id="sendBtn">发送 ➤</button>
   </div>
 
   <div class="opts">
@@ -89,7 +113,8 @@
         <option value="r1">深度思考 R1（慢/强）</option>
       </select>
     </label>
-    <label><input type="checkbox" id="smart"> 智能检索（先让 LLM 改写问题再检索）</label>
+    <label><input type="checkbox" id="smart" checked> 智能检索（LLM 改写问题，命中更准）</label>
+    <span class="pill" id="statusPill">就绪</span>
   </div>
 </div>
 
@@ -98,43 +123,46 @@ const BASE = location.origin;
 if (location.protocol === "file:") document.getElementById("filehint").style.display = "block";
 
 let sessionId = null;
-
 const $ = (id) => document.getElementById(id);
 const chat = $("chat");
 
 function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+// 极简 markdown：保留换行，**粗体**，【来源】高亮
+function mdLite(s){
+  return esc(s)
+    .replace(/\*\*(.+?)\*\*/g,"<b>$1</b>")
+    .replace(/【(.+?)】/g,'<span style="color:var(--brand);font-weight:600">【$1】</span>');
+}
+function setStatus(t){ $("statusPill").textContent = t; }
 
-function addMsg(role, text){
+function addMsg(role, html){
   const wrap = document.createElement("div");
   wrap.className = "msg " + role;
   wrap.innerHTML = `<div class="avatar">${role==="user"?"你":"AI"}</div>
-    <div class="bubble${role==='bot'?' typing':''}">${esc(text)||"…"}</div>`;
+    <div class="bubble${role==='bot'?' typing':''}">${html||"…"}</div>`;
   chat.appendChild(wrap);
   chat.scrollTop = chat.scrollHeight;
   return wrap.querySelector(".bubble");
 }
-
 function renderSources(box, sources){
   if(!sources || !sources.length) return;
   const el = document.createElement("div");
-  el.className = "srcbox";
-  el.innerHTML = "<b>参考岗位：</b>";
-  const src = document.createElement("div");
-  src.className = "src";
+  el.className = "src-title"; el.textContent = "参考岗位";
+  const src = document.createElement("div"); src.className = "src";
   sources.forEach(s=>{
     const c = document.createElement("span");
     c.className = "chip";
     c.textContent = `${s.company}·${s.title}·${s.city}·${s.salary}`;
     src.appendChild(c);
   });
-  el.appendChild(src);
-  box.appendChild(el);
+  box.appendChild(el); box.appendChild(src);
 }
 
 async function loadStats(){
   try{
     const r = await fetch(BASE + "/stats");
     const d = await r.json();
+    if(d.error) return;
     $("s-total").textContent = d.total;
     const cities = Object.entries(d.by_city||{});
     $("s-city").textContent = cities.length;
@@ -144,7 +172,7 @@ async function loadStats(){
     $("s-type-sub").innerHTML = types.map(([k,v])=>`${k} ${v}`).join(" · ");
     const tags = Object.entries(d.top_tags||{});
     $("s-tag").textContent = tags.length;
-    $("s-tag-sub").innerHTML = tags.slice(0,6).map(([k,v])=>`<span class="tag">${k}</span>`).join("");
+    $("s-tag-sub").innerHTML = tags.slice(0,6).map(([k])=>`<span class="tag">${k}</span>`).join("");
   }catch(e){ /* 后端未启动时不报错 */ }
 }
 
@@ -152,26 +180,22 @@ async function send(){
   const q = $("q").value.trim();
   if(!q) return;
   $("q").value = "";
-  addMsg("user", q);
+  addMsg("user", esc(q));
   const botWrap = document.createElement("div");
   botWrap.className = "msg bot";
   botWrap.innerHTML = `<div class="avatar">AI</div><div class="bubble typing">思考中…</div>`;
   chat.appendChild(botWrap);
   chat.scrollTop = chat.scrollHeight;
   const bubble = botWrap.querySelector(".bubble");
+  setStatus("生成中…");
 
-  const payload = {
-    question: q,
-    model: $("model").value,
-    smart: $("smart").checked,
-    session_id: sessionId || "",
-  };
+  const payload = { question:q, model:$("model").value, smart:$("smart").checked, session_id:sessionId||"" };
 
   try{
     const resp = await fetch(BASE + "/chat_stream", {
       method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(payload),
     });
-    if(!resp.ok){ bubble.classList.remove("typing"); bubble.textContent = "服务出错：" + resp.status; return; }
+    if(!resp.ok){ bubble.classList.remove("typing"); bubble.innerHTML = "服务出错：" + resp.status; setStatus("错误"); return; }
     const reader = resp.body.getReader();
     const dec = new TextDecoder();
     let buf = "", full = "";
@@ -185,15 +209,20 @@ async function send(){
         if(!p.startsWith("data:")) continue;
         let obj; try{ obj = JSON.parse(p.slice(5).trim()); }catch(e){ continue; }
         if(obj.type==="sources"){ sessionId = obj.session_id; renderSources(botWrap, obj.sources); }
-        else if(obj.type==="token"){ if(bubble.classList.contains("typing")){bubble.classList.remove("typing");bubble.textContent="";} bubble.textContent += obj.token; full += obj.token; chat.scrollTop = chat.scrollHeight; }
+        else if(obj.type==="token"){
+          if(bubble.classList.contains("typing")){ bubble.classList.remove("typing"); bubble.textContent=""; }
+          bubble.innerHTML += mdLite(obj.token); full += obj.token; chat.scrollTop = chat.scrollHeight;
+        }
         else if(obj.type==="done"){ sessionId = obj.session_id; }
-        else if(obj.type==="error"){ bubble.classList.remove("typing"); bubble.textContent = "出错：" + obj.error; }
+        else if(obj.type==="error"){ bubble.classList.remove("typing"); bubble.innerHTML += "出错：" + esc(obj.error); }
       }
     }
-    if(bubble.classList.contains("typing")){ bubble.classList.remove("typing"); bubble.textContent = full || "（无返回）"; }
+    if(bubble.classList.contains("typing")){ bubble.classList.remove("typing"); bubble.innerHTML = mdLite(full || "（无返回）"); }
+    setStatus("就绪");
   }catch(e){
     bubble.classList.remove("typing");
-    bubble.textContent = "请求失败：" + e.message + "（请用 http://localhost:5000 访问，确认后端已启动）";
+    bubble.innerHTML = "请求失败：" + esc(e.message) + "<br>（请用 http://localhost:5000 访问，确认后端已启动）";
+    setStatus("错误");
   }
 }
 
@@ -201,16 +230,17 @@ $("sendBtn").onclick = send;
 $("q").addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); send(); }});
 $("newBtn").onclick = ()=>{ sessionId=null; chat.innerHTML=""; addMsg("bot","已开启新对话。我可以基于库内真实岗位回答投递、匹配、技能准备等问题。"); };
 $("rebuildBtn").onclick = async ()=>{
-  $("rebuildBtn").textContent = "重建中…";
-  try{ const r = await fetch(BASE+"/rebuild",{method:"POST"}); const d = await r.json();
+  $("rebuildBtn").textContent = "重建中…"; setStatus("重建索引…");
+  try{
+    const r = await fetch(BASE+"/rebuild",{method:"POST"}); const d = await r.json();
     alert(d.ok ? `重建完成，共 ${d.count} 条` : "重建失败：" + (d.error||""));
-    loadStats();
+    loadStats(); setStatus("就绪");
   }catch(e){ alert("重建失败："+e.message); }
-  $("rebuildBtn").textContent = "重建索引";
+  $("rebuildBtn").textContent = "↻ 重建索引";
 };
 
 loadStats();
-addMsg("bot","你好，我是岗位 RAG 助手。库内已收录长三角多地真实在招岗位，问我“某城市某方向的实习/校招要求”即可，我会检索资料并给出分析与建议。");
+addMsg("bot","你好，我是岗位 RAG 助手。库内已收录长三角多地岗位，问我“某城市某方向的实习/校招要求”即可，我会检索资料并给出分析与建议。");
 </script>
 </body>
 </html>
