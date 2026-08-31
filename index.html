@@ -137,6 +137,19 @@
   .sc-edu{background:var(--brand-soft);color:var(--brand);border:1px solid var(--chip-line);padding:1px 8px;border-radius:8px;font-size:10.5px;font-weight:600}
   .sc-tag{background:var(--chip);color:var(--chip-text);border:1px solid var(--chip-line);padding:1px 8px;border-radius:8px;font-size:10.5px}
 
+  /* 来源卡片：顶部公司 + 可信度徽章 */
+  .sc-top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px}
+  .sc-badge{font-size:10px;padding:1px 7px;border-radius:8px;font-weight:600;white-space:nowrap;flex:0 0 auto}
+  .sc-badge.real{background:rgba(31,157,87,.13);color:var(--ok);border:1px solid rgba(31,157,87,.32)}
+  .sc-badge.ai{background:var(--chip);color:var(--muted);border:1px solid var(--chip-line)}
+  .sc-req{font-size:11px;color:var(--muted);line-height:1.55;margin:5px 0 0;max-height:48px;overflow:hidden}
+
+  /* 数据可信度图例 */
+  .legend{font-size:12px;color:var(--muted);margin:-6px 0 14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .lg{font-size:10.5px;padding:1px 8px;border-radius:8px;font-weight:600}
+  .lg.real{background:rgba(31,157,87,.13);color:var(--ok);border:1px solid rgba(31,157,87,.32)}
+  .lg.ai{background:var(--chip);color:var(--muted);border:1px solid var(--chip-line)}
+
   /* 消息复制按钮 */
   .msg.bot{position:relative}
   .copy-btn{position:absolute;top:3px;right:3px;width:27px;height:27px;border:1px solid var(--line);background:var(--card);
@@ -190,7 +203,14 @@
     <div class="stat"><b id="s-total">…</b><span>岗位总数</span></div>
     <div class="stat"><b id="s-city">…</b><span>覆盖城市</span><div class="sub" id="s-city-sub"></div></div>
     <div class="stat"><b id="s-type">…</b><span>类型分布</span><div class="sub" id="s-type-sub"></div></div>
+    <div class="stat"><b id="s-edu">…</b><span>学历要求</span><div class="sub" id="s-edu-sub"></div></div>
     <div class="stat"><b id="s-tag">…</b><span>热门方向</span><div class="sub" id="s-tag-sub"></div></div>
+  </div>
+
+  <div class="legend">
+    数据可信度：
+    <span class="lg real">真实核校</span> 人工核校公开渠道
+    <span class="lg ai">AI扩充</span> 大模型合成，仅供演示
   </div>
 
   <div class="quick" id="quick">
@@ -283,12 +303,21 @@ function renderSources(box, sources){
   const grid = document.createElement("div"); grid.className = "src-grid";
   sources.forEach(s=>{
     const c = document.createElement("div"); c.className = "src-card";
+    const isAI = (s.source||"") === "ai-augmented";
     const sal = (s.salary && s.salary !== "面议") ? s.salary : "薪资面议";
+    const meta = [s.city, sal, s.exp].filter(Boolean).join(" · ");
     const tags = (s.tags||"").split(",").map(t=>t.trim()).filter(Boolean).slice(0,3)
       .map(t=>`<span class="sc-tag">${esc(t)}</span>`).join("");
-    c.innerHTML = `<div class="sc-company"><span class="sc-dot"></span>${esc(s.company||"")}</div>
+    const req = (s.requirements||"").trim();
+    const reqShort = req.length > 42 ? req.slice(0,42)+"…" : req;
+    c.innerHTML = `
+      <div class="sc-top">
+        <div class="sc-company"><span class="sc-dot"></span>${esc(s.company||"")}</div>
+        <span class="sc-badge ${isAI?'ai':'real'}">${isAI?'AI扩充':'真实核校'}</span>
+      </div>
       <div class="sc-title">${esc(s.title||"")}</div>
-      <div class="sc-meta">${esc(s.city||"")} · ${esc(sal)}</div>
+      <div class="sc-meta">${esc(meta)}</div>
+      ${reqShort?`<div class="sc-req">${esc(reqShort)}</div>`:""}
       <div class="sc-foot">
         ${s.edu?`<span class="sc-edu">${esc(s.edu)}</span>`:""}${tags}
       </div>`;
@@ -309,6 +338,9 @@ async function loadStats(){
     const types = Object.entries(d.by_type||{});
     $("s-type").textContent = types.length;
     $("s-type-sub").innerHTML = types.slice(0,4).map(([k,v])=>`${k} ${v}`).join(" · ");
+    const edus = Object.entries(d.by_edu||{});
+    $("s-edu").textContent = edus.length;
+    $("s-edu-sub").innerHTML = edus.slice(0,4).map(([k,v])=>`${k} ${v}`).join(" · ");
     const tags = Object.entries(d.top_tags||{});
     $("s-tag").textContent = tags.length;
     $("s-tag-sub").innerHTML = tags.slice(0,6).map(([k])=>`<span class="tag">${k}</span>`).join("");

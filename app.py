@@ -14,6 +14,7 @@
 """
 import os
 import json
+import collections
 import secrets
 import threading
 import chromadb
@@ -64,10 +65,27 @@ def _sources_from(metas):
         {
             "company": m["company"], "title": m["title"], "city": m["city"],
             "salary": m["salary"], "type": m["type"], "tags": m.get("tags", ""),
-            "edu": m.get("edu", ""),
+            "edu": m.get("edu", ""), "exp": m.get("exp", ""),
+            "requirements": m.get("requirements", ""), "source": m.get("source", ""),
         }
         for m in metas
     ]
+
+
+def normalize_edu(e):
+    """把杂乱的学历字段归并为看板用的少数桶。"""
+    e = (e or "").replace("（", "(").replace("）", ")")
+    if "博士" in e:
+        return "博士"
+    if "硕士" in e:
+        return "硕士"
+    if "大专" in e or "中专" in e:
+        return "大专/中专"
+    if "不限" in e:
+        return "不限"
+    if "本科" in e:
+        return "本科"
+    return "其他"
 
 
 @app.route("/health")
@@ -104,6 +122,7 @@ def ask():
         smart = bool(data.get("smart"))
         q_search = rewrite_query(client, q) if smart else q
 
+        metas = []
         docs, metas = retrieve(client, col, q_search, n=5)
         if not docs:
             return jsonify({"answer": "资料库中暂无相关岗位，换个关键词试试？", "sources": []})
@@ -113,11 +132,7 @@ def ask():
         answer = resp.choices[0].message.content
         return jsonify({"answer": answer, "sources": _sources_from(metas)})
     except Exception as e:
-        # 降级：生成失败但检索到了资料
-        try:
-            _, metas = retrieve(client, col, q, n=5)
-        except Exception:
-            metas = []
+        # 降级：生成失败但检索到了资料（复用已检索 metas，避免重复嵌入）
         if metas:
             return jsonify({"answer": fallback_answer(metas),
                             "sources": _sources_from(metas), "degraded": True})
@@ -188,6 +203,7 @@ def chat():
         hist = sessions.get(sid, [])
 
         q_search = rewrite_query(client, q) if smart else q
+        metas = []
         docs, metas = retrieve(client, col, q_search, n=5)
         if not docs:
             return jsonify({"session_id": sid, "answer": "资料库中暂无相关岗位，换个关键词试试？",
@@ -206,12 +222,8 @@ def chat():
             "sources": _sources_from(metas), "history": sessions[sid],
         })
     except Exception as e:
-        try:
-            _, metas = retrieve(client, col, q, n=5)
-        except Exception:
-            metas = []
         if metas:
-            return jsonify({"session_id": data.get("session_id") or secrets.token_hex(8),
+            return jsonify({"session_id": sid,
                             "answer": fallback_answer(metas),
                             "sources": _sources_from(metas), "degraded": True})
         return jsonify({"error": f"处理失败：{e}"}), 500
@@ -286,7 +298,6 @@ def jobs():
 
 @app.route("/stats", methods=["GET"])
 def stats():
-    import collections
     try:
         c = _safe_col()
         data = c.get(include=["metadatas"])
@@ -299,6 +310,7 @@ def stats():
                 cy = "其他"
             by_city[cy] += 1
         by_type = collections.Counter(m["type"] for m in metas)
+        by_edu = collections.Counter(normalize_edu(m.get("edu", "")) for m in metas)
         by_tag = collections.Counter()
         for m in metas:
             for t in (m.get("tags") or "").split(","):
@@ -309,6 +321,7 @@ def stats():
             "total": len(metas),
             "by_city": dict(by_city.most_common()),
             "by_type": dict(by_type),
+            "by_edu": dict(by_edu.most_common()),
             "top_tags": dict(by_tag.most_common(15)),
         })
     except Exception as e:

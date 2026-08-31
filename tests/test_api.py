@@ -18,9 +18,10 @@ def test_stats_structure():
     r = client.get("/stats")
     assert r.status_code == 200
     d = r.get_json()
-    for k in ("total", "by_city", "by_type", "top_tags"):
+    for k in ("total", "by_city", "by_type", "by_edu", "top_tags"):
         assert k in d
     assert isinstance(d["total"], int)
+    assert isinstance(d["by_edu"], dict)
 
 
 def test_jobs_structure():

@@ -7,3 +7,10 @@ chroma_db/
 # Python 缓存
 __pycache__/
 *.pyc
+
+# 运行日志（服务 / 采集脚本输出）
+server.log
+collect.log
+
+# 本地启动虚拟环境
+.venv/

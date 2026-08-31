@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-岗位采集 / 扩充脚本
+岗位采集 / 扩充脚本（并发版）
 ====================
 用法：
-  python collect_jobs.py --target 1000
-      基于「现有真实岗位 + 广度种子公司」，用硅基流动 DeepSeek 生成更多结构化岗位，
+  python collect_jobs.py --target 2000
+      基于「现有真实岗位 + 广度种子公司」，用硅基流动 DeepSeek 并发生成更多结构化岗位，
       写入 jobs.json。生成项 source 标为 "ai-augmented"，与人工核校的真实采集项区分。
-  python collect_jobs.py --target 800 --per-seed 3 --dry-run
+  python collect_jobs.py --target 2000 --workers 8 --per-call 12
+      提高并发 worker 数与每调用变体数，进一步提速（注意免费额度下的限流）。
+  python collect_jobs.py --target 2000 --dry-run
       只统计将要生成多少条，不落盘。
 
 设计说明（重要）：
@@ -19,7 +21,11 @@ import os
 import sys
 import json
 import time
+import queue
+import random
 import argparse
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rag_core import API_KEY, make_client, CITY_BASE
@@ -27,7 +33,7 @@ from rag_core import API_KEY, make_client, CITY_BASE
 HERE = os.path.dirname(os.path.abspath(__file__))
 JOBS_PATH = os.path.join(HERE, "jobs.json")
 
-# 广度种子：现有 222 条之外，补充真实公司的城市 × 方向覆盖
+# 广度种子：现有真实岗位之外，补充真实公司的城市 × 方向覆盖
 SEEDS_BREADTH = [
     ("阿里巴巴", "杭州", "算法工程师实习"),
     ("网易", "杭州", "数据分析实习"),
@@ -108,12 +114,10 @@ def build_seeds(existing):
 def parse_variants(text):
     """从模型输出稳健解析 JSON 数组。"""
     t = text.strip()
-    # 去掉 ```json ... ``` 围栏
     if "```" in t:
         t = t.split("```", 2)[1]
         if t.startswith("json"):
             t = t[4:]
-    # 截取第一个 [ 到最后一个 ]
     a, b = t.find("["), t.rfind("]")
     if a == -1 or b == -1:
         return []
@@ -136,7 +140,7 @@ def call_llm(client, model, content, retries=3):
             )
         except Exception as e:
             last = e
-            print(f"    ⚠ 调用失败({i+1}/{retries})：{e}")
+            print(f"    ⚠ 调用失败({i+1}/{retries})：{e}", flush=True)
             time.sleep(2 * (i + 1))
     raise last
 
@@ -154,10 +158,87 @@ def make_prompt(company, city, title, k):
     )
 
 
+def worker(q, jobs_out, lock, stop, counter, need, per, seen_keys, next_id_box):
+    """从种子队列取任务，生成变体并去重入队；达到 need 即触发停止。"""
+    try:
+        client = make_client()
+    except Exception as e:
+        print(f"  ✗ worker 初始化失败（无 key？）：{e}", flush=True)
+        stop.set()
+        return
+    model = "deepseek-ai/DeepSeek-V3"
+    while not stop.is_set():
+        try:
+            seed = q.get(timeout=2)
+        except queue.Empty:
+            break
+        company, city, title = seed
+        try:
+            r = call_llm(client, model, make_prompt(company, city, title, per))
+            variants = parse_variants(r.choices[0].message.content or "")
+        except Exception as e:
+            print(f"  ✗ [{company}/{city}] 生成失败：{e}", flush=True)
+            q.task_done()
+            continue
+
+        local = []
+        for v in variants:
+            if stop.is_set():
+                break
+            try:
+                company_v = str(v.get("company", company)).strip() or company
+                title_v = str(v.get("title", title)).strip() or title
+                city_v = str(v.get("city", city)).strip() or city
+                if not any(city_v.startswith(c) for c in CITY_BASE):
+                    city_v = city
+                req_v = str(v.get("requirements", "")).strip()
+                if not req_v:
+                    continue
+                key = (company_v, title_v, city_v, req_v[:30])
+                tags = v.get("tags", [])
+                if isinstance(tags, str):
+                    tags = [t for t in tags.replace("，", ",").split(",") if t.strip()][:5]
+                job = {
+                    "id": 0,  # 占位，主线程统一分配
+                    "company": company_v, "title": title_v, "city": city_v,
+                    "type": str(v.get("type", "实习")).strip() or "实习",
+                    "salary": str(v.get("salary", "面议")).strip(),
+                    "edu": str(v.get("edu", "本科")).strip(),
+                    "exp": str(v.get("exp", "不限")).strip(),
+                    "requirements": req_v,
+                    "tags": tags[:5],
+                    "source": "ai-augmented",
+                    "updated": "2026-08",
+                }
+                local.append((key, job))
+            except Exception:
+                continue
+
+        with lock:
+            for key, job in local:
+                if stop.is_set():
+                    break
+                if key in seen_keys:
+                    continue
+                if counter["n"] >= need:
+                    stop.set()
+                    break
+                seen_keys.add(key)
+                counter["n"] += 1
+                job["id"] = next_id_box["v"]
+                next_id_box["v"] += 1
+                jobs_out.append(job)
+        q.task_done()
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--target", type=int, default=1000, help="目标总条数（含现有）")
-    ap.add_argument("--per-seed", type=int, default=None, help="每种子生成变体数（默认按缺口自动算）")
+    ap.add_argument("--target", type=int, default=2000, help="目标总条数（含现有）")
+    ap.add_argument("--per-call", type=int, default=12, dest="per_call",
+                    help="每调用生成变体数（默认 12，控成本/质量）")
+    ap.add_argument("--per-seed", type=int, dest="per_call",
+                    help="（兼容旧参数）同 --per-call")
+    ap.add_argument("--workers", type=int, default=6, help="并发 worker 数（默认 6）")
     ap.add_argument("--dry-run", action="store_true", help="只统计不落盘")
     args = ap.parse_args()
 
@@ -174,80 +255,53 @@ def main():
         return
 
     seeds = build_seeds(jobs)
-    per = args.per_seed or max(1, -(-need // len(seeds)))  # 向上取整
-    per = min(per, 6)  # 单请求上限，控成本
-
-    print(f"当前 {current} 条，目标 {args.target}，需新增约 {need} 条")
-    print(f"种子 {len(seeds)} 个，每种子约生成 {per} 条 -> 预估新增 {len(seeds)*per} 条\n")
+    random.shuffle(seeds)
 
     if args.dry_run:
-        print("[dry-run] 不写入文件。")
+        print(f"[dry-run] 当前 {current} 条，目标 {args.target}，需新增 {need}；"
+              f"可用种子 {len(seeds)} 个，并发 {args.workers} worker。")
         return
 
-    client = make_client()
-    model = "deepseek-ai/DeepSeek-V3"
-    next_id = max((j["id"] for j in jobs), default=0) + 1
+    q = queue.Queue()
+    for s in seeds:
+        q.put(s)
     seen_keys = set(
-        (j["company"], j["title"], j["city"], j["requirements"][:30]) for j in jobs
+        (j["company"], j["title"], j["city"], j.get("requirements", "")[:30]) for j in jobs
     )
+    jobs_out = []
+    counter = {"n": 0}
+    next_id_box = {"v": max((j["id"] for j in jobs), default=0) + 1}
+    lock = threading.Lock()
+    stop = threading.Event()
 
-    added = 0
-    for idx, (company, city, title) in enumerate(seeds, 1):
-        if added >= need:
-            break
+    print(f"当前 {current} 条，目标 {args.target}，需新增 {need}")
+    print(f"并发 {args.workers} worker，每调用生成 {args.per_call} 变体，种子 {len(seeds)} 个\n")
+    start = time.time()
+
+    with ThreadPoolExecutor(max_workers=args.workers) as ex:
+        futures = [
+            ex.submit(worker, q, jobs_out, lock, stop, counter, need, args.per_call, seen_keys, next_id_box)
+            for _ in range(args.workers)
+        ]
         try:
-            r = call_llm(client, model, make_prompt(company, city, title, per))
-            variants = parse_variants(r.choices[0].message.content or "")
-        except Exception as e:
-            print(f"  ✗ [{idx}/{len(seeds)}] {company}/{city} 生成失败：{e}")
-            continue
-
-        for v in variants:
-            if added >= need:
-                break
+            while not stop.is_set():
+                time.sleep(5)
+                with lock:
+                    n = counter["n"]
+                print(f"  进度 {n}/{need}（{int(time.time()-start)}s）", flush=True)
+                if n >= need:
+                    break
+        except KeyboardInterrupt:
+            stop.set()
+        for f in futures:
             try:
-                company_v = str(v.get("company", company)).strip() or company
-                title_v = str(v.get("title", title)).strip() or title
-                city_v = str(v.get("city", city)).strip() or city
-                if not any(city_v.startswith(c) for c in CITY_BASE):
-                    city_v = city
-                req_v = str(v.get("requirements", "")).strip()
-                if not req_v:
-                    continue
-                key = (company_v, title_v, city_v, req_v[:30])
-                if key in seen_keys:
-                    continue
-                seen_keys.add(key)
-                tags = v.get("tags", [])
-                if isinstance(tags, str):
-                    tags = [t for t in tags.replace("，", ",").split(",") if t.strip()][:5]
-                job = {
-                    "id": next_id,
-                    "company": company_v,
-                    "title": title_v,
-                    "city": city_v,
-                    "type": str(v.get("type", "实习")).strip() or "实习",
-                    "salary": str(v.get("salary", "面议")).strip(),
-                    "edu": str(v.get("edu", "本科")).strip(),
-                    "exp": str(v.get("exp", "不限")).strip(),
-                    "requirements": req_v,
-                    "tags": tags[:5],
-                    "source": "ai-augmented",
-                    "updated": "2026-08",
-                }
-                jobs.append(job)
-                next_id += 1
-                added += 1
-            except Exception:
-                continue
+                f.result()
+            except Exception as e:
+                print(f"  ⚠ worker 异常：{e}", flush=True)
 
-        if idx % 20 == 0 or added >= need:
-            save_jobs(jobs)
-            print(f"  进度 [{idx}/{len(seeds)}] 已新增 {added} 条，累计 {len(jobs)} 条")
-        time.sleep(0.25)
-
+    jobs.extend(jobs_out)
     save_jobs(jobs)
-    print(f"\n完成：新增 {added} 条，jobs.json 现共 {len(jobs)} 条。")
+    print(f"\n完成：新增 {len(jobs_out)} 条，jobs.json 现共 {len(jobs)} 条（用时 {int(time.time()-start)}s）。")
     print("提示：数据已更新，请运行 `python build_index.py` 或界面点「重建索引」刷新向量库。")
 
 
