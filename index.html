@@ -131,6 +131,35 @@
   .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(31,157,87,.18)}
   .pill.busy .dot{background:var(--brand);box-shadow:0 0 0 3px rgba(91,108,255,.18);animation:pulse 1s infinite}
   @keyframes pulse{50%{opacity:.4}}
+
+  /* 来源卡片：学历 / 标签 */
+  .sc-foot{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:8px}
+  .sc-edu{background:var(--brand-soft);color:var(--brand);border:1px solid var(--chip-line);padding:1px 8px;border-radius:8px;font-size:10.5px;font-weight:600}
+  .sc-tag{background:var(--chip);color:var(--chip-text);border:1px solid var(--chip-line);padding:1px 8px;border-radius:8px;font-size:10.5px}
+
+  /* 消息复制按钮 */
+  .msg.bot{position:relative}
+  .copy-btn{position:absolute;top:3px;right:3px;width:27px;height:27px;border:1px solid var(--line);background:var(--card);
+    border-radius:9px;cursor:pointer;opacity:0;transition:.15s;display:flex;align-items:center;justify-content:center;color:var(--muted);z-index:2}
+  .msg.bot:hover .copy-btn{opacity:1}
+  .copy-btn:hover{color:var(--brand);border-color:var(--brand)}
+  .copy-btn svg{width:14px;height:14px}
+  .copy-btn.copied{color:var(--ok);border-color:var(--ok)}
+
+  /* 移动端适配 */
+  @media (max-width:640px){
+    .wrap{padding:16px 12px 40px}
+    h1{font-size:17px}
+    .stats{grid-template-columns:1fr 1fr;gap:10px}
+    .stat b{font-size:21px}
+    #chat{max-height:64vh;padding:14px}
+    .msg{max-width:100%}
+    .opts{gap:12px}
+    .composer{flex-direction:column;align-items:stretch}
+    #sendBtn{width:100%;height:46px;border-radius:12px}
+    .quick .q{font-size:12px;padding:6px 11px}
+    .copy-btn{opacity:.6}
+  }
 </style>
 </head>
 <body>
@@ -234,6 +263,15 @@ function addMsg(role, html){
   wrap.className = "msg " + role;
   wrap.innerHTML = `<div class="avatar">${role==="user"?"你":"AI"}</div>
     <div class="bubble${role==='bot'?' typing':''}">${html||"…"}</div>`;
+  if(role==="bot"){
+    const cp=document.createElement("button");
+    cp.className="copy-btn"; cp.title="复制回答";
+    cp.innerHTML='<svg viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="11" height="11" rx="2.2" stroke="currentColor" stroke-width="1.7"/><path d="M5 15V5.5A1.5 1.5 0 0 1 6.5 4H15" stroke="currentColor" stroke-width="1.7"/></svg>';
+    cp.onclick=()=>{ const txt=wrap.querySelector(".bubble").innerText;
+      navigator.clipboard?.writeText(txt);
+      cp.classList.add("copied"); setTimeout(()=>cp.classList.remove("copied"),1200); };
+    wrap.appendChild(cp);
+  }
   chat.appendChild(wrap);
   chat.scrollTop = chat.scrollHeight;
   return wrap.querySelector(".bubble");
@@ -246,9 +284,14 @@ function renderSources(box, sources){
   sources.forEach(s=>{
     const c = document.createElement("div"); c.className = "src-card";
     const sal = (s.salary && s.salary !== "面议") ? s.salary : "薪资面议";
+    const tags = (s.tags||"").split(",").map(t=>t.trim()).filter(Boolean).slice(0,3)
+      .map(t=>`<span class="sc-tag">${esc(t)}</span>`).join("");
     c.innerHTML = `<div class="sc-company"><span class="sc-dot"></span>${esc(s.company||"")}</div>
       <div class="sc-title">${esc(s.title||"")}</div>
-      <div class="sc-meta">${esc(s.city||"")} · ${esc(sal)}</div>`;
+      <div class="sc-meta">${esc(s.city||"")} · ${esc(sal)}</div>
+      <div class="sc-foot">
+        ${s.edu?`<span class="sc-edu">${esc(s.edu)}</span>`:""}${tags}
+      </div>`;
     grid.appendChild(c);
   });
   box.appendChild(title); box.appendChild(grid);

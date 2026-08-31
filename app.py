@@ -20,7 +20,7 @@ import chromadb
 from flask import Flask, request, jsonify, send_from_directory, Response
 
 from rag_core import (
-    API_KEY, CHROMA_DIR, COLLECTION,
+    API_KEY, CHROMA_DIR, COLLECTION, CITY_BASE,
     make_client, embed_query, job_to_text, job_meta, load_jobs, build_collection,
     retrieve, rewrite_query, build_messages, stream_answer, fallback_answer, resolve_model,
 )
@@ -64,6 +64,7 @@ def _sources_from(metas):
         {
             "company": m["company"], "title": m["title"], "city": m["city"],
             "salary": m["salary"], "type": m["type"], "tags": m.get("tags", ""),
+            "edu": m.get("edu", ""),
         }
         for m in metas
     ]
@@ -290,7 +291,13 @@ def stats():
         c = _safe_col()
         data = c.get(include=["metadatas"])
         metas = data["metadatas"]
-        by_city = collections.Counter(m["city"] for m in metas)
+        # 看板聚焦核心城市：非 CITY_BASE 的城市统一并入「其他」
+        by_city = collections.Counter()
+        for m in metas:
+            cy = m["city"]
+            if cy not in CITY_BASE:
+                cy = "其他"
+            by_city[cy] += 1
         by_type = collections.Counter(m["type"] for m in metas)
         by_tag = collections.Counter()
         for m in metas:

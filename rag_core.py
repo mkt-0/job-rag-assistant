@@ -70,11 +70,17 @@ def make_client():
 
 # ---------- 城市归一化(看板/统计用) ----------
 def normalize_city(c: str) -> str:
+    """优先取字符串中出现的核心城市(按 CITY_BASE 顺序)，覆盖复合/噪声写法。
+    例：'无锡新吴'->'无锡'、'全国(含上海)'->'上海'、'北京/上海'->'上海'、
+        '南京/无锡/成都'->'南京'。完全不含核心城市则返回原值(统计时再归并)。"""
     for base in CITY_BASE:
-        if c.startswith(base):
+        if base in c:
             return base
     if "/" in c:
-        return normalize_city(c.split("/")[0])
+        for part in c.split("/"):
+            for base in CITY_BASE:
+                if base in part:
+                    return base
     return c
 
 
@@ -128,6 +134,7 @@ def job_meta(j):
         "company": j["company"], "title": j["title"],
         "city": normalize_city(j["city"]), "salary": j["salary"],
         "type": j["type"], "tags": ",".join(j.get("tags", [])),
+        "edu": j.get("edu", ""),
     }
 
 
