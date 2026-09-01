@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岗位 RAG 智能助手 · 完整技术报告</title>
+<style>
+  :root{
+    --brand:#5b6ef5; --brand2:#8a5cf6; --ok:#1f9d57; --ink:#14161c;
+    --muted:#697086; --line:#e6e8ef; --card:#ffffff; --bg:#f5f6fb; --chip:#eef0fb; --chip-line:#dde0f2;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 22px 80px}
+  header{background:linear-gradient(120deg,var(--brand),var(--brand2));color:#fff;border-radius:18px;padding:30px 30px;margin-bottom:26px;box-shadow:0 12px 30px rgba(91,110,245,.25)}
+  header h1{margin:0 0 6px;font-size:25px}
+  header p{margin:2px 0;opacity:.92;font-size:14px}
+  .pill{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);padding:2px 11px;border-radius:20px;font-size:12px;margin:8px 6px 0 0}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,22,28,.04)}
+  h2{font-size:18px;margin:0 0 14px;padding-left:11px;border-left:4px solid var(--brand)}
+  h3{font-size:15px;margin:18px 0 8px;color:var(--brand)}
+  p{margin:8px 0;font-size:14.5px}
+  ul,ol{margin:8px 0;padding-left:22px;font-size:14px}
+  li{margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--chip);font-weight:600}
+  code{background:var(--chip);padding:1px 6px;border-radius:6px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  pre{background:#0f1420;color:#e6e8ef;padding:14px 16px;border-radius:10px;overflow:auto;font-size:12.5px;line-height:1.6}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .kpi{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .kpi b{display:block;font-size:22px;color:var(--brand)}
+  .kpi span{font-size:12px;color:var(--muted)}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:8px;margin-right:4px}
+  .badge.real{background:rgba(31,157,87,.13);color:var(--ok);border:1px solid rgba(31,157,87,.32)}
+  .badge.ai{background:var(--chip);color:var(--muted);border:1px solid var(--chip-line)}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0;font-size:13px}
+  .node{background:var(--chip);border:1px solid var(--chip-line);border-radius:9px;padding:7px 12px}
+  .arrow{color:var(--muted)}
+  .note{background:#fff8e6;border:1px solid #f1e2b8;border-radius:9px;padding:10px 14px;font-size:13px;color:#7a6330}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  svg{width:100%;height:auto;display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>岗位 RAG 智能助手 · 完整技术报告</h1>
+  <p>面向大学生的实习 / 校招 / 社招岗位检索增强（RAG）问答系统</p>
+  <p>基于真实公开招聘数据 + 向量检索 + 大语言模型，回答「某城市某方向的岗位要求 / 匹配度 / 投递建议」</p>
+  <div>
+    <span class="pill">Flask + Chroma</span>
+    <span class="pill">硅基流动 bge-m3 嵌入</span>
+    <span class="pill">DeepSeek-V3 / R1 生成</span>
+    <span class="pill">2000 条岗位</span>
+    <span class="pill">长三角 8 城</span>
+  </div>
+</header>
+
+<!-- 1. 概览 -->
+<section>
+  <h2>1. 项目概览</h2>
+  <div class="grid">
+    <div class="kpi"><b>2000</b><span>岗位数据条数（222 真实核校 + 1778 AI 扩充）</span></div>
+    <div class="kpi"><b>8</b><span>覆盖城市：无锡/苏州/南京/上海/常州/南通/杭州/宁波</span></div>
+    <div class="kpi"><b>13</b><span>后端路由（问答/统计/管理/健康）</span></div>
+    <div class="kpi"><b>7/7</b><span>pytest 冒烟测试通过</span></div>
+  </div>
+  <p><b>目标用户：</b>在校大学生、应届生，想了解长三角技术类岗位的要求、薪资、学历门槛与投递准备。</p>
+  <p><b>技术栈：</b>Flask（后端）· Chroma（向量库，持久化）· 硅基流动 <code>BAAI/bge-m3</code>（嵌入）· 硅基流动 <code>DeepSeek-V3 / R1</code>（生成）· 原生 HTML/JS（前端，无构建）。</p>
+  <p><b>当前状态：</b>本地服务运行于 <code>http://localhost:5000</code>，向量索引已构建 2000 条，全部代码已推送 GitHub。</p>
+</section>
+
+<!-- 2. 功能清单 -->
+<section>
+  <h2>2. 核心功能清单</h2>
+  <table>
+    <tr><th>功能</th><th>说明</th><th>实现位置</th></tr>
+    <tr><td>真·接入大模型</td><td>检索到的岗位资料作为上下文喂给 LLM，生成结构化、可行动的答案（非关键词匹配）</td><td><code>rag_core.build_messages / stream_answer</code></td></tr>
+    <tr><td>一键启动</td><td><code>run.bat</code>/<code>run.sh</code> 自动建环境、装依赖、起服务、开浏览器</td><td><code>run.bat / run.sh</code></td></tr>
+    <tr><td>智能检索</td><td>向量相似 + 中文 bigram 关键词混合重排（RRF）；可选 LLM 查询改写</td><td><code>rag_core.retrieve / rewrite_query</code></td></tr>
+    <tr><td>更快</td><td>查询嵌入内存缓存（LRU），相似问题直接命中，省重复 API 调用</td><td><code>rag_core.embed_query</code></td></tr>
+    <tr><td>更稳</td><td>客户端超时+重试抗限流；生成失败自动降级为「列出检索岗位」；<code>/health</code> 健康检查</td><td><code>rag_core.make_client / fallback_answer</code></td></tr>
+    <tr><td>多轮对话</td><td>维护会话上下文，可追问、对比、深挖</td><td><code>/chat</code>, <code>/chat_stream</code></td></tr>
+    <tr><td>流式输出</td><td>SSE 流式打字，回答逐字出现</td><td>前端 EventSource 式 fetch 流解析</td></tr>
+    <tr><td>模型切换</td><td>标准 <code>DeepSeek-V3</code>（快）/ 深度思考 <code>DeepSeek-R1</code>（强推理）</td><td><code>rag_core.resolve_model</code></td></tr>
+    <tr><td>数据看板</td><td>实时展示总数 / 城市 / 类型 / <b>学历要求</b> / 方向分布</td><td><code>/stats</code></td></tr>
+    <tr><td>数据可信度标识</td><td>每条参考岗位标注 <span class="badge real">真实核校</span><span class="badge ai">AI扩充</span> 徽章，诚实区分</td><td><code>renderSources</code> + <code>job_meta.source</code></td></tr>
+    <tr><td>来源卡片增强</td><td>公司 / 岗位 / 城市·薪资·<b>经验</b> / <b>要求摘要</b> / 学历与方向标签</td><td><code>renderSources</code></td></tr>
+    <tr><td>复制与提示</td><td>回答一键复制（含旧浏览器兜底）+ 复制成功 toast</td><td><code>copyText / showToast</code></td></tr>
+    <tr><td>自助扩充</td><td><code>/add</code> 粘 JD 入库；<code>/rebuild</code> 重建索引；<code>collect_jobs.py</code> 批量扩充</td><td>对应路由与脚本</td></tr>
+    <tr><td>质量保障</td><td>检索召回评估 + pytest 冒烟 + CI 自动回归（工作流已就绪）</td><td><code>evaluation.py</code>, <code>tests/</code></td></tr>
+  </table>
+</section>
+
+<!-- 3. 架构 -->
+<section>
+  <h2>3. 系统架构</h2>
+  <svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="13">
+    <defs>
+      <marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L7,3 L0,6 Z" fill="#8a90a6"/>
+      </marker>
+      <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#5b6ef5"/><stop offset="1" stop-color="#8a5cf6"/>
+      </linearGradient>
+    </defs>
+    <!-- 浏览器 -->
+    <rect x="20" y="85" width="130" height="80" rx="12" fill="#eef0fb" stroke="#cdd2f2"/>
+    <text x="85" y="118" text-anchor="middle" font-weight="600">浏览器</text>
+    <text x="85" y="138" text-anchor="middle" fill="#697086">index.html</text>
+    <!-- Flask -->
+    <rect x="200" y="70" width="150" height="110" rx="12" fill="url(#g1)"/>
+    <text x="275" y="108" text-anchor="middle" fill="#fff" font-weight="700">Flask 服务</text>
+    <text x="275" y="128" text-anchor="middle" fill="#fff" font-size="11">app.py</text>
+    <text x="275" y="146" text-anchor="middle" fill="#fff" font-size="11">/chat_stream 等</text>
+    <!-- rag_core -->
+    <rect x="400" y="70" width="150" height="110" rx="12" fill="#fff" stroke="#5b6ef5" stroke-width="1.6"/>
+    <text x="475" y="100" text-anchor="middle" font-weight="600">rag_core.py</text>
+    <text x="475" y="120" text-anchor="middle" fill="#697086" font-size="11">检索 / 重排</text>
+    <text x="475" y="138" text-anchor="middle" fill="#697086" font-size="11">改写 / 生成</text>
+    <text x="475" y="156" text-anchor="middle" fill="#697086" font-size="11">降级 / 归一化</text>
+    <!-- Chroma -->
+    <rect x="590" y="30" width="80" height="60" rx="10" fill="#eafaf0" stroke="#1f9d57"/>
+    <text x="630" y="56" text-anchor="middle" font-size="11" font-weight="600">Chroma</text>
+    <text x="630" y="72" text-anchor="middle" fill="#697086" font-size="9">向量库</text>
+    <!-- 硅基流动 -->
+    <rect x="590" y="150" width="80" height="60" rx="10" fill="#fff4e6" stroke="#e0962a"/>
+    <text x="630" y="176" text-anchor="middle" font-size="11" font-weight="600">硅基流动</text>
+    <text x="630" y="192" text-anchor="middle" fill="#697086" font-size="9">bge-m3/DS</text>
+    <!-- 连线 -->
+    <line x1="150" y1="125" x2="195" y2="125" stroke="#8a90a6" marker-end="url(#a)"/>
+    <line x1="350" y1="125" x2="395" y2="125" stroke="#8a90a6" marker-end="url(#a)"/>
+    <line x1="550" y1="100" x2="585" y2="62" stroke="#8a90a6" marker-end="url(#a)"/>
+    <line x1="550" y1="150" x2="585" y2="180" stroke="#8a90a6" marker-end="url(#a)"/>
+  </svg>
+  <p>三层职责清晰：<b>前端</b>只负责交互与渲染；<b>app.py</b> 处理 HTTP、会话、统计、管理接口；<b>rag_core.py</b> 是把 RAG 所有“硬逻辑”（检索、重排、改写、生成、降级、归一化）收敛成的共享核心，被服务直接复用。</p>
+</section>
+
+<!-- 4. 数据流 -->
+<section>
+  <h2>4. 一次问答的数据流</h2>
+  <div class="flow">
+    <span class="node">用户提问</span><span class="arrow">→</span>
+    <span class="node">智能改写(可选)</span><span class="arrow">→</span>
+    <span class="node">向量检索 + 关键词重排</span><span class="arrow">→</span>
+    <span class="node">拼上下文</span><span class="arrow">→</span>
+    <span class="node">LLM 流式生成</span><span class="arrow">→</span>
+    <span class="node">前端渲染 + 来源卡片</span>
+  </div>
+  <ol>
+    <li><b>改写：</b>若开启“智能检索”，先用 LLM 把口语化问题改写成更适合检索的查询（如“无锡本科能投的数据开发实习” → 强调“无锡/数据开发/实习/本科”）。</li>
+    <li><b>检索：</b>对查询做 bge-m3 嵌入，在 Chroma 取向量近邻；同时用中文 bigram 提取关键词做字面匹配，两者分数经 RRF 融合重排，取 top-5。</li>
+    <li><b>拼上下文：</b>把 top-5 岗位的结构化字段拼成检索上下文，连同对话历史交给 LLM。</li>
+    <li><b>生成：</b>LLM 逐 token 返回，后端用 SSE 推给前端，前端实时渲染并展示参考岗位卡片。</li>
+    <li><b>兜底：</b>若生成失败（限流/超时），自动降级为“列出检索到的岗位”，保证永远有结果。</li>
+  </ol>
+</section>
+
+<!-- 5. 关键实现 -->
+<section>
+  <h2>5. 关键实现原理</h2>
+
+  <h3>5.1 嵌入与向量库</h3>
+  <p>使用 <code>BAAI/bge-m3</code> 多语言嵌入模型（经硅基流动 API 调用），把每条岗位的“标题+城市+类型+要求+标签”文本映射为向量，存入 Chroma 持久化目录 <code>chroma_db/</code>。查询时实时嵌入，与库中向量做余弦相似度检索。<b>查询嵌入结果做了 LRU 内存缓存</b>，相同/相似问题不必重复调用 API。</p>
+
+  <h3>5.2 混合检索（核心召回策略）</h3>
+  <p>纯向量检索容易漏掉“字面强相关但语义近似度不高”的岗位。本系统叠加一路<b>中文 bigram 关键词匹配</b>，并用 <b>RRF（Reciprocal Rank Fusion）</b> 把两路排序融合：</p>
+  <pre># 伪代码
+vec_scores = chroma.query(embed(q), top_k=12)
+kw_scores  = bigram_match(q, corpus)        # 中文二元文法字面匹配
+fused      = rrf(vec_scores) + rrf(kw_scores)
+return top5(fused)</pre>
+  <p>这显著提升了“无锡+数据开发+实习”这类强约束 query 的命中率。</p>
+
+  <h3>5.3 智能检索：LLM 查询改写</h3>
+  <p>用户口语（如“我想找点无锡那边数据相关的活”）经 <code>rewrite_query</code> 调用 DeepSeek 改写为结构化检索式，再进入检索链路，召回更准。</p>
+
+  <h3>5.4 流式生成（SSE）</h3>
+  <p>后端用 Flask 的流式响应，按 <code>data: {type:"token", token:"…"}</code> 逐片推送；前端边收边用轻量 Markdown 渲染，呈现“打字机”效果，并先推 <code>sources</code> 事件渲染来源卡片，最后推 <code>done</code>。</p>
+
+  <h3>5.5 稳定性设计</h3>
+  <ul>
+    <li><b>抗限流：</b><code>make_client</code> 构造带 <code>timeout</code> 与 <code>max_retries</code> 的指数退避客户端。</li>
+    <li><b>句柄自愈：</b>索引重建期间旧 Collection 句柄会失效，<code>_safe_col</code> 在每次访问时校验并自动重连，避免 500。</li>
+    <li><b>重建锁：</b><code>/rebuild</code> 加进程锁，防止并发重建导致索引损坏。</li>
+    <li><b>降级：</b>生成失败时回退到“列出检索岗位”，用户始终拿到资料。</li>
+  </ul>
+
+  <h3>5.6 数据归一化</h3>
+  <p>原始数据城市字段常有“无锡新吴”“全国(含上海)”等脏写法。<code>normalize_city</code> 按核心城市列表做子串优先匹配；<code>normalize_edu</code> 把“本科/硕士/博士”等区间映射到统一层级；统计时其余城市归并“其他”，保证看板干净。</p>
+
+  <h3>5.7 数据扩充（并发采集）</h3>
+  <p><code>collect_jobs.py</code> 用 DeepSeek 基于真实岗位分布 + 广度种子公司批量生成结构化岗位，<b>6 路并发 API 调用</b>，去重校验后写入 <code>jobs.json</code> 并标注 <code>source="ai-augmented"</code>，约 9 分钟从 1100 扩到 2000 条。</p>
+</section>
+
+<!-- 6. 数据构成 -->
+<section>
+  <h2>6. 数据构成</h2>
+  <div class="grid">
+    <div class="kpi"><b>222</b><span>真实核校样本（猎聘/实习僧/智联/应届生网/高校就业网等公开渠道）</span></div>
+    <div class="kpi"><b>1778</b><span>AI 辅助扩充（基于真实分布由大模型生成，标注来源）</span></div>
+  </div>
+  <p><b>学历分布：</b>本科 1133 · 硕士 687 · 大专/中专 148 · 不限 26 · 博士 6。</p>
+  <p><b>诚实标注策略：</b>每条岗位带 <code>source</code> 字段。前端用绿/灰徽章区分人工核校与模型合成，避免把示例当作已核实招聘信息误导用户——这是该项目最重要的设计原则之一。</p>
+  <div class="note">⚠️ 1778 条 AI 扩充数据用于补足样本量与问法覆盖，<b>不代表已核实的实时招聘信息，请勿据此直接投递</b>。</div>
+</section>
+
+<!-- 7. API -->
+<section>
+  <h2>7. 接口速查</h2>
+  <table>
+    <tr><th>方法</th><th>路径</th><th>说明</th></tr>
+    <tr><td>GET</td><td><code>/</code></td><td>交互界面</td></tr>
+    <tr><td>POST</td><td><code>/ask</code></td><td>单轮问答 <code>{answer, sources}</code></td></tr>
+    <tr><td>POST</td><td><code>/ask_stream</code></td><td>单轮流式 SSE</td></tr>
+    <tr><td>POST</td><td><code>/chat</code></td><td>多轮问答 <code>{session_id, answer, sources, history}</code></td></tr>
+    <tr><td>POST</td><td><code>/chat_stream</code></td><td>多轮流式 SSE（前端主用）</td></tr>
+    <tr><td>GET</td><td><code>/stats</code></td><td>城市/类型/学历/标签聚合</td></tr>
+    <tr><td>GET</td><td><code>/jobs</code></td><td>岗位列表与数量</td></tr>
+    <tr><td>POST</td><td><code>/add</code></td><td>自助补充一条岗位</td></tr>
+    <tr><td>POST</td><td><code>/rebuild</code></td><td>用 jobs.json 重建向量索引</td></tr>
+    <tr><td>GET</td><td><code>/health</code></td><td>健康检查 <code>{status, has_key, index_count}</code></td></tr>
+  </table>
+</section>
+
+<!-- 8. 运行 -->
+<section>
+  <h2>8. 如何运行</h2>
+  <h3>方式一：一键启动（推荐）</h3>
+  <pre># Windows 双击 run.bat；macOS/Linux：
+bash run.sh        # 自动建环境/装依赖/起服务/开浏览器</pre>
+  <h3>方式二：手动</h3>
+  <pre>pip install -r requirements.txt
+cp .env.example .env        # 填入 SILICONFLOW_API_KEY=sk-xxxx
+python app.py               # 首次自动构建向量索引
+# 浏览器打开 http://localhost:5000</pre>
+  <div class="note">不要用 <code>file://</code> 双击打开 index.html——浏览器会拦截 fetch，必须走 <code>http://localhost:5000</code>。</div>
+</section>
+
+<!-- 9. 测试 -->
+<section>
+  <h2>9. 测试与质量</h2>
+  <ul>
+    <li><b>pytest 7 项全过：</b>接口结构 + 无 key 报错路径 + 城市/学历归一化单测。</li>
+    <li><b>端到端冒烟：</b>曾抓出并修复 <code>/rebuild</code> 句柄悬空 500 bug（重建期间全程 200）。</li>
+    <li><b>检索召回评估：</b><code>evaluation.py</code> 用标注问题集测召回@5，无 key 自动跳过。</li>
+    <li><b>CI：</b><code>.github/workflows/eval.yml</code> 已就绪（push/PR 自动跑 pytest + 可选召回评估），因 PAT 缺 <code>workflow</code> 权限需仓库主人网页推送后启用。</li>
+  </ul>
+</section>
+
+<!-- 10. 历程 -->
+<section>
+  <h2>10. 优化历程</h2>
+  <table>
+    <tr><th>阶段</th><th>关键动作</th></tr>
+    <tr><td>初版</td><td>Flask + Chroma 最小可用，交互界面，爬取数据</td></tr>
+    <tr><td>v1</td><td>拆分为 rag_core；加 /stats、自动建库；数据扩至 ~137 条</td></tr>
+    <tr><td>v2</td><td>一键启动；查询缓存；混合检索；重试+降级；<code>/health</code>；流式+来源卡片；扩至 222 条+LLM 接入</td></tr>
+    <tr><td>v2.5</td><td>数据扩至 1100 条；美工玻璃拟态+暗色模式；城市归一化+移动端</td></tr>
+    <tr><td>v3</td><td>并发采集扩至 <b>2000 条</b>；来源卡片可信度徽章+经验/要求摘要；学历分布看板；核心归一化单测</td></tr>
+    <tr><td>本轮</td><td>复制健壮性（execCommand 兜底 + toast 成功提示）；README 已知局限声明；服务重启验证 2000 条索引</td></tr>
+  </table>
+</section>
+
+<!-- 11. 局限 -->
+<section>
+  <h2>11. 已知局限与下一步</h2>
+  <ul>
+    <li><b>数据真实性：</b>仅 222 条为人工核校，其余为 AI 合成示例，不可直接用于投递决策。</li>
+    <li><b>外部依赖：</b>检索/生成依赖硅基流动 API，密钥失效会触发降级。</li>
+    <li><b>会话不上云：</b>多轮历史仅存进程内存，重启清空，仅本地演示。</li>
+    <li><b>CI 待激活：</b>工作流文件需仓库主人推送（权限限制）后方可自动回归。</li>
+    <li><b>下一步：</b>接实时招聘 API 扩大真实样本；给采集脚本加真实站点适配器；用评估集持续监控召回与答案质量。</li>
+  </ul>
+</section>
+
+<!-- 12. 目录 -->
+<section>
+  <h2>12. 目录结构</h2>
+  <pre>job-rag-assistant/
+├── run.bat / run.sh     # 一键启动
+├── app.py               # Flask 服务（路由/会话/统计/管理）
+├── rag_core.py          # 共享核心（检索/重排/改写/生成/降级/归一化）
+├── build_index.py       # 用 jobs.json 重建 Chroma 索引
+├── collect_jobs.py      # 大模型批量扩充岗位（并发）
+├── index.html           # 单页交互界面
+├── jobs.json            # 2000 条岗位数据（含 source 标注）
+├── evaluation.py        # 检索召回@5 评估
+├── tests/               # pytest 冒烟测试
+├── .github/workflows/eval.yml  # CI（待推送激活）
+├── requirements.txt / .env.example / README.md / report.html
+└── chroma_db/           # 向量索引（已排除提交）</pre>
+</section>
+
+<p style="text-align:center;color:var(--muted);font-size:12px;margin-top:24px">本报告由 WorkBuddy 生成 · 项目运行于 http://localhost:5000 · 代码已推送 GitHub</p>
+</div>
+</body>
+</html>

@@ -40,7 +40,7 @@
 ├── build_index.py    # 用 jobs.json 重建 Chroma 向量索引
 ├── collect_jobs.py   # 用大模型批量扩充岗位数据（写入 jobs.json，source=ai-augmented）
 ├── index.html        # 单页交互界面（流式打字 + 多轮 + 模型切换 + 看板 + 来源卡片）
-├── jobs.json         # 岗位数据（1000+ 条，字段规范，含 source 标注）
+├── jobs.json         # 岗位数据（2000 条，字段规范，含 source 标注）
 ├── evaluation.py     # 检索召回@5 评估（标注问题集）
 ├── tests/test_api.py # pytest 冒烟测试（接口结构 + 无 key 报错路径）
 ├── .github/workflows/eval.yml  # CI：push/PR 跑 pytest + 可选召回评估
@@ -150,6 +150,15 @@ pytest -q
 2. 若仓库设置了 **secret `SILICONFLOW_API_KEY`**，额外跑 `evaluation.py` 测检索召回@5（未设置则自动跳过，不阻断 CI）。
 
 建议把你的硅基流动 key 配置为仓库 Secret，让每次提交都自动回归召回率。
+
+---
+
+## 已知局限与诚实声明
+
+- **数据真实性**：库内 2000 条中仅约 222 条为公开渠道人工核校样本，其余约 1778 条为 AI 辅助生成（标注 `source="ai-augmented"`），用于补足样本量与问法覆盖，**不代表已核实的实时招聘信息，请勿据此直接投递**。
+- **生成依赖外部 API**：检索与回答依赖硅基流动（DeepSeek / bge-m3）服务，密钥失效或受限流时会自动降级为「列出检索岗位」以保证有结果。
+- **会话不上云**：多轮对话历史仅存于服务进程内存，重启即清空，仅用于本地演示。
+- **CI 工作流**：`.github/workflows/eval.yml` 已就绪；因经典 PAT 缺少 `workflow` 权限，需仓库主人通过网页或带 `workflow` 权限的令牌推送后方可启用自动回归。
 
 ---
 

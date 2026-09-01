@@ -158,6 +158,11 @@
   .copy-btn:hover{color:var(--brand);border-color:var(--brand)}
   .copy-btn svg{width:14px;height:14px}
   .copy-btn.copied{color:var(--ok);border-color:var(--ok)}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;
+    background:var(--ink);color:#fff;font-size:13px;padding:9px 16px;border-radius:11px;z-index:50;
+    transition:.2s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast.ok{background:var(--ok)} .toast.err{background:#d9534f}
 
   /* 移动端适配 */
   @media (max-width:640px){
@@ -278,6 +283,26 @@ function setStatus(t, busy){
   topbar.classList.toggle("active", !!busy);
 }
 
+function showToast(msg, ok=true){
+  const t=$("toast"); if(!t) return;
+  t.textContent=msg; t.className="toast show "+(ok?"ok":"err");
+  clearTimeout(showToast._t);
+  showToast._t=setTimeout(()=>t.classList.remove("show"),1800);
+}
+async function copyText(txt, btn){
+  let ok=false;
+  try{ if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(txt); ok=true; } }
+  catch(e){ ok=false; }
+  if(!ok){
+    try{
+      const ta=document.createElement("textarea"); ta.value=txt;
+      ta.style.cssText="position:fixed;opacity:0;top:0;left:0"; document.body.appendChild(ta); ta.select();
+      ok=document.execCommand("copy"); document.body.removeChild(ta);
+    }catch(e){ ok=false; }
+  }
+  showToast(ok?"已复制回答":"复制失败，请手动选择", ok);
+  if(btn){ btn.classList.toggle("copied", ok); setTimeout(()=>btn.classList.remove("copied"),1200); }
+}
 function addMsg(role, html){
   const wrap = document.createElement("div");
   wrap.className = "msg " + role;
@@ -287,9 +312,7 @@ function addMsg(role, html){
     const cp=document.createElement("button");
     cp.className="copy-btn"; cp.title="复制回答";
     cp.innerHTML='<svg viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="11" height="11" rx="2.2" stroke="currentColor" stroke-width="1.7"/><path d="M5 15V5.5A1.5 1.5 0 0 1 6.5 4H15" stroke="currentColor" stroke-width="1.7"/></svg>';
-    cp.onclick=()=>{ const txt=wrap.querySelector(".bubble").innerText;
-      navigator.clipboard?.writeText(txt);
-      cp.classList.add("copied"); setTimeout(()=>cp.classList.remove("copied"),1200); };
+    cp.onclick=()=>copyText(wrap.querySelector(".bubble").innerText, cp);
     wrap.appendChild(cp);
   }
   chat.appendChild(wrap);
@@ -416,5 +439,6 @@ $("rebuildBtn").onclick = async ()=>{
 loadStats();
 addMsg("bot","你好，我是岗位 RAG 助手 💡 库内已收录长三角多地岗位。试着问我「某城市某方向的实习/校招要求」，我会检索资料并给出分析与建议（下方也可点选快捷问题）。");
 </script>
+  <div id="toast" class="toast"></div>
 </body>
 </html>
