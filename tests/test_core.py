@@ -48,6 +48,21 @@ def test_build_where_combined():
     assert out2 == {"$and": [{"city": "上海"}, {"edu_norm": "硕士"}]}
 
 
+def test_build_where_category():
+    # 单职能过滤
+    assert rag_core.build_where({"category": "财务/会计"}) == {"category": "财务/会计"}
+    # 城市 + 职能 组合
+    out = rag_core.build_where({"city": "无锡", "category": "医疗/健康"})
+    assert out == {"$and": [{"city": "无锡"}, {"category": "医疗/健康"}]}
+    # 城市 + 类型 + 学历 + 职能 四项组合
+    out2 = rag_core.build_where({"city": "苏州", "type": "实习", "edu": "本科", "category": "设计"})
+    assert out2 == {"$and": [
+        {"city": "苏州"}, {"type": "实习"}, {"edu_norm": "本科"}, {"category": "设计"}
+    ]}
+    # 空职能不参与
+    assert rag_core.build_where({"category": ""}) is None
+
+
 def test_rerank_docs_no_key_returns_none(monkeypatch):
     # 无 key 时 reranker 应安全降级为 None（由 retrieve 回退混合重排），不抛异常
     monkeypatch.setattr(rag_core, "API_KEY", "")

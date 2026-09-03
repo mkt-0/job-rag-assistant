@@ -184,7 +184,7 @@ def embed_query(client, q):
 # ---------- 岗位 <-> 文本 ----------
 def job_to_text(j):
     return (
-        f"{j['company']} | {j['title']} | 城市:{j['city']} | 类型:{j['type']} | "
+        f"{j['company']} | {j['title']} | 职能:{j.get('category', '')} | 城市:{j['city']} | 类型:{j['type']} | "
         f"薪资:{j['salary']} | 学历:{j['edu']} | 经验:{j['exp']} | "
         f"要求:{j['requirements']} | 标签:{','.join(j.get('tags', []))}"
     )
@@ -193,6 +193,7 @@ def job_to_text(j):
 def job_meta(j):
     return {
         "company": j["company"], "title": j["title"],
+        "category": j.get("category", ""),
         "city": normalize_city(j["city"]), "salary": j["salary"],
         "type": j["type"], "tags": ",".join(j.get("tags", [])),
         "edu": j.get("edu", ""), "edu_norm": normalize_edu(j.get("edu", "")),
@@ -239,7 +240,7 @@ def build_collection(client=None, path="jobs.json",
 
 # ---------- 混合检索 + 重排 ----------
 def build_where(filters):
-    """把 {city,type,edu} 转为 Chroma where 子句(AND)。无过滤返回 None。纯函数，便于单测。"""
+    """把 {city,type,edu,category} 转为 Chroma where 子句(AND)。无过滤返回 None。纯函数，便于单测。"""
     if not filters:
         return None
     conds = []
@@ -249,6 +250,8 @@ def build_where(filters):
         conds.append({"type": filters["type"]})
     if filters.get("edu"):
         conds.append({"edu_norm": filters["edu"]})
+    if filters.get("category"):
+        conds.append({"category": filters["category"]})
     if not conds:
         return None
     if len(conds) == 1:

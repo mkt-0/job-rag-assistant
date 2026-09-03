@@ -64,6 +64,7 @@ def _sources_from(metas):
     return [
         {
             "company": m["company"], "title": m["title"], "city": m["city"],
+            "category": m.get("category", ""),
             "salary": m["salary"], "type": m["type"], "tags": m.get("tags", ""),
             "edu": m.get("edu", ""), "exp": m.get("exp", ""),
             "requirements": m.get("requirements", ""), "source": m.get("source", ""),
@@ -299,6 +300,7 @@ def stats():
             by_city[cy] += 1
         by_type = collections.Counter(m["type"] for m in metas)
         by_edu = collections.Counter(normalize_edu(m.get("edu", "")) for m in metas)
+        by_cat = collections.Counter(m.get("category", "") or "未分类" for m in metas)
         by_tag = collections.Counter()
         for m in metas:
             for t in (m.get("tags") or "").split(","):
@@ -310,6 +312,7 @@ def stats():
             "by_city": dict(by_city.most_common()),
             "by_type": dict(by_type),
             "by_edu": dict(by_edu.most_common()),
+            "by_category": dict(by_cat.most_common()),
             "top_tags": dict(by_tag.most_common(15)),
         })
     except Exception as e:

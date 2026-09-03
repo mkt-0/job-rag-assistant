@@ -135,6 +135,7 @@
   /* 来源卡片：学历 / 标签 */
   .sc-foot{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:8px}
   .sc-edu{background:var(--brand-soft);color:var(--brand);border:1px solid var(--chip-line);padding:1px 8px;border-radius:8px;font-size:10.5px;font-weight:600}
+  .sc-cat{background:rgba(255,153,0,.13);color:#c87700;border:1px solid rgba(255,153,0,.32);padding:1px 8px;border-radius:8px;font-size:10.5px;font-weight:600}
   .sc-tag{background:var(--chip);color:var(--chip-text);border:1px solid var(--chip-line);padding:1px 8px;border-radius:8px;font-size:10.5px}
 
   /* 来源卡片：顶部公司 + 可信度徽章 */
@@ -223,6 +224,7 @@
     <div class="stat"><b id="s-total">…</b><span>岗位总数</span></div>
     <div class="stat"><b id="s-city">…</b><span>覆盖城市</span><div class="sub" id="s-city-sub"></div></div>
     <div class="stat"><b id="s-type">…</b><span>类型分布</span><div class="sub" id="s-type-sub"></div></div>
+    <div class="stat"><b id="s-cat">…</b><span>职能类别</span><div class="sub" id="s-cat-sub"></div></div>
     <div class="stat"><b id="s-edu">…</b><span>学历要求</span><div class="sub" id="s-edu-sub"></div></div>
     <div class="stat"><b id="s-tag">…</b><span>热门方向</span><div class="sub" id="s-tag-sub"></div></div>
   </div>
@@ -304,7 +306,7 @@ function setStatus(t, busy){
 }
 
 // ---- 看板筛选：点击城市/类型/学历标签 -> 设置硬筛选并自动提问 ----
-let activeFilters = { city:null, type:null, edu:null };
+let activeFilters = { city:null, type:null, edu:null, category:null };
 
 function chip(kind, val, count){
   return `<span class="chip clk" data-kind="${kind}" data-val="${esc(val)}">${esc(val)}<i>${count}</i></span>`;
@@ -314,6 +316,7 @@ function clickFilter(kind, val){
   renderFilterBar();
   const q = kind==="city" ? `${val} 有哪些岗位？`
           : kind==="type" ? `${val} 方向有哪些岗位？`
+          : kind==="category" ? `${val}岗位有哪些？`
           : `学历要求${val}的岗位有哪些？`;
   send(q);
 }
@@ -323,6 +326,7 @@ function renderFilterBar(){
   if(activeFilters.city) parts.push(["city", activeFilters.city]);
   if(activeFilters.type) parts.push(["type", activeFilters.type]);
   if(activeFilters.edu)  parts.push(["edu",  activeFilters.edu]);
+  if(activeFilters.category) parts.push(["category", activeFilters.category]);
   if(!parts.length){ bar.style.display="none"; box.innerHTML=""; return; }
   bar.style.display = "flex";
   box.innerHTML = parts.map(([k,v])=>`<span class="fchip" data-kind="${k}">${esc(v)} <b>✕</b></span>`).join("");
@@ -335,7 +339,7 @@ $("filterChips").addEventListener("click", e=>{
   const el = e.target.closest(".fchip"); if(!el) return;
   activeFilters[el.dataset.kind] = null; renderFilterBar();
 });
-$("clearFilter").onclick = ()=>{ activeFilters={city:null,type:null,edu:null}; renderFilterBar(); };
+$("clearFilter").onclick = ()=>{ activeFilters={city:null,type:null,edu:null,category:null}; renderFilterBar(); };
 
 function showToast(msg, ok=true){
   const t=$("toast"); if(!t) return;
@@ -393,6 +397,7 @@ function renderSources(box, sources){
         <span class="sc-badge ${isAI?'ai':'real'}">${isAI?'AI扩充':'真实核校'}</span>
       </div>
       <div class="sc-title">${esc(s.title||"")}</div>
+      ${s.category?`<span class="sc-cat">${esc(s.category)}</span>`:""}
       <div class="sc-meta">${esc(meta)}</div>
       ${reqShort?`<div class="sc-req">${esc(reqShort)}</div>`:""}
       <div class="sc-foot">
@@ -415,6 +420,9 @@ async function loadStats(){
     const types = Object.entries(d.by_type||{});
     $("s-type").textContent = types.length;
     $("s-type-sub").innerHTML = types.slice(0,6).map(([k,v])=>chip("type",k,v)).join("");
+    const cats = Object.entries(d.by_category||{});
+    $("s-cat").textContent = cats.length;
+    $("s-cat-sub").innerHTML = cats.slice(0,8).map(([k,v])=>chip("category",k,v)).join("");
     const edus = Object.entries(d.by_edu||{});
     $("s-edu").textContent = edus.length;
     $("s-edu-sub").innerHTML = edus.slice(0,5).map(([k,v])=>chip("edu",k,v)).join("");
