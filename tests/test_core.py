@@ -9,7 +9,23 @@ import rag_core
 import app as appmod
 
 
-def test_normalize_city_compound():
+def test_classify_category():
+    # 技术类
+    assert rag_core.classify_category("前端开发工程师", "熟悉 React 与 TypeScript") == "技术研发"
+    # 财务
+    assert rag_core.classify_category("会计实习生", "负责凭证审核与报税") == "财务/会计"
+    # 医疗
+    assert rag_core.classify_category("护士", "临床护理与患者照护") == "医疗/健康"
+    # 销售
+    assert rag_core.classify_category("大客户销售", "完成销售目标") == "销售"
+    # 建筑
+    assert rag_core.classify_category("土木工程师", "施工现场管理") == "房地产/建筑/工程"
+    # 设计（英文关键词 UI）
+    assert rag_core.classify_category("UI设计师", "Figma 高保真") == "设计"
+    # 无法识别时回退到默认
+    assert rag_core.classify_category("某奇怪岗位名", "做一些事情") == "综合/管培"
+    # 大小写不敏感（英文）
+    assert rag_core.classify_category("data analyst", "python 数据处理") == "技术研发"
     # 复合 / 噪声写法应归并到核心城市
     assert rag_core.normalize_city("无锡新吴") == "无锡"
     assert rag_core.normalize_city("全国(含上海)") == "上海"

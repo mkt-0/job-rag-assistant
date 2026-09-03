@@ -28,7 +28,7 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from rag_core import API_KEY, make_client, CITY_BASE
+from rag_core import API_KEY, make_client, CITY_BASE, classify_category
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 JOBS_PATH = os.path.join(HERE, "jobs.json")
@@ -84,6 +84,30 @@ SEEDS_BREADTH = [
     ("宁波银行", "宁波", "数据分析实习"),
 ]
 
+# 广度种子（非技术类目）：防止扩充只偏向计算机岗。每个常见职能给一两个代表种子，
+# 让后续 LLM 变体也覆盖产品/设计/运营/销售/财务/医疗等全部职能。
+SEEDS_EXTRA = [
+    ("某互联网大厂", "上海", "产品经理实习"),
+    ("某设计公司", "杭州", "UI设计师"),
+    ("某内容平台", "南京", "新媒体运营"),
+    ("某快消集团", "苏州", "销售代表"),
+    ("某客服中心", "无锡", "客服专员"),
+    ("某制造企业", "常州", "人力资源实习生"),
+    ("某上市公司", "南通", "行政专员"),
+    ("某会计师事务所", "宁波", "会计实习"),
+    ("某律所", "上海", "法务专员"),
+    ("某物流公司", "杭州", "采购专员"),
+    ("某工厂", "苏州", "工艺工程师"),
+    ("某三甲医院", "南京", "护士"),
+    ("某培训机构", "无锡", "教师"),
+    ("某银行", "上海", "银行柜员"),
+    ("某地产公司", "苏州", "土木工程师"),
+    ("某传媒公司", "杭州", "文案策划"),
+    ("某翻译公司", "南京", "英语翻译"),
+    ("某餐饮集团", "上海", "餐厅店长"),
+    ("某集团总部", "宁波", "管培生"),
+]
+
 
 def load_jobs():
     with open(JOBS_PATH, encoding="utf-8") as f:
@@ -105,6 +129,10 @@ def build_seeds(existing):
             seen.add(key)
             seeds.append(key)
     for s in SEEDS_BREADTH:
+        if s not in seen:
+            seen.add(s)
+            seeds.append(s)
+    for s in SEEDS_EXTRA:
         if s not in seen:
             seen.add(s)
             seeds.append(s)
@@ -207,6 +235,7 @@ def worker(q, jobs_out, lock, stop, counter, need, per, seen_keys, next_id_box):
                     "exp": str(v.get("exp", "不限")).strip(),
                     "requirements": req_v,
                     "tags": tags[:5],
+                    "category": classify_category(title_v, req_v),
                     "source": "ai-augmented",
                     "updated": "2026-08",
                 }

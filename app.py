@@ -22,6 +22,7 @@ from flask import Flask, request, jsonify, send_from_directory, Response
 
 from rag_core import (
     is_key_ready, CHROMA_DIR, COLLECTION, CITY_BASE, normalize_city, normalize_edu,
+    classify_category,
     make_client, embed_query, embed_texts, job_to_text, job_meta, load_jobs, build_collection,
     retrieve, rewrite_query, build_messages, stream_answer, fallback_answer, resolve_model,
 )
@@ -341,6 +342,9 @@ def add():
                 return jsonify({"ok": True, "id": x["id"], "count": col.count(), "dup": True})
         new_id = max([x["id"] for x in jobs]) + 1 if jobs else 1
         j["id"] = new_id
+        # 职能类别：优先用请求显式传入，否则按岗位名+要求关键词推断
+        j["category"] = (j.get("category") or "").strip() or classify_category(
+            j.get("title", ""), j.get("requirements", ""))
         j.setdefault("tags", [])
         j.setdefault("source", "手动补充")
         j.setdefault("updated", "2026-09")
