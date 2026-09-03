@@ -14,8 +14,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rag_core import (
-    API_KEY, CHROMA_DIR, COLLECTION, make_client, build_collection,
-    retrieve, rerank_scores,
+    CHROMA_DIR, COLLECTION, make_client, build_collection,
+    retrieve, rerank_scores, is_key_ready,
 )
 import chromadb
 
@@ -55,9 +55,9 @@ def mean_relevance(q, docs):
 
 
 def main():
-    if not API_KEY:
-        print("⚠️ 未设置 SILICONFLOW_API_KEY，跳过评估（嵌入 + reranker 需要 key）。")
-        print("   复制 .env.example 为 .env 并填入 key 后重试。")
+    if not is_key_ready():
+        print("⚠️ 未配置有效的 SILICONFLOW_API_KEY，跳过评估（嵌入 + reranker 需要有效的 key）。")
+        print("   复制 .env.example 为 .env 并填入真实 key 后重试。")
         return
 
     client = make_client()

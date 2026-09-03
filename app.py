@@ -377,5 +377,10 @@ def add_cors(resp):
 
 
 if __name__ == "__main__":
+    from rag_core import preflight
+    if not preflight():
+        # 密钥缺失/占位符：直接退出并给出指引，避免启动一个空库误导用户
+        raise SystemExit(1)
     ensure_index()
+    print(f"[启动] 服务已就绪：http://localhost:5000  （当前索引 {col.count()} 条）")
     app.run(host="0.0.0.0", port=5000, debug=False, threaded=True)

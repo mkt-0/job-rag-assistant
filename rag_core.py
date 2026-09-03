@@ -43,6 +43,9 @@ SYSTEM_PROMPT = (
 )
 
 
+PLACEHOLDER_KEY = "在此填写你的key"
+
+
 def _load_dotenv():
     """从项目根目录 .env 读取环境变量(不依赖第三方包)。"""
     p = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
@@ -56,16 +59,54 @@ def _load_dotenv():
                 os.environ.setdefault(k.strip(), v.strip())
 
 
+def ensure_env_file():
+    """冷启动友好：若项目根目录没有 .env，则从 .env.example 复制一份，
+    避免新手 clone 后因缺 .env 而启动即空库。返回 True 表示本次新建了 .env。"""
+    import shutil
+    root = os.path.dirname(os.path.abspath(__file__))
+    env_path = os.path.join(root, ".env")
+    ex_path = os.path.join(root, ".env.example")
+    if not os.path.exists(env_path) and os.path.exists(ex_path):
+        shutil.copyfile(ex_path, env_path)
+        return True
+    return False
+
+
+# 冷启动：先确保 .env 存在（新手 clone 后常缺），再读入环境变量
+ensure_env_file()
 _load_dotenv()
 
 API_KEY = os.getenv("SILICONFLOW_API_KEY", "")
 
 
+def is_key_ready():
+    """密钥是否有效：非空且不是 .env.example 里的占位符。"""
+    return bool(API_KEY) and API_KEY != PLACEHOLDER_KEY
+
+
+def preflight():
+    """启动前自检：密钥未就绪时打印醒目指引并返回 False。"""
+    if is_key_ready():
+        return True
+    print("\n" + "=" * 64)
+    print("⚠️  尚未配置有效的 SILICONFLOW_API_KEY，服务将无法正常回答。")
+    print("-" * 64)
+    print("  请按以下步骤操作（只需一次）：")
+    print("    1) 用编辑器打开项目根目录的 .env 文件")
+    print("    2) 把  SILICONFLOW_API_KEY=在此填写你的key")
+    print("       改成你的真实 key，例如  SILICONFLOW_API_KEY=sk-xxxx")
+    print("    3) 保存文件，重新运行启动命令")
+    print("  免费获取 key：https://cloud.siliconflow.cn")
+    print("=" * 64 + "\n")
+    return False
+
+
 def make_client():
-    if not API_KEY:
+    if not is_key_ready():
         raise RuntimeError(
-            "未找到 SILICONFLOW_API_KEY。请复制 .env.example 为 .env 并填入你的硅基流动 key，"
-            "或将环境变量 SILICONFLOW_API_KEY 导出后再运行。"
+            "未配置有效的 SILICONFLOW_API_KEY。请打开项目根目录的 .env，"
+            "把 SILICONFLOW_API_KEY 改成你的硅基流动 key（https://cloud.siliconflow.cn 免费获取），"
+            "保存后重新运行。"
         )
     return OpenAI(api_key=API_KEY, base_url=BASE_URL,
                   timeout=CLIENT_TIMEOUT, max_retries=CLIENT_MAX_RETRIES)

@@ -19,6 +19,7 @@
 
 - **真·接入大模型**：检索到的岗位资料作为上下文喂给 LLM，生成结构化、可行动的答案（不是简单关键词匹配）。
 - **一键启动**：`run.bat`（Windows 双击）/ `run.sh`（mac/Linux）自动建环境、装依赖、起服务、开浏览器，零命令。
+- **冷启动零配置**：clone 后脚本自动生成 `.env`（从 `.env.example`）、首次启动自动用 `jobs.json` 构建向量索引；**未填密钥时给出明确指引而非跑出空库**。
 - **更聪明的检索**：向量相似 + 中文 bigram 关键词信号混合重排（RRF 思路），top-k 召回更准；可叠加「LLM 改写问题」智能检索。
 - **交叉编码器重排**：向量召回 top-20 候选经硅基流动 `BAAI/bge-reranker-v2-m3` 精排 top-5，检索精度更高；重排失败自动降级为混合重排，保证有结果（v5）。
 - **更快**：查询嵌入结果进程内缓存，相似问题直接命中，省去重复 API 调用。
@@ -61,8 +62,9 @@
 
 ### 方式一：一键启动（推荐，零命令）
 
-- **Windows**：双击 `run.bat`。它会自动建虚拟环境、装依赖、启动服务，等索引就绪后自动打开浏览器 `http://localhost:5000`。
+- **Windows**：双击 `run.bat`。它会自动建虚拟环境、装依赖、**从 `.env.example` 生成 `.env`**、启动服务，等索引就绪后自动打开浏览器 `http://localhost:5000`。
 - **macOS / Linux**：`bash run.sh`（或 `chmod +x run.sh && ./run.sh`）。
+- ⚠️ 首次运行若看到「尚未配置有效的 SILICONFLOW_API_KEY」提示：打开 `.env` 把 `SILICONFLOW_API_KEY=在此填写你的key` 改成你的真实 key（https://cloud.siliconflow.cn 免费获取），保存后重新运行即可。
 
 ### 方式二：手动
 
@@ -70,16 +72,18 @@
 # 1. 准备环境（Python 3.10+）
 pip install -r requirements.txt
 
-# 2. 配置密钥：复制模板并填入你的硅基流动 key
-cp .env.example .env
-#   编辑 .env：SILICONFLOW_API_KEY=sk-xxxx
+# 2. 配置密钥：首次运行会自动从 .env.example 生成 .env，你只需编辑填入真实 key
+cp .env.example .env   # 若 .env 已存在可跳过；也可直接编辑已有 .env
+#   把 SILICONFLOW_API_KEY=在此填写你的key 改成 SILICONFLOW_API_KEY=sk-xxxx
 
-# 3. 启动（首次会自动用 jobs.json 构建向量索引，需联网调用嵌入 API）
+# 3. 启动（首次会自动用 jobs.json 构建向量索引，需联网调用嵌入 API，约 1~2 分钟）
 python app.py
 
 # 4. 浏览器打开
 http://localhost:5000
 ```
+
+> 首次启动做了什么：`app.py` 发现 `chroma_db` 为空时，会自动读取仓库内的 `jobs.json`（2000 条真实岗位）调用嵌入接口构建向量库，构建完成后才开始服务；之后再次启动会直接复用，秒开。
 
 > 不要用 `file://` 双击打开 `index.html`——浏览器会拦截 `fetch` 请求，必须通过 `http://localhost:5000` 访问。
 
@@ -165,7 +169,7 @@ pytest -q
 - **数据真实性**：库内 2000 条中仅约 222 条为公开渠道人工核校样本，其余约 1778 条为 AI 辅助生成（标注 `source="ai-augmented"`），用于补足样本量与问法覆盖，**不代表已核实的实时招聘信息，请勿据此直接投递**。
 - **生成依赖外部 API**：检索与回答依赖硅基流动（DeepSeek / bge-m3）服务，密钥失效或受限流时会自动降级为「列出检索岗位」以保证有结果。
 - **会话不上云**：多轮对话历史仅存于服务进程内存，重启即清空，仅用于本地演示。
-- **CI 工作流**：`.github/workflows/eval.yml` 已就绪；因经典 PAT 缺少 `workflow` 权限，需仓库主人通过网页或带 `workflow` 权限的令牌推送后方可启用自动回归。
+- **CI 工作流**：`.github/workflows/eval.yml` 已启用；每次 push / PR 到 `main` 自动跑 `pytest`，并（在仓库配置 `SILICONFLOW_API_KEY` Secret 后）额外跑召回评估。
 
 ---
 
