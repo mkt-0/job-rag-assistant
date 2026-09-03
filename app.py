@@ -21,7 +21,7 @@ import chromadb
 from flask import Flask, request, jsonify, send_from_directory, Response
 
 from rag_core import (
-    API_KEY, CHROMA_DIR, COLLECTION, CITY_BASE,
+    API_KEY, CHROMA_DIR, COLLECTION, CITY_BASE, normalize_city, normalize_edu,
     make_client, embed_query, job_to_text, job_meta, load_jobs, build_collection,
     retrieve, rewrite_query, build_messages, stream_answer, fallback_answer, resolve_model,
 )
@@ -72,22 +72,6 @@ def _sources_from(metas):
     ]
 
 
-def normalize_edu(e):
-    """把杂乱的学历字段归并为看板用的少数桶。"""
-    e = (e or "").replace("（", "(").replace("）", ")")
-    if "博士" in e:
-        return "博士"
-    if "硕士" in e:
-        return "硕士"
-    if "大专" in e or "中专" in e:
-        return "大专/中专"
-    if "不限" in e:
-        return "不限"
-    if "本科" in e:
-        return "本科"
-    return "其他"
-
-
 @app.route("/health")
 def health():
     try:
@@ -120,10 +104,11 @@ def ask():
     try:
         model = resolve_model(data.get("model"))
         smart = bool(data.get("smart"))
+        filters = data.get("filters") or {}
         q_search = rewrite_query(client, q) if smart else q
 
         metas = []
-        docs, metas = retrieve(client, col, q_search, n=5)
+        docs, metas = retrieve(client, col, q_search, n=5, filters=filters)
         if not docs:
             return jsonify({"answer": "资料库中暂无相关岗位，换个关键词试试？", "sources": []})
         context = "\n\n".join(docs)
@@ -152,11 +137,12 @@ def ask_stream():
 
     model = resolve_model(data.get("model"))
     smart = bool(data.get("smart"))
+    filters = data.get("filters") or {}
 
     def gen():
         try:
             q_search = rewrite_query(client, q) if smart else q
-            docs, metas = retrieve(client, col, q_search, n=5)
+            docs, metas = retrieve(client, col, q_search, n=5, filters=filters)
             sources = _sources_from(metas)
             yield "data: " + json.dumps({"type": "sources", "sources": sources},
                                         ensure_ascii=False) + "\n\n"
@@ -200,11 +186,12 @@ def chat():
         sid = data.get("session_id") or secrets.token_hex(8)
         model = resolve_model(data.get("model"))
         smart = bool(data.get("smart"))
+        filters = data.get("filters") or {}
         hist = sessions.get(sid, [])
 
         q_search = rewrite_query(client, q) if smart else q
         metas = []
-        docs, metas = retrieve(client, col, q_search, n=5)
+        docs, metas = retrieve(client, col, q_search, n=5, filters=filters)
         if not docs:
             return jsonify({"session_id": sid, "answer": "资料库中暂无相关岗位，换个关键词试试？",
                             "sources": [], "history": hist})
@@ -243,11 +230,12 @@ def chat_stream():
     sid = data.get("session_id") or secrets.token_hex(8)
     model = resolve_model(data.get("model"))
     smart = bool(data.get("smart"))
+    filters = data.get("filters") or {}
 
     def gen():
         try:
             q_search = rewrite_query(client, q) if smart else q
-            docs, metas = retrieve(client, col, q_search, n=5)
+            docs, metas = retrieve(client, col, q_search, n=5, filters=filters)
             sources = _sources_from(metas)
             yield "data: " + json.dumps({"type": "sources", "sources": sources,
                                          "session_id": sid}, ensure_ascii=False) + "\n\n"
@@ -341,11 +329,18 @@ def add():
 
     try:
         jobs = load_jobs()
+        # 城市归一化：存入 jobs.json 与向量库前先清洗（如 "无锡新吴" -> "无锡"）
+        j["city"] = normalize_city(j["city"])
+        # 去重：公司+岗位+城市 完全相同则视为重复，直接返回已有记录
+        key = (j["company"].strip(), j["title"].strip(), j["city"])
+        for x in jobs:
+            if (x["company"].strip(), x["title"].strip(), normalize_city(x["city"])) == key:
+                return jsonify({"ok": True, "id": x["id"], "count": col.count(), "dup": True})
         new_id = max([x["id"] for x in jobs]) + 1 if jobs else 1
         j["id"] = new_id
         j.setdefault("tags", [])
         j.setdefault("source", "手动补充")
-        j.setdefault("updated", "2026-08")
+        j.setdefault("updated", "2026-09")
         jobs.append(j)
         with open("jobs.json", "w", encoding="utf-8") as f:
             json.dump(jobs, f, ensure_ascii=False, indent=2)

@@ -178,6 +178,21 @@
     .quick .q{font-size:12px;padding:6px 11px}
     .copy-btn{opacity:.6}
   }
+/* 可点击看板标签 + 筛选条 */
+  .chip{cursor:pointer;border:1px solid var(--chip-line);background:var(--chip);border-radius:999px;
+    padding:2px 9px;font-size:11px;color:var(--chip-text);display:inline-flex;gap:5px;align-items:center;
+    margin:2px 4px 2px 0;transition:.15s}
+  .chip i{font-style:normal;opacity:.55;font-size:10px}
+  .chip:hover{border-color:var(--brand);color:var(--brand)}
+  .filterbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 2px 0;
+    font-size:12px;color:var(--muted)}
+  .filterbar .flabel{color:var(--muted);opacity:.8}
+  .fchip{background:var(--brand);color:#fff;border-radius:999px;padding:3px 10px;font-size:12px;
+    display:inline-flex;gap:6px;align-items:center}
+  .fchip b{cursor:pointer;font-weight:700;opacity:.85}
+  .flclear{background:none;border:1px solid var(--chip-line);border-radius:8px;padding:3px 10px;
+    font-size:12px;cursor:pointer;color:var(--muted)}
+  .flclear:hover{border-color:var(--brand);color:var(--brand)}
 </style>
 </head>
 <body>
@@ -216,6 +231,11 @@
     数据可信度：
     <span class="lg real">真实核校</span> 人工核校公开渠道
     <span class="lg ai">AI扩充</span> 大模型合成，仅供演示
+  </div>
+
+  <div class="filterbar" id="filterbar" style="display:none">
+    <span class="flabel">当前筛选：</span><span id="filterChips"></span>
+    <button class="flclear" id="clearFilter">清除</button>
   </div>
 
   <div class="quick" id="quick">
@@ -282,6 +302,40 @@ function setStatus(t, busy){
   $("statusPill").classList.toggle("busy", !!busy);
   topbar.classList.toggle("active", !!busy);
 }
+
+// ---- 看板筛选：点击城市/类型/学历标签 -> 设置硬筛选并自动提问 ----
+let activeFilters = { city:null, type:null, edu:null };
+
+function chip(kind, val, count){
+  return `<span class="chip clk" data-kind="${kind}" data-val="${esc(val)}">${esc(val)}<i>${count}</i></span>`;
+}
+function clickFilter(kind, val){
+  activeFilters[kind] = val;
+  renderFilterBar();
+  const q = kind==="city" ? `${val} 有哪些岗位？`
+          : kind==="type" ? `${val} 方向有哪些岗位？`
+          : `学历要求${val}的岗位有哪些？`;
+  send(q);
+}
+function renderFilterBar(){
+  const bar = $("filterbar"), box = $("filterChips");
+  const parts = [];
+  if(activeFilters.city) parts.push(["city", activeFilters.city]);
+  if(activeFilters.type) parts.push(["type", activeFilters.type]);
+  if(activeFilters.edu)  parts.push(["edu",  activeFilters.edu]);
+  if(!parts.length){ bar.style.display="none"; box.innerHTML=""; return; }
+  bar.style.display = "flex";
+  box.innerHTML = parts.map(([k,v])=>`<span class="fchip" data-kind="${k}">${esc(v)} <b>✕</b></span>`).join("");
+}
+$("stats").addEventListener("click", e=>{
+  const el = e.target.closest(".clk"); if(!el) return;
+  clickFilter(el.dataset.kind, el.dataset.val);
+});
+$("filterChips").addEventListener("click", e=>{
+  const el = e.target.closest(".fchip"); if(!el) return;
+  activeFilters[el.dataset.kind] = null; renderFilterBar();
+});
+$("clearFilter").onclick = ()=>{ activeFilters={city:null,type:null,edu:null}; renderFilterBar(); };
 
 function showToast(msg, ok=true){
   const t=$("toast"); if(!t) return;
@@ -357,13 +411,13 @@ async function loadStats(){
     $("s-total").textContent = d.total;
     const cities = Object.entries(d.by_city||{});
     $("s-city").textContent = cities.length;
-    $("s-city-sub").innerHTML = cities.slice(0,6).map(([k,v])=>`${k} ${v}`).join(" · ");
+    $("s-city-sub").innerHTML = cities.slice(0,7).map(([k,v])=>chip("city",k,v)).join("");
     const types = Object.entries(d.by_type||{});
     $("s-type").textContent = types.length;
-    $("s-type-sub").innerHTML = types.slice(0,4).map(([k,v])=>`${k} ${v}`).join(" · ");
+    $("s-type-sub").innerHTML = types.slice(0,6).map(([k,v])=>chip("type",k,v)).join("");
     const edus = Object.entries(d.by_edu||{});
     $("s-edu").textContent = edus.length;
-    $("s-edu-sub").innerHTML = edus.slice(0,4).map(([k,v])=>`${k} ${v}`).join(" · ");
+    $("s-edu-sub").innerHTML = edus.slice(0,5).map(([k,v])=>chip("edu",k,v)).join("");
     const tags = Object.entries(d.top_tags||{});
     $("s-tag").textContent = tags.length;
     $("s-tag-sub").innerHTML = tags.slice(0,6).map(([k])=>`<span class="tag">${k}</span>`).join("");
@@ -383,7 +437,8 @@ async function send(preset){
   const bubble = botWrap.querySelector(".bubble");
   setStatus("生成中…", true);
 
-  const payload = { question:q, model:$("model").value, smart:$("smart").checked, session_id:sessionId||"" };
+  const payload = { question:q, model:$("model").value, smart:$("smart").checked,
+                    session_id:sessionId||"", filters:{...activeFilters} };
 
   try{
     const resp = await fetch(BASE + "/chat_stream", {

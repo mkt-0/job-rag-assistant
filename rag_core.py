@@ -85,6 +85,22 @@ def normalize_city(c: str) -> str:
     return c
 
 
+def normalize_edu(e):
+    """把杂乱的学历字段归并为看板用的少数桶（与 app.py 共用，统一口径）。"""
+    e = (e or "").replace("（", "(").replace("）", ")")
+    if "博士" in e:
+        return "博士"
+    if "硕士" in e:
+        return "硕士"
+    if "大专" in e or "中专" in e:
+        return "大专/中专"
+    if "不限" in e:
+        return "不限"
+    if "本科" in e:
+        return "本科"
+    return "其他"
+
+
 # ---------- 中文 bigram(用于关键词检索信号) ----------
 def _bigrams(s: str):
     s = re.sub(r"\s+", "", s or "")
@@ -135,8 +151,8 @@ def job_meta(j):
         "company": j["company"], "title": j["title"],
         "city": normalize_city(j["city"]), "salary": j["salary"],
         "type": j["type"], "tags": ",".join(j.get("tags", [])),
-        "edu": j.get("edu", ""), "exp": j.get("exp", ""),
-        "source": j.get("source", ""),
+        "edu": j.get("edu", ""), "edu_norm": normalize_edu(j.get("edu", "")),
+        "exp": j.get("exp", ""), "source": j.get("source", ""),
     }
 
 
@@ -178,6 +194,24 @@ def build_collection(client=None, path="jobs.json",
 
 
 # ---------- 混合检索 + 重排 ----------
+def build_where(filters):
+    """把 {city,type,edu} 转为 Chroma where 子句(AND)。无过滤返回 None。纯函数，便于单测。"""
+    if not filters:
+        return None
+    conds = []
+    if filters.get("city"):
+        conds.append({"city": filters["city"]})
+    if filters.get("type"):
+        conds.append({"type": filters["type"]})
+    if filters.get("edu"):
+        conds.append({"edu_norm": filters["edu"]})
+    if not conds:
+        return None
+    if len(conds) == 1:
+        return conds[0]
+    return {"$and": conds}
+
+
 def _hybrid_rerank(q, docs, metas, dists, n):
     """向量相似(1-dist) 与 中文bigram关键词重叠 融合，取 top-n。"""
     qbg = _bigrams(q)
@@ -193,10 +227,13 @@ def _hybrid_rerank(q, docs, metas, dists, n):
     return [x[1] for x in scored[:n]], [x[2] for x in scored[:n]]
 
 
-def retrieve(client, col, q, n=5, k=12):
-    """向量召回 k 条，再用关键词信号重排返回 top-n。返回 (documents, metadatas)。"""
+def retrieve(client, col, q, n=5, k=12, filters=None):
+    """向量召回 k 条，再用关键词信号重排返回 top-n。返回 (documents, metadatas)。
+    filters: {city,type,edu} 经 build_where 转为 Chroma where，实现按城市/类型/学历硬筛选。"""
     emb = embed_query(client, q)
-    res = col.query(query_embeddings=[emb], n_results=min(k, col.count() or 1))
+    where = build_where(filters)
+    res = col.query(query_embeddings=[emb], n_results=min(k, col.count() or 1),
+                    where=where if where else None)
     docs = res["documents"][0]
     metas = res["metadatas"][0]
     dists = res["distances"][0]

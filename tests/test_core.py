@@ -25,3 +25,24 @@ def test_normalize_edu_buckets():
     assert appmod.normalize_edu("大专及以上") == "大专/中专"
     assert appmod.normalize_edu("不限") == "不限"
     assert appmod.normalize_edu("本科/硕士/博士") == "博士"  # 范围取最高
+
+
+def test_build_where_none():
+    assert rag_core.build_where(None) is None
+    assert rag_core.build_where({}) is None
+    assert rag_core.build_where({"city": "", "type": None}) is None
+
+
+def test_build_where_single():
+    assert rag_core.build_where({"city": "无锡"}) == {"city": "无锡"}
+    assert rag_core.build_where({"type": "算法"}) == {"type": "算法"}
+
+
+def test_build_where_combined():
+    out = rag_core.build_where({"city": "无锡", "type": "算法", "edu": "本科"})
+    assert out == {"$and": [
+        {"city": "无锡"}, {"type": "算法"}, {"edu_norm": "本科"}
+    ]}
+    # 仅两项时仍是 $and
+    out2 = rag_core.build_where({"city": "上海", "edu": "硕士"})
+    assert out2 == {"$and": [{"city": "上海"}, {"edu_norm": "硕士"}]}

@@ -65,7 +65,7 @@
     <div class="kpi"><b>2000</b><span>岗位数据条数（222 真实核校 + 1778 AI 扩充）</span></div>
     <div class="kpi"><b>8</b><span>覆盖城市：无锡/苏州/南京/上海/常州/南通/杭州/宁波</span></div>
     <div class="kpi"><b>13</b><span>后端路由（问答/统计/管理/健康）</span></div>
-    <div class="kpi"><b>7/7</b><span>pytest 冒烟测试通过</span></div>
+    <div class="kpi"><b>10/10</b><span>pytest 冒烟测试通过</span></div>
   </div>
   <p><b>目标用户：</b>在校大学生、应届生，想了解长三角技术类岗位的要求、薪资、学历门槛与投递准备。</p>
   <p><b>技术栈：</b>Flask（后端）· Chroma（向量库，持久化）· 硅基流动 <code>BAAI/bge-m3</code>（嵌入）· 硅基流动 <code>DeepSeek-V3 / R1</code>（生成）· 原生 HTML/JS（前端，无构建）。</p>
@@ -86,6 +86,7 @@
     <tr><td>流式输出</td><td>SSE 流式打字，回答逐字出现</td><td>前端 EventSource 式 fetch 流解析</td></tr>
     <tr><td>模型切换</td><td>标准 <code>DeepSeek-V3</code>（快）/ 深度思考 <code>DeepSeek-R1</code>（强推理）</td><td><code>rag_core.resolve_model</code></td></tr>
     <tr><td>数据看板</td><td>实时展示总数 / 城市 / 类型 / <b>学历要求</b> / 方向分布</td><td><code>/stats</code></td></tr>
+    <tr><td>看板可交互筛选</td><td>点击看板里的城市 / 用工类型 / 学历标签，即按该条件<b>硬筛选</b>检索并自动提问；顶部出现可清除的筛选条（支持多条件 AND）</td><td><code>build_where</code> + Chroma <code>where</code> + 前端 <code>clickFilter</code></td></tr>
     <tr><td>数据可信度标识</td><td>每条参考岗位标注 <span class="badge real">真实核校</span><span class="badge ai">AI扩充</span> 徽章，诚实区分</td><td><code>renderSources</code> + <code>job_meta.source</code></td></tr>
     <tr><td>来源卡片增强</td><td>公司 / 岗位 / 城市·薪资·<b>经验</b> / <b>要求摘要</b> / 学历与方向标签</td><td><code>renderSources</code></td></tr>
     <tr><td>复制与提示</td><td>回答一键复制（含旧浏览器兜底）+ 复制成功 toast</td><td><code>copyText / showToast</code></td></tr>
@@ -243,7 +244,7 @@ python app.py               # 首次自动构建向量索引
 <section>
   <h2>9. 测试与质量</h2>
   <ul>
-    <li><b>pytest 7 项全过：</b>接口结构 + 无 key 报错路径 + 城市/学历归一化单测。</li>
+    <li><b>pytest 10 项全过：</b>接口结构 + 无 key 报错路径 + 城市/学历归一化单测 + <code>build_where</code> 过滤单测。</li>
     <li><b>端到端冒烟：</b>曾抓出并修复 <code>/rebuild</code> 句柄悬空 500 bug（重建期间全程 200）。</li>
     <li><b>检索召回评估：</b><code>evaluation.py</code> 用标注问题集测召回@5，无 key 自动跳过。</li>
     <li><b>CI：</b><code>.github/workflows/eval.yml</code> 已就绪（push/PR 自动跑 pytest + 可选召回评估），因 PAT 缺 <code>workflow</code> 权限需仓库主人网页推送后启用。</li>
@@ -260,7 +261,7 @@ python app.py               # 首次自动构建向量索引
     <tr><td>v2</td><td>一键启动；查询缓存；混合检索；重试+降级；<code>/health</code>；流式+来源卡片；扩至 222 条+LLM 接入</td></tr>
     <tr><td>v2.5</td><td>数据扩至 1100 条；美工玻璃拟态+暗色模式；城市归一化+移动端</td></tr>
     <tr><td>v3</td><td>并发采集扩至 <b>2000 条</b>；来源卡片可信度徽章+经验/要求摘要；学历分布看板；核心归一化单测</td></tr>
-    <tr><td>本轮</td><td>复制健壮性（execCommand 兜底 + toast 成功提示）；README 已知局限声明；服务重启验证 2000 条索引</td></tr>
+    <tr><td>v4</td><td>看板可交互筛选（城市/用工类型/学历硬过滤，多条件 AND）；<code>/add</code> 去重+城市归一化；<code>build_where</code> 单测；<code>normalize_edu</code> 统一到核心模块；复制健壮性；pytest 增至 10 项</td></tr>
   </table>
 </section>
 
