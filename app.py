@@ -21,8 +21,8 @@ import chromadb
 from flask import Flask, request, jsonify, send_from_directory, Response
 
 from rag_core import (
-    API_KEY, CHROMA_DIR, COLLECTION, CITY_BASE, normalize_city, normalize_edu,
-    make_client, embed_query, job_to_text, job_meta, load_jobs, build_collection,
+    is_key_ready, CHROMA_DIR, COLLECTION, CITY_BASE, normalize_city, normalize_edu,
+    make_client, embed_query, embed_texts, job_to_text, job_meta, load_jobs, build_collection,
     retrieve, rewrite_query, build_messages, stream_answer, fallback_answer, resolve_model,
 )
 
@@ -80,7 +80,7 @@ def health():
         cnt = 0
     return jsonify({
         "status": "ok",
-        "has_key": bool(API_KEY),
+        "has_key": is_key_ready(),
         "index_count": cnt,
     })
 
@@ -346,7 +346,7 @@ def add():
             json.dump(jobs, f, ensure_ascii=False, indent=2)
 
         text = job_to_text(j)
-        emb = embed_query(client, text)
+        emb = embed_texts(client, [text])[0]   # 文档嵌入，不占用查询缓存
         col.add(ids=[str(new_id)], documents=[text], embeddings=[emb],
                 metadatas=[job_meta(j)])
         return jsonify({"ok": True, "id": new_id, "count": col.count()})

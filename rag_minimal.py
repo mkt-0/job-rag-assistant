@@ -4,7 +4,19 @@
 # API：硅基流动 https://cloud.siliconflow.cn 注册拿 key（新用户有免费额度）
 
 # ---------- 1. 配置区：变量 + 字符串 ----------
-API_KEY = "sk-kxicoembqloskhdqerfuzpkcrstrfiozbfmlokutxikrqdqz"   # 你的硅基流动 key
+import os
+# 读取 API key：优先项目根目录 .env，其次环境变量。
+# ⚠️ 请勿把真实 key 写进代码——一旦提交到公开仓库就会泄露。
+def _load_key():
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if os.path.exists(p):
+        with open(p, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith("SILICONFLOW_API_KEY="):
+                    return line.split("=", 1)[1].strip()
+    return os.getenv("SILICONFLOW_API_KEY", "")
+API_KEY = _load_key()
 DOC_PATH = "knowledge.txt"            # 你的文档路径
 LLM_MODEL = "deepseek-ai/DeepSeek-V3" # 硅基流动上的模型名（字符串）
 
@@ -61,8 +73,8 @@ if __name__ == "__main__":
     print("检索演示（问'什么是列表'）：")
     for c in retrieve(col, "什么是列表"):
         print(" -", c)
-    if not API_KEY.startswith("在此填写"):        # 填了 key 才跑 LLM
+    if API_KEY and not API_KEY.startswith("在此填写"):        # 填了真实 key 才跑 LLM
         print("\nLLM 回答：")
         print(ask(col, "Python 字典怎么用", API_KEY))
     else:
-        print("\n⚠️ 还没填 API_KEY，LLM 问答部分待你填 key 后运行。")
+        print("\n⚠️ 还没填 API_KEY（在 .env 或环境变量中配置后重跑），LLM 问答部分待你填 key 后运行。")

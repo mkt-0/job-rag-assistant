@@ -46,3 +46,21 @@ def test_build_where_combined():
     # 仅两项时仍是 $and
     out2 = rag_core.build_where({"city": "上海", "edu": "硕士"})
     assert out2 == {"$and": [{"city": "上海"}, {"edu_norm": "硕士"}]}
+
+
+def test_rerank_docs_no_key_returns_none(monkeypatch):
+    # 无 key 时 reranker 应安全降级为 None（由 retrieve 回退混合重排），不抛异常
+    monkeypatch.setattr(rag_core, "API_KEY", "")
+    assert rag_core.rerank_docs("无锡 数据开发", ["岗位A", "岗位B"]) is None
+    # 空候选也应返回 None
+    assert rag_core.rerank_docs("q", []) is None
+
+
+def test_hybrid_rerank_orders_by_score():
+    # 向量相似 + 关键词重叠：与 query 更相关的 "high" 应排在 "low" 之前
+    docs = ["low", "high"]
+    metas = [{"city": "x"}, {"city": "y"}]
+    dists = [0.9, 0.2]   # 距离越大越不相似
+    out_docs, out_metas = rag_core._hybrid_rerank("high", docs, metas, dists, 2)
+    assert out_docs[0] == "high"
+    assert out_metas[0] == {"city": "y"}

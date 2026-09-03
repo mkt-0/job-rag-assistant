@@ -359,8 +359,14 @@ def retrieve(client, col, q, n=5, k=20, filters=None, rerank=True):
 
 
 # ---------- LLM：查询改写(智能检索) ----------
+_rewrite_cache = {}   # (问题, 模型) -> 改写结果；相同问题免再调一次 LLM，降延迟
+
 def rewrite_query(client, q, model=LLM_MODEL):
-    """把用户口语/模糊问题改写成更适合向量检索的关键词短语(中文,<=40字)。带重试。"""
+    """把用户口语/模糊问题改写成更适合向量检索的关键词短语(中文,<=40字)。带重试。
+    相同问题(同模型)命中缓存直接返回，省一次 LLM 调用、降延迟。"""
+    key = (q, model)
+    if key in _rewrite_cache:
+        return _rewrite_cache[key]
     sys_p = (
         "你是检索增强系统的查询改写器。请把用户的问题改写成一段更适合向量检索的"
         "中文关键词/短语，保留城市、岗位、技能、学历等关键信息，不超过40字，"
@@ -376,10 +382,13 @@ def rewrite_query(client, q, model=LLM_MODEL):
                 temperature=0.2,
             )
             out = (r.choices[0].message.content or "").strip()
-            return out or q
+            result = out or q
+            _rewrite_cache[key] = result
+            return result
         except Exception as e:
             last = e
             time.sleep(1.0)
+    _rewrite_cache[key] = q
     return q
 
 
