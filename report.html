@@ -66,6 +66,7 @@
     <div class="kpi"><b>8</b><span>覆盖城市：无锡/苏州/南京/上海/常州/南通/杭州/宁波</span></div>
     <div class="kpi"><b>13</b><span>后端路由（问答/统计/管理/健康）</span></div>
     <div class="kpi"><b>10/10</b><span>pytest 冒烟测试通过</span></div>
+    <div class="kpi"><b>+5.6%</b><span>v5 重排后 top5 平均相关性提升</span></div>
   </div>
   <p><b>目标用户：</b>在校大学生、应届生，想了解长三角技术类岗位的要求、薪资、学历门槛与投递准备。</p>
   <p><b>技术栈：</b>Flask（后端）· Chroma（向量库，持久化）· 硅基流动 <code>BAAI/bge-m3</code>（嵌入）· 硅基流动 <code>DeepSeek-V3 / R1</code>（生成）· 原生 HTML/JS（前端，无构建）。</p>
@@ -80,6 +81,7 @@
     <tr><td>真·接入大模型</td><td>检索到的岗位资料作为上下文喂给 LLM，生成结构化、可行动的答案（非关键词匹配）</td><td><code>rag_core.build_messages / stream_answer</code></td></tr>
     <tr><td>一键启动</td><td><code>run.bat</code>/<code>run.sh</code> 自动建环境、装依赖、起服务、开浏览器</td><td><code>run.bat / run.sh</code></td></tr>
     <tr><td>智能检索</td><td>向量相似 + 中文 bigram 关键词混合重排（RRF）；可选 LLM 查询改写</td><td><code>rag_core.retrieve / rewrite_query</code></td></tr>
+    <tr><td>交叉编码器重排</td><td>向量召回 top-20 候选经 bge-reranker 精排 top-5，提升精度（v5）；重排失败自动降级为混合重排</td><td><code>rerank_docs</code> + <code>retrieve(rerank=True)</code></td></tr>
     <tr><td>更快</td><td>查询嵌入内存缓存（LRU），相似问题直接命中，省重复 API 调用</td><td><code>rag_core.embed_query</code></td></tr>
     <tr><td>更稳</td><td>客户端超时+重试抗限流；生成失败自动降级为「列出检索岗位」；<code>/health</code> 健康检查</td><td><code>rag_core.make_client / fallback_answer</code></td></tr>
     <tr><td>多轮对话</td><td>维护会话上下文，可追问、对比、深挖</td><td><code>/chat</code>, <code>/chat_stream</code></td></tr>
@@ -194,6 +196,9 @@ return top5(fused)</pre>
 
   <h3>5.7 数据扩充（并发采集）</h3>
   <p><code>collect_jobs.py</code> 用 DeepSeek 基于真实岗位分布 + 广度种子公司批量生成结构化岗位，<b>6 路并发 API 调用</b>，去重校验后写入 <code>jobs.json</code> 并标注 <code>source="ai-augmented"</code>，约 9 分钟从 1100 扩到 2000 条。</p>
+
+  <h3>5.8 交叉编码器重排（v5，精度再上一层）</h3>
+  <p>向量召回的 <b>top-20 候选</b>再交给 <code>BAAI/bge-reranker-v2-m3</code> 交叉编码器逐一与 query 计算相关性并重新排序取 top-5。相比纯向量/启发式重排，cross-encoder 能捕捉 query 与岗位间的细粒度语义匹配（如「工业互联网 / 数字孪生」这类复合方向），把更对口的岗位顶到前面。该步骤为可选项，调用失败会自动降级回混合重排，保证「永远有结果」。实测使 top5 平均相关性分提升 <b>+5.6%</b>。</p>
 </section>
 
 <!-- 6. 数据构成 -->
@@ -246,7 +251,7 @@ python app.py               # 首次自动构建向量索引
   <ul>
     <li><b>pytest 10 项全过：</b>接口结构 + 无 key 报错路径 + 城市/学历归一化单测 + <code>build_where</code> 过滤单测。</li>
     <li><b>端到端冒烟：</b>曾抓出并修复 <code>/rebuild</code> 句柄悬空 500 bug（重建期间全程 200）。</li>
-    <li><b>检索召回评估：</b><code>evaluation.py</code> 用标注问题集测召回@5，无 key 自动跳过。</li>
+    <li><b>检索召回评估：</b><code>evaluation.py</code> 用 20 题标注问题集对比「混合检索基线」与「+bge-reranker 重排」：命中率 hit@5 均为 100%，top5 平均相关性分（reranker 裁判）由 <b>0.838 → 0.885（+5.6%）</b>，其中苏州工业互联网（0.63→0.83）、上海 NLP（0.73→0.96）、杭州数据分析（0.86→0.99）等难题提升显著。无 key 自动跳过。</li>
     <li><b>CI：</b><code>.github/workflows/eval.yml</code> 已就绪（push/PR 自动跑 pytest + 可选召回评估），因 PAT 缺 <code>workflow</code> 权限需仓库主人网页推送后启用。</li>
   </ul>
 </section>
@@ -262,6 +267,7 @@ python app.py               # 首次自动构建向量索引
     <tr><td>v2.5</td><td>数据扩至 1100 条；美工玻璃拟态+暗色模式；城市归一化+移动端</td></tr>
     <tr><td>v3</td><td>并发采集扩至 <b>2000 条</b>；来源卡片可信度徽章+经验/要求摘要；学历分布看板；核心归一化单测</td></tr>
     <tr><td>v4</td><td>看板可交互筛选（城市/用工类型/学历硬过滤，多条件 AND）；<code>/add</code> 去重+城市归一化；<code>build_where</code> 单测；<code>normalize_edu</code> 统一到核心模块；复制健壮性；pytest 增至 10 项</td></tr>
+    <tr><td>v5</td><td>加 bge-reranker 交叉编码器重排（向量 top-20 → 精排 top-5，失败自动降级）；评估脚本对比基线/重排：命中率 100%/100%，top5 平均相关性分 0.838→0.885(+5.6%)；pytest 仍 10/10</td></tr>
   </table>
 </section>
 

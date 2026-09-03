@@ -5,6 +5,7 @@ app.py 与 build_index.py、collect_jobs.py 共用本模块，避免重复代码
   - 客户端带 timeout + max_retries，抗 429/超时更稳。
   - 查询嵌入结果 LRU 缓存，重复/相似问题秒回。
   - 混合检索：向量相似 + 中文 bigram 关键词重叠，RRF 式融合重排，top-k 召回更准。
+  - 可选 bge-reranker 交叉编码器重排：向量召回 top-20 候选再精排 top-5，精度更高（v5）。
   - rewrite_query 带重试；生成失败有降级兜底答案。
 """
 import os
@@ -12,10 +13,12 @@ import re
 import json
 import time
 import threading
+import urllib.request
 from openai import OpenAI
 
 # ---------- 配置 ----------
 EMBED_MODEL = "BAAI/bge-m3"
+RERANK_MODEL = "BAAI/bge-reranker-v2-m3"   # 交叉编码器重排，提升召回精度
 LLM_MODEL = os.getenv("LLM_MODEL", "deepseek-ai/DeepSeek-V3")      # 默认：标准快模型
 LLM_MODEL_REASON = "deepseek-ai/DeepSeek-R1"                         # 深度思考（推理）模型
 CHROMA_DIR = "./chroma_db"
@@ -227,8 +230,75 @@ def _hybrid_rerank(q, docs, metas, dists, n):
     return [x[1] for x in scored[:n]], [x[2] for x in scored[:n]]
 
 
-def retrieve(client, col, q, n=5, k=12, filters=None):
-    """向量召回 k 条，再用关键词信号重排返回 top-n。返回 (documents, metadatas)。
+# ---------- 交叉编码器重排(bge-reranker) ----------
+def rerank_docs(query, docs, top_n=5, model=RERANK_MODEL, retries=3):
+    """用硅基流动 bge-reranker 对候选文档按与 query 的相关性重排，返回重排后的下标列表(降序)。
+    失败(无 key / 网络 / 限流)返回 None，由调用方降级为混合重排。"""
+    if not API_KEY or not docs:
+        return None
+    url = BASE_URL + "/rerank"
+    body = json.dumps({
+        "model": model,
+        "query": query,
+        "documents": docs,
+        "top_n": min(top_n, len(docs)),
+        "return_documents": False,
+    }).encode("utf-8")
+    last = None
+    for _ in range(retries):
+        try:
+            req = urllib.request.Request(
+                url, data=body,
+                headers={"Authorization": f"Bearer {API_KEY}",
+                         "Content-Type": "application/json"},
+            )
+            with urllib.request.urlopen(req, timeout=CLIENT_TIMEOUT) as r:
+                data = json.load(r)
+            results = data.get("results", [])
+            if not results:
+                return None
+            return [x["index"] for x in results]
+        except Exception as e:
+            last = e
+            time.sleep(1.0)
+    return None
+
+
+def rerank_scores(query, docs, model=RERANK_MODEL, retries=3):
+    """返回 {doc_index: relevance_score} 映射，作为「相关性裁判」供评估使用（不改动检索本身）。"""
+    if not API_KEY or not docs:
+        return {}
+    url = BASE_URL + "/rerank"
+    body = json.dumps({
+        "model": model,
+        "query": query,
+        "documents": docs,
+        "top_n": len(docs),
+        "return_documents": False,
+    }).encode("utf-8")
+    last = None
+    for _ in range(retries):
+        try:
+            req = urllib.request.Request(
+                url, data=body,
+                headers={"Authorization": f"Bearer {API_KEY}",
+                         "Content-Type": "application/json"},
+            )
+            with urllib.request.urlopen(req, timeout=CLIENT_TIMEOUT) as r:
+                data = json.load(r)
+            results = data.get("results", [])
+            return {x["index"]: x["relevance_score"] for x in results}
+        except Exception as e:
+            last = e
+            time.sleep(1.0)
+    return {}
+
+
+def retrieve(client, col, q, n=5, k=20, filters=None, rerank=True):
+    """向量召回 k 条候选，可选经 bge-reranker 交叉编码器重排取 top-n。返回 (documents, metadatas)。
+    - rerank=True（默认）：向量 top-k 候选 → 交叉编码器重排 → top-n，精度更高。
+    - rerank=False：保持原「向量 + 中文 bigram RRF」混合重排（评估基线用）。
+    - reranker 调用失败时自动降级为混合重排，保证「永远有结果」。
     filters: {city,type,edu} 经 build_where 转为 Chroma where，实现按城市/类型/学历硬筛选。"""
     emb = embed_query(client, q)
     where = build_where(filters)
@@ -239,6 +309,11 @@ def retrieve(client, col, q, n=5, k=12, filters=None):
     dists = res["distances"][0]
     if not docs:
         return [], []
+    if rerank:
+        order = rerank_docs(q, docs, top_n=n)
+        if order is not None:
+            return [docs[i] for i in order], [metas[i] for i in order]
+        # 重排失败 → 降级
     return _hybrid_rerank(q, docs, metas, dists, n)
 
 
